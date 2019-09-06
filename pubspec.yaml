@@ -32,6 +32,8 @@ dependencies:
   # For example, to use Firebase Authentication and Cloud Firestore
   cloud_functions: ^0.4.1+1
   firebase_storage: ^3.0.6
+  cloud_firestore: ^0.12.9+3
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
