@@ -8,8 +8,9 @@ bool recordPlaying = false;
 class PlayRecordSound extends StatelessWidget {
   final Function startAudio;
   final Function endAudio;
+  final Function recordedAudio;
 
-  PlayRecordSound(this.startAudio, this.endAudio);
+  PlayRecordSound(this.startAudio, this.endAudio, this.recordedAudio);
 
   @override
   Widget build(BuildContext context) {
@@ -28,6 +29,7 @@ class PlayRecordSound extends StatelessWidget {
     } else {
       endAudio();
       recordPlaying = false;
+      recordedAudio(true);
     }
   }
 }

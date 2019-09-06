@@ -7,6 +7,7 @@ import './menu_control.dart';
 import './play.dart';
 import './play_control.dart';
 import './play_recordSound.dart';
+import './play_playSound.dart';
 import './score.dart';
 import './score_control.dart';
 
@@ -28,6 +29,9 @@ class _Manager extends State<Manager> {
   bool _isMenu = false;
   bool _isPlay = false;
   bool _isScore = false;
+  bool _isRecorded = false;
+  bool _isPlaying = false;
+  String _playerTxt;
 
   @override
   void initState() {
@@ -66,6 +70,12 @@ class _Manager extends State<Manager> {
     });
   }
 
+  void _recordedAudio(bool isRecorded) {
+    setState(() {
+      _isRecorded = isRecorded;
+    });
+  }
+
   void _changeScore(bool isScore) {
     setState(() {
       _isScore = isScore;
@@ -74,6 +84,7 @@ class _Manager extends State<Manager> {
 
   FlutterSound flutterSound = new FlutterSound();
   var _recorderSubscription;
+  var _playerSubscription;
 
   Future _startAudio() async {
     String path = await flutterSound.startRecorder(null);
@@ -96,6 +107,23 @@ class _Manager extends State<Manager> {
       _recorderSubscription = null;
     }
     return "y";
+  }
+
+  Future _startPlayer() async {
+    String path = await flutterSound.startPlayer(null);
+    print('startPlayer: $path');
+
+    _playerSubscription = flutterSound.onPlayerStateChanged.listen((e) {
+      if (e != null) {
+        DateTime date =
+            new DateTime.fromMillisecondsSinceEpoch(e.currentPosition.toInt());
+        String txt = DateFormat('mm:ss:SS', 'en_US').format(date);
+        this.setState(() {
+          this._isPlaying = true;
+          this._playerTxt = txt.substring(0, 8);
+        });
+      }
+    });
   }
 
   @override
@@ -123,7 +151,7 @@ class _Manager extends State<Manager> {
         Visibility(
           child: Container(
             margin: EdgeInsets.all(10.0),
-            child: PlayRecordSound(_startAudio, _endAudio),
+            child: PlayRecordSound(_startAudio, _endAudio, _recordedAudio),
           ),
           visible: _isPlay,
         ),
@@ -142,6 +170,12 @@ class _Manager extends State<Manager> {
           child: Score(_score),
           visible: _isScore,
         ),
+        Visibility(
+            child: Container(
+              margin: EdgeInsets.all(10.0),
+              child: PlayPlaySound(_startPlayer),
+            ),
+            visible: _isScore && _isRecorded),
       ],
     );
   }
