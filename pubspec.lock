@@ -47,7 +47,7 @@ packages:
       name: flutter_sound
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.4.2"
+    version: "1.4.3"
   flutter_test:
     dependency: "direct dev"
     description: flutter

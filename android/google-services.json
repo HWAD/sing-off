@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "539303725317",
+    "firebase_url": "https://flutterkaraoke.firebaseio.com",
+    "project_id": "flutterkaraoke",
+    "storage_bucket": "flutterkaraoke.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:539303725317:android:b7f79d1a56d9c5fec1cf6c",
+        "android_client_info": {
+          "package_name": "com.example.flutterkaraoke"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "539303725317-6ur29lj2tvnb7g1gt56sj2lmjvpud4u4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCnug-eSQAKJHY7hNb3YtDbhSYlxWpj494"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "539303725317-6ur29lj2tvnb7g1gt56sj2lmjvpud4u4.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "539303725317-0h2mru0sp5dgbde365cdnsjbge0nql61.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.flutterkaraoke"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
