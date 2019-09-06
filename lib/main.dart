@@ -66,11 +66,11 @@ class _MyHomePageState extends State<MyHomePage> {
     String path = await flutterSound.startRecorder(null);
     print('startRecorder: $path');
     _recorderSubscription = flutterSound.onRecorderStateChanged.listen((e) {
+      print(e);
       DateTime date = new DateTime.fromMillisecondsSinceEpoch(e.currentPosition.toInt());
       String txt = DateFormat('mm:ss:SS', 'en_US').format(date);
     });
     print(_recorderSubscription);
-    return "x";
   }
   Future _endAudio () async {
     String result = await flutterSound.stopRecorder();
@@ -80,7 +80,6 @@ class _MyHomePageState extends State<MyHomePage> {
       _recorderSubscription.cancel();
       _recorderSubscription = null;
     }
-    return "y";
   }
   void _doBoth () {
     _incrementCounter();
