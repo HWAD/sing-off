@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_sound/flutter_sound.dart';
+import 'package:intl/intl.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
 void main() => runApp(MyApp());
 
@@ -56,6 +59,37 @@ class _MyHomePageState extends State<MyHomePage> {
       _counter++;
     });
   }
+  FlutterSound flutterSound = new FlutterSound();
+  var _recorderSubscription;
+
+  Future _startAudio () async {
+    String path = await flutterSound.startRecorder(null);
+    print('startRecorder: $path');
+    _recorderSubscription = flutterSound.onRecorderStateChanged.listen((e) {
+      DateTime date = new DateTime.fromMillisecondsSinceEpoch(e.currentPosition.toInt());
+      String txt = DateFormat('mm:ss:SS', 'en_US').format(date);
+    });
+    print(_recorderSubscription);
+    return "x";
+  }
+  Future _endAudio () async {
+    String result = await flutterSound.stopRecorder();
+    print('stopRecorder: $result');
+
+    if (_recorderSubscription != null) {
+      _recorderSubscription.cancel();
+      _recorderSubscription = null;
+    }
+    return "y";
+  }
+  void _doBoth () {
+    _incrementCounter();
+    if (_counter % 2 == 0) {
+      _endAudio();
+    } else {
+      _startAudio();    
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -92,7 +126,7 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text(
-              'You have pushed the button this many times:',
+              'You have clicked the button this many times:',
             ),
             Text(
               '$_counter',
@@ -102,7 +136,7 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
+        onPressed: _doBoth,
         tooltip: 'Increment',
         child: Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
