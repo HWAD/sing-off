@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_sound/flutter_sound.dart';
+import 'package:intl/intl.dart';
 
 import './menu.dart';
 import './menu_control.dart';
 import './play.dart';
 import './play_control.dart';
+import './play_recordSound.dart';
 import './score.dart';
 import './score_control.dart';
 
@@ -69,6 +72,32 @@ class _Manager extends State<Manager> {
     });
   }
 
+  FlutterSound flutterSound = new FlutterSound();
+  var _recorderSubscription;
+
+  Future _startAudio() async {
+    String path = await flutterSound.startRecorder(null);
+    print('startRecorder: $path');
+    _recorderSubscription = flutterSound.onRecorderStateChanged.listen((e) {
+      DateTime date =
+          new DateTime.fromMillisecondsSinceEpoch(e.currentPosition.toInt());
+      String txt = DateFormat('mm:ss:SS', 'en_US').format(date);
+    });
+    print(_recorderSubscription);
+    return "x";
+  }
+
+  Future _endAudio() async {
+    String result = await flutterSound.stopRecorder();
+    print('stopRecorder: $result');
+
+    if (_recorderSubscription != null) {
+      _recorderSubscription.cancel();
+      _recorderSubscription = null;
+    }
+    return "y";
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -88,6 +117,13 @@ class _Manager extends State<Manager> {
           child: Container(
             margin: EdgeInsets.all(10.0),
             child: PlayControl(_addPlay, _changePlay, _changeScore),
+          ),
+          visible: _isPlay,
+        ),
+        Visibility(
+          child: Container(
+            margin: EdgeInsets.all(10.0),
+            child: PlayRecordSound(_startAudio, _endAudio),
           ),
           visible: _isPlay,
         ),
