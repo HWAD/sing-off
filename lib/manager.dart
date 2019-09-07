@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sound/flutter_sound.dart';
+import 'package:flutterkaraoke/model_song.dart';
 import 'package:intl/intl.dart';
 
+import './model_song.dart';
 import './menu.dart';
 import './menu_control.dart';
 import './play.dart';
@@ -26,6 +28,8 @@ class _Manager extends State<Manager> {
   List<String> _menu = [];
   List<String> _play = [];
   List<String> _score = [];
+  List<ModelSong> _modelSong = [];
+  ModelSong _selectedSong = null;
   bool _isMenu = false;
   bool _isPlay = false;
   bool _isScore = false;
@@ -35,6 +39,7 @@ class _Manager extends State<Manager> {
 
   @override
   void initState() {
+    // Ryohei can get songs from Firebase into _modelSong.
     _menu.add(widget.startingMenu);
     _isMenu = true;
     super.initState();
