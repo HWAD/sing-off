@@ -28,8 +28,8 @@ class _Manager extends State<Manager> {
   List<String> _menu = [];
   List<String> _play = [];
   List<String> _score = [];
-  List<ModelSong> _modelSong = [];
-  ModelSong _selectedSong = null;
+  List<ModelSong> _allSongs = [];
+  ModelSong _selectedSong = ModelSong();
   bool _isMenu = false;
   bool _isPlay = false;
   bool _isScore = false;
@@ -40,6 +40,25 @@ class _Manager extends State<Manager> {
   @override
   void initState() {
     // Ryohei can get songs from Firebase into _modelSong.
+    // Here are samples.
+    ModelSong sample1 = ModelSong();
+    sample1.title = 'Ti Amo';
+    sample1.artist = 'Steppico';
+    sample1.score = 100;
+    sample1.isFavorite = false;
+    sample1.image = null;
+    sample1.original = '/storage/emulated/0/sample1.m4a';
+    sample1.record = '/storage/emulated/0/default.m4a';
+    ModelSong sample2 = ModelSong();
+    sample2.title = 'The Greatest Harmony';
+    sample2.artist = 'Grafenberg';
+    sample2.score = 0;
+    sample2.isFavorite = true;
+    sample2.image = null;
+    sample2.original = '/storage/emulated/0/sample2.m4a';
+    sample2.record = '/storage/emulated/0/default.m4a';
+    _allSongs.add(sample1);
+    _allSongs.add(sample2);
     _menu.add(widget.startingMenu);
     _isMenu = true;
     super.initState();
@@ -88,47 +107,20 @@ class _Manager extends State<Manager> {
   }
 
   FlutterSound flutterSound = new FlutterSound();
-  var _recorderSubscription;
-  var _playerSubscription;
 
   Future _startAudio() async {
     String path = await flutterSound.startRecorder(null);
-    print('startRecorder: $path');
-    _recorderSubscription = flutterSound.onRecorderStateChanged.listen((e) {
-      DateTime date =
-          new DateTime.fromMillisecondsSinceEpoch(e.currentPosition.toInt());
-      String txt = DateFormat('mm:ss:SS', 'en_US').format(date);
+    setState(() {
+      _allSongs[1].record = path;
     });
-    print(_recorderSubscription);
-    return "x";
   }
 
   Future _endAudio() async {
-    String result = await flutterSound.stopRecorder();
-    print('stopRecorder: $result');
-
-    if (_recorderSubscription != null) {
-      _recorderSubscription.cancel();
-      _recorderSubscription = null;
-    }
-    return "y";
+    await flutterSound.stopRecorder();
   }
 
   Future _startPlayer() async {
-    String path = await flutterSound.startPlayer(null);
-    print('startPlayer: $path');
-
-    _playerSubscription = flutterSound.onPlayerStateChanged.listen((e) {
-      if (e != null) {
-        DateTime date =
-            new DateTime.fromMillisecondsSinceEpoch(e.currentPosition.toInt());
-        String txt = DateFormat('mm:ss:SS', 'en_US').format(date);
-        this.setState(() {
-          this._isPlaying = true;
-          this._playerTxt = txt.substring(0, 8);
-        });
-      }
-    });
+    await flutterSound.startPlayer(_allSongs[1].record);
   }
 
   @override
