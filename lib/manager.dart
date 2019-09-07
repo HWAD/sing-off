@@ -131,44 +131,44 @@ class _Manager extends State<Manager> {
     return Column(
       children: [
         Visibility(
-          child: Container(
-            margin: EdgeInsets.all(10.0),
-            child: MenuControl(_addMenu, _changeMenu, _changePlay),
-          ),
           visible: _isMenu,
-        ),
-        Visibility(
-          child: Menu(_menu),
-          visible: _isMenu,
-        ),
-        Visibility(
-          child: Container(
-            margin: EdgeInsets.all(10.0),
-            child: PlayControl(_addPlay, _changePlay, _changeScore),
+          child: Column(
+            children: [
+              Container(
+                margin: EdgeInsets.all(10.0),
+                child: MenuControl(_addMenu, _changeMenu, _changePlay),
+              ),
+              Menu(_menu),
+            ]
           ),
-          visible: _isPlay,
         ),
         Visibility(
-          child: Container(
-            margin: EdgeInsets.all(10.0),
-            child: PlayRecordSound(_startAudio, _endAudio, _recordedAudio),
+          visible: _isPlay,
+          child: Column(
+            children: [
+              Container(
+                margin: EdgeInsets.all(10.0),
+                child: PlayControl(_addPlay, _changePlay, _changeScore),
+              ),
+              Container(
+                margin: EdgeInsets.all(10.0),
+                child: PlayRecordSound(_startAudio, _endAudio, _recordedAudio),
+              ),
+              Play(_play),
+            ],
           ),
-          visible: _isPlay,
         ),
         Visibility(
-          child: Play(_play),
-          visible: _isPlay,
-        ),
-        Visibility(
-          child: Container(
-            margin: EdgeInsets.all(10.0),
-            child: ScoreControl(_addScore, _changeScore, _changeMenu),
-          ),
           visible: _isScore,
-        ),
-        Visibility(
-          child: Score(_score),
-          visible: _isScore,
+          child: Column(
+            children: [
+              Container(
+                margin: EdgeInsets.all(10.0),
+                child: ScoreControl(_addScore, _changeScore, _changeMenu),
+              ),
+              Score(_score),
+            ],
+          ),
         ),
         Visibility(
             child: Container(
