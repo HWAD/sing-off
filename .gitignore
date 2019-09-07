@@ -9,6 +9,9 @@
 .history
 .svn/
 
+#Gradle
+.gradle
+
 # IntelliJ related
 *.iml
 *.ipr
