@@ -1,26 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:firebase_database/firebase_database.dart';
+import 'dart:convert';
+import 'dart:async';
 
-//
-class SongCard {
-  final String id;
-  final String title;
-  final String artist;
-  final double duration;
-  final String kURL;
-  final String url;
-  final String image;
-  final DateTime date;
-
-  SongCard(
-      {@required this.id,
-      @required this.title,
-      @required this.artist,
-      @required this.image,
-      @required this.duration,
-      @required this.url,
-      @required this.kURL,
-      @required this.date});
-}
+import "./_songData.dart";
+import "./_model.dart";
 
 String truncate(String title) {
   if (title.length < 25) {
@@ -30,101 +15,60 @@ String truncate(String title) {
   }
 }
 
-
 class SongList extends StatelessWidget {
-  final List<SongCard> songlist = [
-    SongCard(
-        id: "t1",
-        title: "aasdfkasdl;jf;liasdgjoi;asdfadsfs",
-        artist: "Steppico1",
-        image: 'assets/steppico.jpeg',
-        kURL:
-            "gs://flutterkaraoke.appspot.com/audioFiles/Cambo_-_01_-_Coffee.mp3",
-        duration: 2.60,
-        url:
-            "https://firebasestorage.googleapis.com/v0/b/flutterkaraoke.appspot.com/o/audioFiles%2FCambo_-_01_-_Coffee.mp3?alt=media&token=4d831051-1439-4f96-a2cc-8088d54b8fb6",
-        date: DateTime.now()),
-    SongCard(
-        id: "t2",
-        title: "SongTitle2",
-        artist: "Steppico2",
-        image: 'assets/steppico.jpeg',
-        kURL:
-            "gs://flutterkaraoke.appspot.com/audioFiles/Cambo_-_01_-_Coffee.mp3",
-        duration: 2.61,
-        url:
-            "https://firebasestorage.googleapis.com/v0/b/flutterkaraoke.appspot.com/o/audioFiles%2FCambo_-_01_-_Coffee.mp3?alt=media&token=4d831051-1439-4f96-a2cc-8088d54b8fb6",
-        date: DateTime.now()),
-    SongCard(
-        id: "t1",
-        title: "SongTitle3",
-        artist: "Steppico3",
-        image: 'assets/steppico.jpeg',
-        kURL:
-            "gs://flutterkaraoke.appspot.com/audioFiles/Cambo_-_01_-_Coffee.mp3",
-        duration: 2.60,
-        url:
-            "https://firebasestorage.googleapis.com/v0/b/flutterkaraoke.appspot.com/o/audioFiles%2FCambo_-_01_-_Coffee.mp3?alt=media&token=4d831051-1439-4f96-a2cc-8088d54b8fb6",
-        date: DateTime.now()),
-    SongCard(
-        id: "t2",
-        title: "SongTitle4",
-        artist: "Steppico4",
-        image: 'assets/steppico.jpeg',
-        kURL:
-            "gs://flutterkaraoke.appspot.com/audioFiles/Cambo_-_01_-_Coffee.mp3",
-        duration: 2.61,
-        url:
-            "https://firebasestorage.googleapis.com/v0/b/flutterkaraoke.appspot.com/o/audioFiles%2FCambo_-_01_-_Coffee.mp3?alt=media&token=4d831051-1439-4f96-a2cc-8088d54b8fb6",
-        date: DateTime.now()),
-    SongCard(
-        id: "t1",
-        title: "SongTitle5",
-        artist: "Steppico5",
-        image: 'assets/steppico.jpeg',
-        kURL:
-            "gs://flutterkaraoke.appspot.com/audioFiles/Cambo_-_01_-_Coffee.mp3",
-        duration: 2.60,
-        url:
-            "https://firebasestorage.googleapis.com/v0/b/flutterkaraoke.appspot.com/o/audioFiles%2FCambo_-_01_-_Coffee.mp3?alt=media&token=4d831051-1439-4f96-a2cc-8088d54b8fb6",
-        date: DateTime.now()),
-    SongCard(
-        id: "t2",
-        title: "SongTitle6",
-        artist: "Steppico6",
-        image: 'assets/steppico.jpeg',
-        kURL:
-            "gs://flutterkaraoke.appspot.com/audioFiles/Cambo_-_01_-_Coffee.mp3",
-        duration: 2.61,
-        url:
-            "https://firebasestorage.googleapis.com/v0/b/flutterkaraoke.appspot.com/o/audioFiles%2FCambo_-_01_-_Coffee.mp3?alt=media&token=4d831051-1439-4f96-a2cc-8088d54b8fb6",
-        date: DateTime.now()),
-    SongCard(
-        id: "t1",
-        title: "SongTitle7",
-        artist: "Steppico7",
-        image: 'assets/steppico.jpeg',
-        kURL:
-            "gs://flutterkaraoke.appspot.com/audioFiles/Cambo_-_01_-_Coffee.mp3",
-        duration: 2.60,
-        url:
-            "https://firebasestorage.googleapis.com/v0/b/flutterkaraoke.appspot.com/o/audioFiles%2FCambo_-_01_-_Coffee.mp3?alt=media&token=4d831051-1439-4f96-a2cc-8088d54b8fb6",
-        date: DateTime.now()),
-    SongCard(
-        id: "t2",
-        title: "SongTitle8",
-        artist: "Steppico8",
-        image: 'assets/steppico.jpeg',
-        kURL:
-            "gs://flutterkaraoke.appspot.com/audioFiles/Cambo_-_01_-_Coffee.mp3",
-        duration: 2.61,
-        url:
-            "https://firebasestorage.googleapis.com/v0/b/flutterkaraoke.appspot.com/o/audioFiles%2FCambo_-_01_-_Coffee.mp3?alt=media&token=4d831051-1439-4f96-a2cc-8088d54b8fb6",
-        date: DateTime.now()),
-  ];
+  // List<SongCard> _songCard;
+
+  // final FirebaseDatabase _database = FirebaseDatabase.instance;
+  // Query _todoQuery;
 
   final titleController = TextEditingController();
 
+// void initState() {
+//   _todoQuery = _database
+//         .reference()
+//         .child("todo")
+//         .orderByChild("userId")
+//         .equalTo(widget.userId);
+//     _onTodoAddedSubscription = _todoQuery.onChildAdded.listen(_onEntryAdded);
+//     _onTodoChangedSubscription = _todoQuery.onChildChanged.listen(_onEntryChanged);
+
+// }
+
+  Future<FirebaseDataClass> getData() async {
+    const url = 'https://flutterkaraoke.firebaseio.com/songs.json';
+    final response = await http.get(url);
+    if (response.statusCode == 200) {
+      print('success');
+      print(response);
+      print(response.body);
+      // return json.decode(response.body);
+      return FirebaseDataClass.fromJson(json.decode(response.body));
+    } else {
+      throw Exception('Failed to load post');
+    }
+  }
+
+  void addSong() {
+    // FirebaseDataClass song
+    const url = 'https://flutterkaraoke.firebaseio.com/songs.json';
+    http
+        .post(
+      url,
+      body: json.encode(
+          // {'title': song.title, 'artist': song.artist, 'url': song.url}),
+          {
+            'title': 'from add song',
+            'artist': 'Watanaber 5',
+            'url': 'deez nuts'
+          }),
+    )
+        .then((response) {
+      print('posted');
+      // final newSong = FirebaseDataClass(
+      //   title: song.title, artist: song.artist, url: song.url);
+      // songlist.add(newSong)
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -183,7 +127,7 @@ class SongList extends StatelessWidget {
                           child: InkWell(
                               onTap: () {
                                 print('play this song!');
-                                
+                                getData();
                               },
                               child: Row(
                                 // mainAxisAlignment:
