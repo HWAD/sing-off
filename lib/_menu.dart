@@ -34,15 +34,20 @@ class SongList extends StatelessWidget {
 
 // }
 
-  Future<FirebaseDataClass> getData() async {
+  Future<List> getData() async {
     const url = 'https://flutterkaraoke.firebaseio.com/songs.json';
     final response = await http.get(url);
     if (response.statusCode == 200) {
-      print('success');
-      print(response);
-      print(response.body);
-      // return json.decode(response.body);
-      return FirebaseDataClass.fromJson(json.decode(response.body));
+      // print(response.body);
+     
+      Map<String, dynamic> myMap = json.decode(response.body);
+       List<dynamic> returnable = myMap.values.toList();
+      // for (var entry in myMap.entries) {
+      //   returnable.add(entry);
+      // }
+      // return FirebaseDataClass.fromJson(json.decode(response.body));
+      print(returnable);
+      return returnable;
     } else {
       throw Exception('Failed to load post');
     }
