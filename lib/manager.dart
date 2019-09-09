@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_sound/flutter_sound.dart';
 import 'package:flutterkaraoke/model_song.dart';
-import 'package:intl/intl.dart';
 
 import './model_song.dart';
-import './menu.dart';
-import './menu_control.dart';
+import './menu_search.dart';
+import './menu_album.dart';
 import './play.dart';
 import './play_control.dart';
 import './play_recordSound.dart';
@@ -29,7 +28,7 @@ class _Manager extends State<Manager> {
   List<String> _play = [];
   List<String> _score = [];
   List<ModelSong> _allSongs = [];
-  ModelSong _selectedSong = ModelSong();
+  ModelSong _selectedSong = null;
   bool _isMenu = false;
   bool _isPlay = false;
   bool _isScore = false;
@@ -41,24 +40,28 @@ class _Manager extends State<Manager> {
   void initState() {
     // Ryohei can get songs from Firebase into _modelSong.
     // Here are samples.
-    ModelSong sample1 = ModelSong();
-    sample1.title = 'Ti Amo';
-    sample1.artist = 'Steppico';
-    sample1.score = 100;
-    sample1.isFavorite = false;
-    sample1.image = null;
-    sample1.original = '/storage/emulated/0/sample1.m4a';
-    sample1.record = '/storage/emulated/0/default.m4a';
-    ModelSong sample2 = ModelSong();
-    sample2.title = 'The Greatest Harmony';
-    sample2.artist = 'Grafenberg';
-    sample2.score = 0;
-    sample2.isFavorite = true;
-    sample2.image = null;
-    sample2.original = '/storage/emulated/0/sample2.m4a';
-    sample2.record = '/storage/emulated/0/default.m4a';
-    _allSongs.add(sample1);
-    _allSongs.add(sample2);
+    _allSongs = [
+      ModelSong(
+        id: 1,
+        title: 'Ti Amo',
+        artist: "Steppico1",
+        locatedURL: 'gs://flutterkaraoke.appspot.com/audioFiles/Cambo_-_01_-_Coffee.mp3',
+        downloadURL: 'https://firebasestorage.googleapis.com/v0/b/flutterkaraoke.appspot.com/o/audioFiles%2FCambo_-_01_-_Coffee.mp3?alt=media&token=4d831051-1439-4f96-a2cc-8088d54b8fb6',
+        image: 'assets/steppico.jpeg',
+        score: 100,
+        isFavorite: false,
+      ),
+       ModelSong(
+        id: 2,
+        title: 'Ti Amo2',
+        artist: "Steppico2",
+        locatedURL: 'gs://flutterkaraoke.appspot.com/audioFiles/Cambo_-_01_-_Coffee.mp3',
+        downloadURL: 'https://firebasestorage.googleapis.com/v0/b/flutterkaraoke.appspot.com/o/audioFiles%2FCambo_-_01_-_Coffee.mp3?alt=media&token=4d831051-1439-4f96-a2cc-8088d54b8fb6',
+        image: 'assets/steppico.jpeg',
+        score: 100,
+        isFavorite: false,
+      ),
+    ];
     _menu.add(widget.startingMenu);
     _isMenu = true;
     super.initState();
@@ -106,13 +109,16 @@ class _Manager extends State<Manager> {
     });
   }
 
+  void _setSelectedSong(ModelSong song) {
+    setState(() {
+      _selectedSong = song;
+    });
+  }
+
   FlutterSound flutterSound = new FlutterSound();
 
   Future _startAudio() async {
     String path = await flutterSound.startRecorder(null);
-    setState(() {
-      _allSongs[1].record = path;
-    });
   }
 
   Future _endAudio() async {
@@ -120,7 +126,7 @@ class _Manager extends State<Manager> {
   }
 
   Future _startPlayer() async {
-    await flutterSound.startPlayer(_allSongs[1].record);
+    await flutterSound.startPlayer(null);
   }
 
   @override
@@ -131,11 +137,8 @@ class _Manager extends State<Manager> {
           visible: _isMenu,
           child: Column(
             children: [
-              Container(
-                margin: EdgeInsets.all(10.0),
-                child: MenuControl(_addMenu, _changeMenu, _changePlay),
-              ),
-              Menu(_menu),
+              MenuSearch(),
+              MenuAlbum(_changeMenu, _changePlay, _allSongs, _setSelectedSong),
             ]
           ),
         ),
