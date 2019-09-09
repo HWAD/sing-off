@@ -28,13 +28,8 @@ class _Manager extends State<Manager> {
   List<String> _play = [];
   List<String> _score = [];
   List<ModelSong> _allSongs = [];
-<<<<<<< HEAD
   ModelSong _selectedSong = null;
   bool _isMenu = false;
-=======
-  ModelSong _selectedSong = ModelSong();
-  bool _isMenu = true;
->>>>>>> ryohei
   bool _isPlay = false;
   bool _isScore = false;
   bool _isRecorded = false;
@@ -142,17 +137,8 @@ class _Manager extends State<Manager> {
           visible: _isMenu,
           child: Column(
             children: [
-<<<<<<< HEAD
               MenuSearch(),
               MenuAlbum(_changeMenu, _changePlay, _allSongs, _setSelectedSong),
-=======
-              Container(
-                margin: EdgeInsets.all(10.0),
-                child: MenuControl(_addMenu, _changeMenu, _changePlay),
-              ),
-              //RYOHEI CHANGED THIS LINE TO INTEGRATE MENU PAGE
-              Menu(_menu),
->>>>>>> ryohei
             ]
           ),
         ),
