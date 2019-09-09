@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutterkaraoke/model_song.dart';
 
 class MenuSearch extends StatelessWidget {
 
