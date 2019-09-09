@@ -30,7 +30,7 @@ class _Manager extends State<Manager> {
   List<String> _score = [];
   List<ModelSong> _allSongs = [];
   ModelSong _selectedSong = ModelSong();
-  bool _isMenu = false;
+  bool _isMenu = true;
   bool _isPlay = false;
   bool _isScore = false;
   bool _isRecorded = false;
@@ -135,6 +135,7 @@ class _Manager extends State<Manager> {
                 margin: EdgeInsets.all(10.0),
                 child: MenuControl(_addMenu, _changeMenu, _changePlay),
               ),
+              //RYOHEI CHANGED THIS LINE TO INTEGRATE MENU PAGE
               Menu(_menu),
             ]
           ),
