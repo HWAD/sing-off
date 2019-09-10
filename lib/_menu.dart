@@ -17,7 +17,7 @@ String truncate(String title) {
 
 class SongList extends StatelessWidget {
   // List<SongCard> _songCard;
-
+  final List songs = [];
   // final FirebaseDatabase _database = FirebaseDatabase.instance;
   // Query _todoQuery;
 
@@ -39,14 +39,15 @@ class SongList extends StatelessWidget {
     final response = await http.get(url);
     if (response.statusCode == 200) {
       // print(response.body);
-     
+
       Map<String, dynamic> myMap = json.decode(response.body);
-       List<dynamic> returnable = myMap.values.toList();
+      List<dynamic> returnable = myMap.values.toList();
       // for (var entry in myMap.entries) {
       //   returnable.add(entry);
       // }
       // return FirebaseDataClass.fromJson(json.decode(response.body));
-      // print(returnable);
+      songs.add(returnable);
+      print(returnable[0]);
       return returnable;
     } else {
       throw Exception('Failed to load post');
@@ -62,9 +63,13 @@ class SongList extends StatelessWidget {
       body: json.encode(
           // {'title': song.title, 'artist': song.artist, 'url': song.url}),
           {
-            'title': 'from add song',
-            'artist': 'Watanaber 5',
-            'url': 'deez nuts'
+            "title": 'Ti Amo2',
+        "artist": "Steppico2",
+        "locatedURL": 'gs://flutterkaraoke.appspot.com/audioFiles/Cambo_-_01_-_Coffee.mp3',
+        "downloadURL": 'https://firebasestorage.googleapis.com/v0/b/flutterkaraoke.appspot.com/o/audioFiles%2FCambo_-_01_-_Coffee.mp3?alt=media&token=4d831051-1439-4f96-a2cc-8088d54b8fb6',
+        "image": 'assets/steppico.jpeg',
+        "score": 100,
+        "isFavorite": false,
           }),
     )
         .then((response) {
@@ -130,9 +135,11 @@ class SongList extends StatelessWidget {
                     children: songlist.map((element) {
                       return Card(
                           child: InkWell(
-                              onTap: () {
+                              onTap: () async {
                                 print('play this song!');
-                                getData();
+                                await getData();
+                                addSong();
+                                print("async; " + songs.toString());
                               },
                               child: Row(
                                 // mainAxisAlignment:
