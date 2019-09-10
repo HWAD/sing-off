@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutterkaraoke/model_song.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 import './model_song.dart';
 import './menu_search.dart';
@@ -32,36 +34,57 @@ class _Manager extends State<Manager> {
 
   @override
   void initState() {
+    super.initState();
     // Ryohei can get songs from Firebase into _modelSong.
     // Here are samples.
-    _allSongs = [
-      ModelSong(
-        id: 1,
-        title: 'Ti Amo',
-        artist: "Steppico1",
-        locatedURL:
-            'gs://flutterkaraoke.appspot.com/audioFiles/Cambo_-_01_-_Coffee.mp3',
-        downloadURL:
-            'https://firebasestorage.googleapis.com/v0/b/flutterkaraoke.appspot.com/o/audioFiles%2FCambo_-_01_-_Coffee.mp3?alt=media&token=4d831051-1439-4f96-a2cc-8088d54b8fb6',
-        image: 'assets/steppico.jpeg',
-        score: 100,
-        isFavorite: false,
-      ),
-      ModelSong(
-        id: 2,
-        title: 'Ti Amo2',
-        artist: "Steppico2",
-        locatedURL:
-            'gs://flutterkaraoke.appspot.com/audioFiles/Cambo_-_01_-_Coffee.mp3',
-        downloadURL:
-            'https://firebasestorage.googleapis.com/v0/b/flutterkaraoke.appspot.com/o/audioFiles%2FCambo_-_01_-_Coffee.mp3?alt=media&token=4d831051-1439-4f96-a2cc-8088d54b8fb6',
-        image: 'assets/steppico.jpeg',
-        score: 100,
-        isFavorite: false,
-      ),
-    ];
+    // _allSongs = [
+    //   ModelSong(
+    //     title: 'Ti Amo',
+    //     artist: "Steppico1",
+    //     locatedURL:
+    //         'gs://flutterkaraoke.appspot.com/audioFiles/Cambo_-_01_-_Coffee.mp3',
+    //     downloadURL:
+    //         'https://firebasestorage.googleapis.com/v0/b/flutterkaraoke.appspot.com/o/audioFiles%2FCambo_-_01_-_Coffee.mp3?alt=media&token=4d831051-1439-4f96-a2cc-8088d54b8fb6',
+    //     image: 'assets/steppico.jpeg',
+    //     score: 100,
+    //     isFavorite: false,
+    //   ),
+    //   ModelSong(
+    //     title: 'Ti Amo2',
+    //     artist: "Steppico2",
+    //     locatedURL:
+    //         'gs://flutterkaraoke.appspot.com/audioFiles/Cambo_-_01_-_Coffee.mp3',
+    //     downloadURL:
+    //         'https://firebasestorage.googleapis.com/v0/b/flutterkaraoke.appspot.com/o/audioFiles%2FCambo_-_01_-_Coffee.mp3?alt=media&token=4d831051-1439-4f96-a2cc-8088d54b8fb6',
+    //     image: 'assets/steppico.jpeg',
+    //     score: 100,
+    //     isFavorite: false,
+    //   ),
+    // ];
     _isMenu = true;
-    super.initState();
+    _getAllSongs();
+  }
+
+  Future<void> _getAllSongs() async {
+    const url = 'https://flutterkaraoke.firebaseio.com/songs.json';
+    http.get(url).then((response) {
+      Map<String, dynamic> mappedBody = json.decode(response.body);
+      List<dynamic> dynamicList = mappedBody.values.toList();
+      List<ModelSong> modelSongList = [];
+      for (int i = 0; i < dynamicList.length; i++) {
+        modelSongList.add(ModelSong(
+            title: dynamicList[i]["title"],
+            artist: dynamicList[i]["artist"],
+            locatedURL: dynamicList[i]["locatedURL"],
+            downloadURL: dynamicList[i]["downloadURL"],
+            image: dynamicList[i]["image"],
+            score: dynamicList[i]["score"],
+            isFavorite: dynamicList[i]["isFavorite"]));
+      }
+      setState(() {
+        _allSongs = modelSongList;
+      });
+    });
   }
 
   void _addPlay(String play) {

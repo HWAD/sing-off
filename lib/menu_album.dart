@@ -38,8 +38,7 @@ class MenuAlbum extends StatelessWidget {
                         onTap: () {
                           changeMenu(false);
                           changePlay(true);
-                          setSelectedSong(allSongs[0]);
-                          print(allSongs[0].downloadURL);
+                          setSelectedSong(element);
                         },
                         child: Row(
                           children: <Widget>[

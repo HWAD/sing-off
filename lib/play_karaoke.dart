@@ -1,6 +1,10 @@
+import 'dart:io';
+import 'dart:async';
+
+import './model_song.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sound/flutter_sound.dart';
-import 'package:flutterkaraoke/model_song.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
 class PlayKaraoke extends StatelessWidget {
   final TextEditingController controller = TextEditingController(text: 'START');
@@ -9,25 +13,37 @@ class PlayKaraoke extends StatelessWidget {
 
   PlayKaraoke(this.selectedSong);
 
+  final StorageReference storageReference = FirebaseStorage().ref();
+
+  Future<String> _uploadAudio([String audioFileName]) async {
+    if (audioFileName == null) {
+      audioFileName = "RyoheiRecorded2.m4a";
+    }
+    // if (audioFile == null) {
+    // audioFile = "sdcard/recorded.m4a";
+    File audioFile = File("sdcard/recorded.m4a");
+    // }
+    StorageUploadTask ref = storageReference
+        .child("audioFiles/" + audioFileName)
+        .putFile(audioFile);
+    String location = await (await ref.onComplete).ref.getDownloadURL();
+    return location;
+  }
+
   Future _startAudio() async {
-    print('Start Recorder');
     await flutterSound.startRecorder('sdcard/recorded.m4a');
-    print('Start Player');
-    print(selectedSong);
     try {
-      print('Music is playing <3');
-      var s = await flutterSound.startPlayer(selectedSong.downloadURL);
-      print('Music should be finished playing <3');
+      print(selectedSong);
+      await flutterSound.startPlayer(selectedSong.downloadURL);
     } catch (e) {
       print("Error! $e");
     }
   }
 
   Future _stopAudio() async {
-    print('Stop Recorder');
     await flutterSound.stopRecorder();
-    print('Stop Player');
     await flutterSound.stopPlayer();
+    await _uploadAudio();
   }
 
   @override

@@ -1,5 +1,4 @@
 class ModelSong {
-  int id;
   String title;
   String artist;
   String locatedURL;
@@ -8,7 +7,6 @@ class ModelSong {
   int score;
   bool isFavorite;
   ModelSong({
-    this.id,
     this.title,
     this.artist,
     this.locatedURL,
