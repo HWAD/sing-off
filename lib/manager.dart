@@ -78,6 +78,7 @@ class _Manager extends State<Manager> {
             downloadURL: dynamicList[i]["downloadURL"],
             image: dynamicList[i]["image"],
             score: dynamicList[i]["score"],
+            lyrics: dynamicList[i]["lyrics"],
             isFavorite: dynamicList[i]["isFavorite"]));
       }
       setState(() {
