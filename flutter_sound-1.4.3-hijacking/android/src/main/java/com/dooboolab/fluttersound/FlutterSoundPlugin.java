@@ -155,7 +155,6 @@ public class FlutterSoundPlugin implements MethodCallHandler, PluginRegistry.Req
     
     //---TEST IMPLEMENTATION CODE FOR TARSOS DSP---
     AudioDispatcher dispatcher = AudioDispatcherFactory.fromDefaultMicrophone(22050,1024,0);
-    /*
     PitchDetectionHandler pdh = new PitchDetectionHandler() {
       @Override
       public void handlePitch(PitchDetectionResult result,AudioEvent e) {
@@ -172,6 +171,7 @@ public class FlutterSoundPlugin implements MethodCallHandler, PluginRegistry.Req
     AudioProcessor p = new PitchProcessor(PitchEstimationAlgorithm.FFT_YIN, 22050, 1024, pdh);
     dispatcher.addAudioProcessor(p);
     new Thread(dispatcher,"Audio Dispatcher").start();
+    /*
     */
     if (this.model.getMediaRecorder() == null) {
       this.model.setMediaRecorder(new MediaRecorder());
