@@ -39,18 +39,22 @@ class _Manager extends State<Manager> {
         id: 1,
         title: 'Ti Amo',
         artist: "Steppico1",
-        locatedURL: 'gs://flutterkaraoke.appspot.com/audioFiles/Cambo_-_01_-_Coffee.mp3',
-        downloadURL: 'https://firebasestorage.googleapis.com/v0/b/flutterkaraoke.appspot.com/o/audioFiles%2FCambo_-_01_-_Coffee.mp3?alt=media&token=4d831051-1439-4f96-a2cc-8088d54b8fb6',
+        locatedURL:
+            'gs://flutterkaraoke.appspot.com/audioFiles/Cambo_-_01_-_Coffee.mp3',
+        downloadURL:
+            'https://firebasestorage.googleapis.com/v0/b/flutterkaraoke.appspot.com/o/audioFiles%2FCambo_-_01_-_Coffee.mp3?alt=media&token=4d831051-1439-4f96-a2cc-8088d54b8fb6',
         image: 'assets/steppico.jpeg',
         score: 100,
         isFavorite: false,
       ),
-       ModelSong(
+      ModelSong(
         id: 2,
         title: 'Ti Amo2',
         artist: "Steppico2",
-        locatedURL: 'gs://flutterkaraoke.appspot.com/audioFiles/Cambo_-_01_-_Coffee.mp3',
-        downloadURL: 'https://firebasestorage.googleapis.com/v0/b/flutterkaraoke.appspot.com/o/audioFiles%2FCambo_-_01_-_Coffee.mp3?alt=media&token=4d831051-1439-4f96-a2cc-8088d54b8fb6',
+        locatedURL:
+            'gs://flutterkaraoke.appspot.com/audioFiles/Cambo_-_01_-_Coffee.mp3',
+        downloadURL:
+            'https://firebasestorage.googleapis.com/v0/b/flutterkaraoke.appspot.com/o/audioFiles%2FCambo_-_01_-_Coffee.mp3?alt=media&token=4d831051-1439-4f96-a2cc-8088d54b8fb6',
         image: 'assets/steppico.jpeg',
         score: 100,
         isFavorite: false,
@@ -102,12 +106,10 @@ class _Manager extends State<Manager> {
       children: [
         Visibility(
           visible: _isMenu,
-          child: Column(
-            children: [
-              MenuSearch(),
-              MenuAlbum(_changeMenu, _changePlay, _allSongs, _setSelectedSong),
-            ]
-          ),
+          child: Column(children: [
+            MenuSearch(),
+            MenuAlbum(_changeMenu, _changePlay, _allSongs, _setSelectedSong),
+          ]),
         ),
         Visibility(
           visible: _isPlay,
@@ -118,7 +120,7 @@ class _Manager extends State<Manager> {
                 child: PlayControl(_addPlay, _changePlay, _changeScore),
               ),
               Play(_play),
-              PlayKaraoke(),
+              PlayKaraoke(_selectedSong),
             ],
           ),
         ),
