@@ -19,7 +19,7 @@ class App extends StatelessWidget {
           title: Text('Karaoke Mania'),
         ),
         // body: Manager(startingMenu: 'Start Value'),
-        body: FilePickerDemo(),
+        body: FilePicker(),
       ),
     );
   }
