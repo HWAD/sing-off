@@ -33,7 +33,7 @@ class PlayKaraoke extends StatelessWidget {
   Future _startAudio() async {
     await flutterSound.startRecorder('sdcard/recorded.m4a');
     try {
-      print(selectedSong);
+      print("lyrics? ${selectedSong.lyrics}");
       await flutterSound.startPlayer(selectedSong.downloadURL);
     } catch (e) {
       print("Error! $e");
@@ -48,17 +48,28 @@ class PlayKaraoke extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return RaisedButton(
-      onPressed: () {
-        if (controller.text == 'START') {
-          _startAudio();
-          controller.text = 'STOP';
-        } else if (controller.text == 'STOP') {
-          _stopAudio();
-          controller.text = 'START';
-        }
-      },
-      child: TextField(enabled: false, controller: controller),
+    return Column(
+      children: <Widget>[
+        RaisedButton(
+          onPressed: () {
+            if (controller.text == 'START') {
+              _startAudio();
+              controller.text = 'STOP';
+            } else if (controller.text == 'STOP') {
+              _stopAudio();
+              controller.text = 'START';
+            }
+          },
+          child: TextField(enabled: false, controller: controller),
+        ),
+        SizedBox(
+          height: 400,
+          width: 300,
+          child: SingleChildScrollView(
+            child: Text(selectedSong.lyrics),
+          ),
+        )
+      ],
     );
   }
 }

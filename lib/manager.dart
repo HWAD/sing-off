@@ -75,10 +75,10 @@ class _Manager extends State<Manager> {
         modelSongList.add(ModelSong(
             title: dynamicList[i]["title"],
             artist: dynamicList[i]["artist"],
-            locatedURL: dynamicList[i]["locatedURL"],
             downloadURL: dynamicList[i]["downloadURL"],
             image: dynamicList[i]["image"],
             score: dynamicList[i]["score"],
+            lyrics: dynamicList[i]["lyrics"],
             isFavorite: dynamicList[i]["isFavorite"]));
       }
       setState(() {
