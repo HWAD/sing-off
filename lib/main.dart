@@ -14,9 +14,6 @@ class App extends StatelessWidget {
           primarySwatch: Colors.deepOrange,
           accentColor: Colors.deepPurple),
       home: Scaffold(
-        appBar: AppBar(
-          title: Text('Karaoke Mania'),
-        ),
         body: Manager(startingMenu: 'Start Value'),
       ),
     );

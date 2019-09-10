@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 import './model_song.dart';
+import './appbar_menu.dart';
 import './menu_search.dart';
 import './menu_album.dart';
 import './play.dart';
@@ -27,6 +28,7 @@ class _Manager extends State<Manager> {
   List<String> _play = [];
   List<ModelSong> _allSongs = [];
   ModelSong _selectedSong = ModelSong();
+  bool _isUpload = false;
   bool _isMenu = false;
   bool _isPlay = false;
   bool _isScore = false;
@@ -66,6 +68,12 @@ class _Manager extends State<Manager> {
     });
   }
 
+  void _changeUpload(bool isUpload) {
+    setState(() {
+      _isUpload = isUpload;
+    });
+  }
+
   void _changeMenu(bool isMenu) {
     setState(() {
       _isMenu = isMenu;
@@ -94,6 +102,9 @@ class _Manager extends State<Manager> {
   Widget build(BuildContext context) {
     return Column(
       children: [
+        AppBar(title: Text('Karaoke Mania'), actions: [
+          AppBarMenu(_changeUpload, _changeMenu),
+        ]),
         Visibility(
           visible: _isMenu,
           child: Column(children: [
