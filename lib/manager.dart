@@ -9,8 +9,8 @@ import './menu_album.dart';
 import './play.dart';
 import './play_control.dart';
 import './play_karaoke.dart';
-import './score.dart';
-import './score_control.dart';
+import './score_board.dart';
+import './score_goToOther.dart';
 
 class Manager extends StatefulWidget {
   final String startingMenu;
@@ -25,7 +25,6 @@ class Manager extends StatefulWidget {
 
 class _Manager extends State<Manager> {
   List<String> _play = [];
-  List<String> _score = [];
   List<ModelSong> _allSongs = [];
   ModelSong _selectedSong = ModelSong();
   bool _isMenu = false;
@@ -35,32 +34,6 @@ class _Manager extends State<Manager> {
   @override
   void initState() {
     super.initState();
-    // Ryohei can get songs from Firebase into _modelSong.
-    // Here are samples.
-    // _allSongs = [
-    //   ModelSong(
-    //     title: 'Ti Amo',
-    //     artist: "Steppico1",
-    //     locatedURL:
-    //         'gs://flutterkaraoke.appspot.com/audioFiles/Cambo_-_01_-_Coffee.mp3',
-    //     downloadURL:
-    //         'https://firebasestorage.googleapis.com/v0/b/flutterkaraoke.appspot.com/o/audioFiles%2FCambo_-_01_-_Coffee.mp3?alt=media&token=4d831051-1439-4f96-a2cc-8088d54b8fb6',
-    //     image: 'assets/steppico.jpeg',
-    //     score: 100,
-    //     isFavorite: false,
-    //   ),
-    //   ModelSong(
-    //     title: 'Ti Amo2',
-    //     artist: "Steppico2",
-    //     locatedURL:
-    //         'gs://flutterkaraoke.appspot.com/audioFiles/Cambo_-_01_-_Coffee.mp3',
-    //     downloadURL:
-    //         'https://firebasestorage.googleapis.com/v0/b/flutterkaraoke.appspot.com/o/audioFiles%2FCambo_-_01_-_Coffee.mp3?alt=media&token=4d831051-1439-4f96-a2cc-8088d54b8fb6',
-    //     image: 'assets/steppico.jpeg',
-    //     score: 100,
-    //     isFavorite: false,
-    //   ),
-    // ];
     _isMenu = true;
     _getAllSongs();
   }
@@ -90,12 +63,6 @@ class _Manager extends State<Manager> {
   void _addPlay(String play) {
     setState(() {
       _play.add(play);
-    });
-  }
-
-  void _addScore(String score) {
-    setState(() {
-      _score.add(score);
     });
   }
 
@@ -151,11 +118,8 @@ class _Manager extends State<Manager> {
           visible: _isScore,
           child: Column(
             children: [
-              Container(
-                margin: EdgeInsets.all(10.0),
-                child: ScoreControl(_addScore, _changeScore, _changeMenu),
-              ),
-              Score(_score),
+              ScoreBoard(),
+              ScoreGoToOther(_changeMenu, _changePlay, _changeScore),
             ],
           ),
         ),
