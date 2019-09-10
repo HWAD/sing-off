@@ -58,74 +58,7 @@ class SongList extends StatelessWidget {
   void addSong(ModelSong upload) {
     // FirebaseDataClass song
     const url = 'https://flutterkaraoke.firebaseio.com/songs.json';
-<<<<<<< HEAD
-    http
-        .post(
-      url,
-      body: json.encode(
-          // {'title': song.title, 'artist': song.artist, 'url': song.url}),
-          {
-            "title": 'It\'s my life',
-            "artist": "Bon Jovi",
-            "downloadURL":
-                'https://firebasestorage.googleapis.com/v0/b/flutterkaraoke.appspot.com/o/audioFiles%2Fits-my-life-bon-jovi-karaokewmv.mp3?alt=media&token=5da76dd0-bd9d-4b1e-8718-701f7bef3e1d',
-            "image": 'assets/steppico.jpeg',
-            "score": 100,
-            "lyrics": """[Verse 1]
-This ain't a song for the broken-hearted (woah oh, woah oh, oh)
-No silent prayer for the faith-departed
-I ain't gonna be just a face in the crowd
-You're gonna hear my voice when I shout it out loud
-
-[Chorus]
-It's my life, it's now or never
-I ain't gonna live forever
-I just want to live while I'm alive
-(It's my life) My heart is like an open highway
-Like Frankie said, "I did it my way"
-I just wanna live while I'm alive
-It's my life
-
-[Verse 2]
-This is for the ones who stood their ground
-For Tommy and Gina who never backed down
-Tomorrow's getting harder make no mistake
-Luck ain't even lucky, got to make your own breaks
-
-[Chorus]
-It's my life, it's now or never
-I ain't gonna live forever
-I just want to live while I'm alive
-(It's my life) My heart is like an open highway
-Like Frankie said, "I did it my way"
-I just wanna live while I'm alive
-'Cause it's my life
-
-[Bridge]
-Better stand tall when they're calling you out
-Don't bend, don't break, baby, don't back down
-
-[Chorus]
-It's my life, it's now or never
-I ain't gonna live forever
-I just want to live while I'm alive
-(It's my life) My heart is like an open highway
-Like Frankie said, "I did it my way"
-I just wanna live while I'm alive
-It's my life and it's now or never
-I ain't gonna live forever
-I just want to live while I'm alive
-(It's my life) My heart is like an open highway
-Like Frankie said, "I did it my way"
-I just wanna live while I'm alive
-It's my life""",
-            "isFavorite": false,
-          }),
-    )
-        .then((response) {
-=======
     http.post(url, body: json.encode(upload)).then((response) {
->>>>>>> b6039b5d81536b5bdd4c5d8dcbd890940f1bd6fe
       print('posted');
     });
   }
