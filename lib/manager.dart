@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_sound/flutter_sound.dart';
 import 'package:flutterkaraoke/model_song.dart';
 
 import './model_song.dart';
@@ -7,7 +6,6 @@ import './menu_search.dart';
 import './menu_album.dart';
 import './play.dart';
 import './play_control.dart';
-import './play_recordSound.dart';
 import './play_karaoke.dart';
 import './score.dart';
 import './score_control.dart';
@@ -31,7 +29,6 @@ class _Manager extends State<Manager> {
   bool _isMenu = false;
   bool _isPlay = false;
   bool _isScore = false;
-  String _karaokeButton = 'assets/start.jpeg';
 
   @override
   void initState() {
@@ -99,35 +96,6 @@ class _Manager extends State<Manager> {
     });
   }
 
-  // void _setKaraokeButton(String path) {
-  //   if(path == 'sdcard/default.m4a'){
-  //     setState(() {
-  //      _karaokeButton = 'assets/stop.jpeg'; 
-  //     });
-  //   } else if(path == 'stopped player.') {
-  //     setState(() {
-  //       _karaokeButton = 'assets/start.jpeg'; 
-  //     });
-  //   }
-  // }
-
-  void _setKaraokeButton(String path) {
-    setState(() {
-       _karaokeButton = path; 
-    });
-  }
-
-  FlutterSound flutterSound = new FlutterSound();
-  String path;
-
-  Future _startAudio() async {
-    path = await flutterSound.startRecorder(null);
-  }
-
-  Future _endAudio() async {
-    await flutterSound.stopRecorder();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -149,12 +117,8 @@ class _Manager extends State<Manager> {
                 margin: EdgeInsets.all(10.0),
                 child: PlayControl(_addPlay, _changePlay, _changeScore),
               ),
-              Container(
-                margin: EdgeInsets.all(10.0),
-                child: PlayRecordSound(_startAudio, _endAudio),
-              ),
               Play(_play),
-              PlayKaraoke(_setKaraokeButton, _karaokeButton),
+              PlayKaraoke(),
             ],
           ),
         ),
