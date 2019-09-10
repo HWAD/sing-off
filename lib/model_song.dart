@@ -15,4 +15,17 @@ class ModelSong {
     this.lyrics,
     this.isFavorite,
   });
+<<<<<<< HEAD
+=======
+  Map<String, dynamic> toJson() =>
+    {
+      'title': title,
+      'artist': artist,
+      'downloadURL': downloadURL,
+      'image': image,
+      'score': score,
+      'isFavorite': isFavorite,
+      
+    };
+>>>>>>> b6039b5d81536b5bdd4c5d8dcbd890940f1bd6fe
 }

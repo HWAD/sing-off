@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutterkaraoke/model_song.dart';
 import 'package:http/http.dart' as http;
 import 'package:firebase_database/firebase_database.dart';
 import 'dart:convert';
@@ -54,9 +55,10 @@ class SongList extends StatelessWidget {
     }
   }
 
-  void addSong() {
+  void addSong(ModelSong upload) {
     // FirebaseDataClass song
     const url = 'https://flutterkaraoke.firebaseio.com/songs.json';
+<<<<<<< HEAD
     http
         .post(
       url,
@@ -121,10 +123,10 @@ It's my life""",
           }),
     )
         .then((response) {
+=======
+    http.post(url, body: json.encode(upload)).then((response) {
+>>>>>>> b6039b5d81536b5bdd4c5d8dcbd890940f1bd6fe
       print('posted');
-      // final newSong = FirebaseDataClass(
-      //   title: song.title, artist: song.artist, url: song.url);
-      // songlist.add(newSong)
     });
   }
 
@@ -186,7 +188,6 @@ It's my life""",
                               onTap: () async {
                                 print('play this song!');
                                 await getData();
-                                addSong();
                                 print("async; " + songs.toString());
                               },
                               child: Row(

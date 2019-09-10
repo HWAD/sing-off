@@ -15,7 +15,7 @@ class PlayKaraoke extends StatelessWidget {
 
   final StorageReference storageReference = FirebaseStorage().ref();
 
-  Future<String> _uploadAudio([String audioFileName]) async {
+  Future<String> uploadAudio([String audioFileName, String audioTitle, String artist]) async {
     if (audioFileName == null) {
       audioFileName = "RyoheiRecorded2.m4a";
     }
@@ -43,7 +43,7 @@ class PlayKaraoke extends StatelessWidget {
   Future _stopAudio() async {
     await flutterSound.stopRecorder();
     await flutterSound.stopPlayer();
-    await _uploadAudio();
+    await uploadAudio();
   }
 
   @override
