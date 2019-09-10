@@ -1,7 +1,9 @@
 package com.dooboolab.fluttersound;
 import be.tarsos.dsp.io.android.*;
 import be.tarsos.dsp.*;
+import be.tarsos.dsp.pitch.*;
 
+import android.widget.TextView;
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.media.MediaPlayer;
@@ -159,17 +161,18 @@ public class FlutterSoundPlugin implements MethodCallHandler, PluginRegistry.Req
       @Override
       public void handlePitch(PitchDetectionResult result,AudioEvent e) {
         final float pitchInHz = result.getPitch();
-        runOnUiThread(new Runnable() {
-          @Override
-          public void run() {
-            TextView text = (TextView) findViewById(R.id.textView1);
-            text.setText("" + pitchInHz);
-          }
-        });                        
+        System.out.println("Pitch is " + pitchInHz);
+        // runOnUiThread(new Runnable() {
+        //   @Override
+        //   public void run() {
+        //     //TextView text = (TextView) findViewById(R.id.textView1);
+        //     //text.setText("" + pitchInHz);
+        //   }
+        // });                        
       }
     };
-    AudioProcessor p = new PitchProcessor(PitchEstimationAlgorithm.FFT_YIN, 22050, 1024, pdh);
-    dispatcher.addAudioProcessor(p);
+    AudioProcessor proc = new PitchProcessor(PitchProcessor.PitchEstimationAlgorithm.FFT_YIN, 22050, 1024, pdh);
+    dispatcher.addAudioProcessor(proc);
     new Thread(dispatcher,"Audio Dispatcher").start();
     /*
     */
@@ -203,7 +206,7 @@ public class FlutterSoundPlugin implements MethodCallHandler, PluginRegistry.Req
       byte[] data = new byte[16384];
       while ((read = inputStream.read(data, 0, data.length)) != -1) {
           byteArrayOutputStream.write(data, 0, read);
-          System.out.println(data); //delete this
+          //System.out.println(data); //delete this
       }
       byteArrayOutputStream.flush();
       // Remove all pending runnables, this is just for safety (should never happen)
