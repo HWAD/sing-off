@@ -31,37 +31,36 @@ class _Manager extends State<Manager> {
   bool _isMenu = false;
   bool _isPlay = false;
   bool _isScore = false;
-  List test = [];
 
   @override
   void initState() {
     super.initState();
-      // Ryohei can get songs from Firebase into _modelSong.
-      // Here are samples.
-      // _allSongs = [
-      //   ModelSong(
-      //     title: 'Ti Amo',
-      //     artist: "Steppico1",
-      //     locatedURL:
-      //         'gs://flutterkaraoke.appspot.com/audioFiles/Cambo_-_01_-_Coffee.mp3',
-      //     downloadURL:
-      //         'https://firebasestorage.googleapis.com/v0/b/flutterkaraoke.appspot.com/o/audioFiles%2FCambo_-_01_-_Coffee.mp3?alt=media&token=4d831051-1439-4f96-a2cc-8088d54b8fb6',
-      //     image: 'assets/steppico.jpeg',
-      //     score: 100,
-      //     isFavorite: false,
-      //   ),
-      //   ModelSong(
-      //     title: 'Ti Amo2',
-      //     artist: "Steppico2",
-      //     locatedURL:
-      //         'gs://flutterkaraoke.appspot.com/audioFiles/Cambo_-_01_-_Coffee.mp3',
-      //     downloadURL:
-      //         'https://firebasestorage.googleapis.com/v0/b/flutterkaraoke.appspot.com/o/audioFiles%2FCambo_-_01_-_Coffee.mp3?alt=media&token=4d831051-1439-4f96-a2cc-8088d54b8fb6',
-      //     image: 'assets/steppico.jpeg',
-      //     score: 100,
-      //     isFavorite: false,
-      //   ),
-      // ];
+    // Ryohei can get songs from Firebase into _modelSong.
+    // Here are samples.
+    // _allSongs = [
+    //   ModelSong(
+    //     title: 'Ti Amo',
+    //     artist: "Steppico1",
+    //     locatedURL:
+    //         'gs://flutterkaraoke.appspot.com/audioFiles/Cambo_-_01_-_Coffee.mp3',
+    //     downloadURL:
+    //         'https://firebasestorage.googleapis.com/v0/b/flutterkaraoke.appspot.com/o/audioFiles%2FCambo_-_01_-_Coffee.mp3?alt=media&token=4d831051-1439-4f96-a2cc-8088d54b8fb6',
+    //     image: 'assets/steppico.jpeg',
+    //     score: 100,
+    //     isFavorite: false,
+    //   ),
+    //   ModelSong(
+    //     title: 'Ti Amo2',
+    //     artist: "Steppico2",
+    //     locatedURL:
+    //         'gs://flutterkaraoke.appspot.com/audioFiles/Cambo_-_01_-_Coffee.mp3',
+    //     downloadURL:
+    //         'https://firebasestorage.googleapis.com/v0/b/flutterkaraoke.appspot.com/o/audioFiles%2FCambo_-_01_-_Coffee.mp3?alt=media&token=4d831051-1439-4f96-a2cc-8088d54b8fb6',
+    //     image: 'assets/steppico.jpeg',
+    //     score: 100,
+    //     isFavorite: false,
+    //   ),
+    // ];
     _isMenu = true;
     _getAllSongs();
   }
@@ -71,8 +70,6 @@ class _Manager extends State<Manager> {
     http.get(url).then((response) {
       Map<String, dynamic> mappedBody = json.decode(response.body);
       List<dynamic> dynamicList = mappedBody.values.toList();
-      print("dynamicList");
-      print(dynamicList);
       List<ModelSong> modelSongList = [];
       for (int i = 0; i < dynamicList.length; i++) {
         modelSongList.add(ModelSong(
@@ -87,8 +84,6 @@ class _Manager extends State<Manager> {
       setState(() {
         _allSongs = modelSongList;
       });
-      print("_allSongs");
-      print(_allSongs);
     });
   }
 
@@ -148,7 +143,7 @@ class _Manager extends State<Manager> {
                 child: PlayControl(_addPlay, _changePlay, _changeScore),
               ),
               Play(_play),
-              PlayKaraoke(),
+              PlayKaraoke(_selectedSong),
             ],
           ),
         ),
