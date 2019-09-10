@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_sound/flutter_sound.dart';
 import 'package:flutterkaraoke/model_song.dart';
-import 'package:intl/intl.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 import './model_song.dart';
-import './menu.dart';
-import './menu_control.dart';
+import './menu_search.dart';
+import './menu_album.dart';
 import './play.dart';
 import './play_control.dart';
-import './play_recordSound.dart';
-import './play_playSound.dart';
+import './play_karaoke.dart';
 import './score.dart';
 import './score_control.dart';
 
@@ -25,29 +24,71 @@ class Manager extends StatefulWidget {
 }
 
 class _Manager extends State<Manager> {
-  List<String> _menu = [];
   List<String> _play = [];
   List<String> _score = [];
-  List<ModelSong> _modelSong = [];
-  ModelSong _selectedSong = null;
+  List<ModelSong> _allSongs = [];
+  ModelSong _selectedSong = ModelSong();
   bool _isMenu = false;
   bool _isPlay = false;
   bool _isScore = false;
-  bool _isRecorded = false;
-  bool _isPlaying = false;
-  String _playerTxt;
+  List test = [];
 
   @override
   void initState() {
-    // Ryohei can get songs from Firebase into _modelSong.
-    _menu.add(widget.startingMenu);
-    _isMenu = true;
     super.initState();
+      // Ryohei can get songs from Firebase into _modelSong.
+      // Here are samples.
+      // _allSongs = [
+      //   ModelSong(
+      //     title: 'Ti Amo',
+      //     artist: "Steppico1",
+      //     locatedURL:
+      //         'gs://flutterkaraoke.appspot.com/audioFiles/Cambo_-_01_-_Coffee.mp3',
+      //     downloadURL:
+      //         'https://firebasestorage.googleapis.com/v0/b/flutterkaraoke.appspot.com/o/audioFiles%2FCambo_-_01_-_Coffee.mp3?alt=media&token=4d831051-1439-4f96-a2cc-8088d54b8fb6',
+      //     image: 'assets/steppico.jpeg',
+      //     score: 100,
+      //     isFavorite: false,
+      //   ),
+      //   ModelSong(
+      //     title: 'Ti Amo2',
+      //     artist: "Steppico2",
+      //     locatedURL:
+      //         'gs://flutterkaraoke.appspot.com/audioFiles/Cambo_-_01_-_Coffee.mp3',
+      //     downloadURL:
+      //         'https://firebasestorage.googleapis.com/v0/b/flutterkaraoke.appspot.com/o/audioFiles%2FCambo_-_01_-_Coffee.mp3?alt=media&token=4d831051-1439-4f96-a2cc-8088d54b8fb6',
+      //     image: 'assets/steppico.jpeg',
+      //     score: 100,
+      //     isFavorite: false,
+      //   ),
+      // ];
+    _isMenu = true;
+    _getAllSongs();
   }
 
-  void _addMenu(String menu) {
-    setState(() {
-      _menu.add(menu);
+  Future<void> _getAllSongs() async {
+    const url = 'https://flutterkaraoke.firebaseio.com/songs.json';
+    http.get(url).then((response) {
+      Map<String, dynamic> mappedBody = json.decode(response.body);
+      List<dynamic> dynamicList = mappedBody.values.toList();
+      print("dynamicList");
+      print(dynamicList);
+      List<ModelSong> modelSongList = [];
+      for (int i = 0; i < dynamicList.length; i++) {
+        modelSongList.add(ModelSong(
+            title: dynamicList[i]["title"],
+            artist: dynamicList[i]["artist"],
+            locatedURL: dynamicList[i]["locatedURL"],
+            downloadURL: dynamicList[i]["downloadURL"],
+            image: dynamicList[i]["image"],
+            score: dynamicList[i]["score"],
+            isFavorite: dynamicList[i]["isFavorite"]));
+      }
+      setState(() {
+        _allSongs = modelSongList;
+      });
+      print("_allSongs");
+      print(_allSongs);
     });
   }
 
@@ -75,59 +116,15 @@ class _Manager extends State<Manager> {
     });
   }
 
-  void _recordedAudio(bool isRecorded) {
-    setState(() {
-      _isRecorded = isRecorded;
-    });
-  }
-
   void _changeScore(bool isScore) {
     setState(() {
       _isScore = isScore;
     });
   }
 
-  FlutterSound flutterSound = new FlutterSound();
-  var _recorderSubscription;
-  var _playerSubscription;
-
-  Future _startAudio() async {
-    String path = await flutterSound.startRecorder(null);
-    print('startRecorder: $path');
-    _recorderSubscription = flutterSound.onRecorderStateChanged.listen((e) {
-      DateTime date =
-          new DateTime.fromMillisecondsSinceEpoch(e.currentPosition.toInt());
-      String txt = DateFormat('mm:ss:SS', 'en_US').format(date);
-    });
-    print(_recorderSubscription);
-    return "x";
-  }
-
-  Future _endAudio() async {
-    String result = await flutterSound.stopRecorder();
-    print('stopRecorder: $result');
-
-    if (_recorderSubscription != null) {
-      _recorderSubscription.cancel();
-      _recorderSubscription = null;
-    }
-    return "y";
-  }
-
-  Future _startPlayer() async {
-    String path = await flutterSound.startPlayer(null);
-    print('startPlayer: $path');
-
-    _playerSubscription = flutterSound.onPlayerStateChanged.listen((e) {
-      if (e != null) {
-        DateTime date =
-            new DateTime.fromMillisecondsSinceEpoch(e.currentPosition.toInt());
-        String txt = DateFormat('mm:ss:SS', 'en_US').format(date);
-        this.setState(() {
-          this._isPlaying = true;
-          this._playerTxt = txt.substring(0, 8);
-        });
-      }
+  void _setSelectedSong(ModelSong song) {
+    setState(() {
+      _selectedSong = song;
     });
   }
 
@@ -137,15 +134,10 @@ class _Manager extends State<Manager> {
       children: [
         Visibility(
           visible: _isMenu,
-          child: Column(
-            children: [
-              Container(
-                margin: EdgeInsets.all(10.0),
-                child: MenuControl(_addMenu, _changeMenu, _changePlay),
-              ),
-              Menu(_menu),
-            ]
-          ),
+          child: Column(children: [
+            MenuSearch(),
+            MenuAlbum(_changeMenu, _changePlay, _allSongs, _setSelectedSong),
+          ]),
         ),
         Visibility(
           visible: _isPlay,
@@ -155,11 +147,8 @@ class _Manager extends State<Manager> {
                 margin: EdgeInsets.all(10.0),
                 child: PlayControl(_addPlay, _changePlay, _changeScore),
               ),
-              Container(
-                margin: EdgeInsets.all(10.0),
-                child: PlayRecordSound(_startAudio, _endAudio, _recordedAudio),
-              ),
               Play(_play),
+              PlayKaraoke(),
             ],
           ),
         ),
@@ -175,12 +164,6 @@ class _Manager extends State<Manager> {
             ],
           ),
         ),
-        Visibility(
-            child: Container(
-              margin: EdgeInsets.all(10.0),
-              child: PlayPlaySound(_startPlayer),
-            ),
-            visible: _isScore && _isRecorded),
       ],
     );
   }
