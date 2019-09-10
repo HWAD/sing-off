@@ -1,7 +1,6 @@
 class ModelSong {
   String title;
   String artist;
-  String locatedURL;
   String downloadURL;
   String image;
   int score;
@@ -9,10 +8,19 @@ class ModelSong {
   ModelSong({
     this.title,
     this.artist,
-    this.locatedURL,
     this.downloadURL,
     this.image,
     this.score,
     this.isFavorite,
   });
+  Map<String, dynamic> toJson() =>
+    {
+      'title': title,
+      'artist': artist,
+      'downloadURL': downloadURL,
+      'image': image,
+      'score': score,
+      'isFavorite': isFavorite,
+      
+    };
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutterkaraoke/model_song.dart';
 import 'package:http/http.dart' as http;
 import 'package:firebase_database/firebase_database.dart';
 import 'dart:convert';
@@ -54,29 +55,11 @@ class SongList extends StatelessWidget {
     }
   }
 
-  void addSong() {
+  void addSong(ModelSong upload) {
     // FirebaseDataClass song
     const url = 'https://flutterkaraoke.firebaseio.com/songs.json';
-    http
-        .post(
-      url,
-      body: json.encode(
-          // {'title': song.title, 'artist': song.artist, 'url': song.url}),
-          {
-            "title": 'Ti Amo2',
-        "artist": "Steppico2",
-        "locatedURL": 'gs://flutterkaraoke.appspot.com/audioFiles/Cambo_-_01_-_Coffee.mp3',
-        "downloadURL": 'https://firebasestorage.googleapis.com/v0/b/flutterkaraoke.appspot.com/o/audioFiles%2FCambo_-_01_-_Coffee.mp3?alt=media&token=4d831051-1439-4f96-a2cc-8088d54b8fb6',
-        "image": 'assets/steppico.jpeg',
-        "score": 100,
-        "isFavorite": false,
-          }),
-    )
-        .then((response) {
+    http.post(url, body: json.encode(upload)).then((response) {
       print('posted');
-      // final newSong = FirebaseDataClass(
-      //   title: song.title, artist: song.artist, url: song.url);
-      // songlist.add(newSong)
     });
   }
 
@@ -138,7 +121,6 @@ class SongList extends StatelessWidget {
                               onTap: () async {
                                 print('play this song!');
                                 await getData();
-                                addSong();
                                 print("async; " + songs.toString());
                               },
                               child: Row(
