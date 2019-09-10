@@ -18,8 +18,7 @@ class App extends StatelessWidget {
         appBar: AppBar(
           title: Text('Karaoke Mania'),
         ),
-        // body: Manager(startingMenu: 'Start Value'),
-        body: FilePicker(),
+        body: Manager(startingMenu: 'Start Value'),
       ),
     );
   }
