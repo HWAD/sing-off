@@ -11,6 +11,7 @@ import './play.dart';
 import './play_control.dart';
 import './play_karaoke.dart';
 import './score_board.dart';
+import './score_replay.dart';
 import './score_goToOther.dart';
 
 class Manager extends StatefulWidget {
@@ -130,6 +131,7 @@ class _Manager extends State<Manager> {
           child: Column(
             children: [
               ScoreBoard(),
+              ScoreReplay(),
               ScoreGoToOther(_changeMenu, _changePlay, _changeScore),
             ],
           ),

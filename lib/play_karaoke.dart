@@ -7,7 +7,7 @@ import 'package:flutter_sound/flutter_sound.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
 class PlayKaraoke extends StatelessWidget {
-  final TextEditingController controller = TextEditingController(text: 'START');
+  final TextEditingController controller = TextEditingController(text: 'KARAOKE');
   final FlutterSound flutterSound = new FlutterSound();
   final ModelSong selectedSong;
 
@@ -52,12 +52,12 @@ class PlayKaraoke extends StatelessWidget {
       children: <Widget>[
         RaisedButton(
           onPressed: () {
-            if (controller.text == 'START') {
+            if (controller.text == 'KARAOKE') {
               _startAudio();
               controller.text = 'STOP';
             } else if (controller.text == 'STOP') {
               _stopAudio();
-              controller.text = 'START';
+              controller.text = 'KARAOKE';
             }
           },
           child: TextField(enabled: false, controller: controller),
