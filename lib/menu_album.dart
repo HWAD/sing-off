@@ -7,7 +7,8 @@ class MenuAlbum extends StatelessWidget {
   final List<ModelSong> allSongs;
   final Function setSelectedSong;
 
-  MenuAlbum(this.changeMenu, this.changePlay, this.allSongs, this.setSelectedSong);
+  MenuAlbum(
+      this.changeMenu, this.changePlay, this.allSongs, this.setSelectedSong);
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +38,7 @@ class MenuAlbum extends StatelessWidget {
                         onTap: () {
                           changeMenu(false);
                           changePlay(true);
-                          setSelectedSong(allSongs[0]);
+                          setSelectedSong(element);
                         },
                         child: Row(
                           children: <Widget>[
