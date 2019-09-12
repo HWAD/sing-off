@@ -5,6 +5,11 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:video_player/video_player.dart';
+import 'package:http/http.dart' as http;
+import 'package:firebase_storage/firebase_storage.dart';
+import 'dart:convert';
+
+import 'package:flutterkaraoke/model_song.dart';
 
 class CameraExampleHome extends StatefulWidget {
   @override
@@ -37,6 +42,7 @@ class _CameraExampleHomeState extends State<CameraExampleHome>
   VideoPlayerController videoController;
   VoidCallback videoPlayerListener;
   bool enableAudio = true;
+  String filePathExtractor;
 
   @override
   void initState() {
@@ -311,10 +317,51 @@ class _CameraExampleHomeState extends State<CameraExampleHome>
     });
   }
 
+//Database = add song
+  void addVideo(Map<String, dynamic> upload) {
+    print(upload);
+    // FirebaseDataClass song
+    const url = 'https://flutterkaraoke.firebaseio.com/videos.json';
+    http.post(url, body: json.encode(upload)).then((response) {
+      print('posted');
+    });
+  }
+
+//Storage & Database Upload
+  void _megaUpload(path) async {
+    //wait for download url
+    String url = await videoUpload(path);
+    //create a new instance of Model Song
+    ModelSong uploadObject = ModelSong(
+      title: "User1Video",
+      artist: "User1",
+      downloadURL: url,
+      image: '',
+      score: 100,
+      isFavorite: false,
+    );
+    print(uploadObject.toJson());
+    Map<String, dynamic> uploadJSON = uploadObject.toJson();
+    addVideo(uploadJSON);
+  }
+
+  final StorageReference storageReference = FirebaseStorage().ref();
+
+  Future<String> videoUpload(String path) async {
+    File videoFile = File(path);
+    // }
+    List storagePath = path.split('/');
+    StorageUploadTask ref =
+        storageReference.child("videoFiles/" + storagePath[storagePath.length-1]).putFile(videoFile);
+    String location = await (await ref.onComplete).ref.getDownloadURL();
+    return location;
+  }
+
   void onVideoRecordButtonPressed() {
     startVideoRecording().then((String filePath) {
       if (mounted) setState(() {});
       if (filePath != null) showInSnackBar('Saving video to $filePath');
+      filePathExtractor = filePath;
     });
   }
 
@@ -372,6 +419,7 @@ class _CameraExampleHomeState extends State<CameraExampleHome>
 
     try {
       await controller.stopVideoRecording();
+      _megaUpload(filePathExtractor);
     } on CameraException catch (e) {
       _showCameraException(e);
       return null;
