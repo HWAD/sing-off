@@ -76,7 +76,7 @@ class _FilePickerDemoState extends State<FilePickerDemo> {
       title: titleInput,
       artist: artistInput,
       downloadURL: url,
-      category: category,
+      category: "audio",
       image: '',
       score: 100,
       isFavorite: false,
