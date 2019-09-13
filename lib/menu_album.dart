@@ -6,9 +6,11 @@ class MenuAlbum extends StatelessWidget {
   final Function changePlay;
   final List<ModelSong> allSongs;
   final Function setSelectedSong;
+  final String selectedCategory;
+  List filteredAllSongs;
 
-  MenuAlbum(
-      this.changeMenu, this.changePlay, this.allSongs, this.setSelectedSong);
+  MenuAlbum(this.changeMenu, this.changePlay, this.allSongs,
+      this.setSelectedSong, this.selectedCategory);
 
   @override
   Widget build(BuildContext context) {
@@ -25,20 +27,27 @@ class MenuAlbum extends StatelessWidget {
               child: Card(
                 color: Colors.blue,
                 child: Text(
-                  'Your Album',
+                  'Songs',
                   style: TextStyle(fontSize: 20),
                 ),
                 elevation: 5,
               ),
             ),
             Column(
-              children: allSongs.map((element) {
+              children: allSongs
+                  .where((song) => song.category == selectedCategory)
+                  .map((element) {
                 return Card(
                     child: InkWell(
                         onTap: () {
-                          changeMenu(false);
-                          changePlay(true);
-                          setSelectedSong(element);
+                          if (element.category != 'Video') {
+                            changeMenu(false);
+                            changePlay(true);
+                            setSelectedSong(element);
+                          }
+                          if (element.category == 'Video') {
+                            print('It\'s a video');
+                          }
                         },
                         child: Row(
                           children: <Widget>[
