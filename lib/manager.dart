@@ -28,7 +28,15 @@ class Manager extends StatefulWidget {
 class _Manager extends State<Manager> {
   List<String> _play = [];
   List<ModelSong> _allSongs = [];
-  ModelSong _selectedSong = ModelSong();
+  ModelSong _selectedSong = new ModelSong(
+      title: "none",
+      artist: "none",
+      downloadURL: "none",
+      image: "none",
+      lyrics: "[00:00:00]Lyrics",
+      score: 0,
+      isFavorite: false);
+  String _currentLyric = "Lyrics Come Here!!";
   bool _isUpload = false;
   bool _isMenu = false;
   bool _isPlay = false;
@@ -99,6 +107,12 @@ class _Manager extends State<Manager> {
     });
   }
 
+  void _setCurrentLyric(String line) {
+    setState(() {
+      _currentLyric = line;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -122,7 +136,8 @@ class _Manager extends State<Manager> {
                 child: PlayControl(_addPlay, _changePlay, _changeScore),
               ),
               Play(_play),
-              PlayKaraoke(_selectedSong),
+              PlayKaraoke(_selectedSong, _setCurrentLyric),
+              Text(_currentLyric),
             ],
           ),
         ),
