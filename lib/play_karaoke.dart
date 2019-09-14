@@ -10,12 +10,12 @@ import 'package:firebase_storage/firebase_storage.dart';
 
 class PlayKaraoke extends StatelessWidget {
   final ModelSong selectedSong;
-  final Function setCurrentLyrics;
+  final Function setCurrentLyric;
   final LinkedHashMap<String, String> mappedLyrics;
 
-  PlayKaraoke(ModelSong selectedSong, Function setCurrentLyrics)
+  PlayKaraoke(ModelSong selectedSong, Function setCurrentLyric)
       : this.selectedSong = selectedSong,
-        this.setCurrentLyrics = setCurrentLyrics,
+        this.setCurrentLyric = setCurrentLyric,
         this.mappedLyrics = selectedSong.lyrics.split('[').fold(
             new LinkedHashMap<String, String>(), (accumuLines, currentLine) {
           if (currentLine != "") {
@@ -50,24 +50,22 @@ class PlayKaraoke extends StatelessWidget {
       print("lyrics? ${selectedSong.lyrics}");
       await flutterSound.startPlayer(selectedSong.downloadURL);
       DateTime lyricStartTime = DateFormat('mm:ss:SS', 'en_US')
-          .parse(mappedLyrics.keys.first.padRight(9, "0"));
+          .parseUTC(mappedLyrics.keys.first.padRight(9, "0"));
       String lyricLine = mappedLyrics[mappedLyrics.keys.first];
       mappedLyrics.remove(mappedLyrics.keys.first);
       _playerSubscription = flutterSound.onPlayerStateChanged.listen((e) {
-        if (e != null) {
           DateTime currentTime = new DateTime.fromMillisecondsSinceEpoch(
-              e.currentPosition.toInt());
+              e.currentPosition.toInt(), isUtc: true);
           DateTime lyricStopTime = DateFormat('mm:ss:SS', 'en_US')
-              .parse(mappedLyrics.keys.first.padRight(9, "0"));
+              .parseUTC(mappedLyrics.keys.first.padRight(9, "0"));
           if (lyricStartTime.isBefore(currentTime) &&
               currentTime.isBefore(lyricStopTime)) {
             print(lyricLine);
-            setCurrentLyrics(lyricLine);
+            setCurrentLyric(lyricLine);
             lyricStartTime = lyricStopTime;
             lyricLine = mappedLyrics[mappedLyrics.keys.first];
             mappedLyrics.remove(mappedLyrics.keys.first);
           }
-        }
       });
     } catch (e) {
       print("Error! $e");

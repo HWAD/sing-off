@@ -36,7 +36,7 @@ class _Manager extends State<Manager> {
       lyrics: "[00:00:00]Lyrics",
       score: 0,
       isFavorite: false);
-  String _currentLyrics = "Lyrics";
+  String _currentLyric = "Lyrics Come Here!!";
   bool _isUpload = false;
   bool _isMenu = false;
   bool _isPlay = false;
@@ -107,9 +107,9 @@ class _Manager extends State<Manager> {
     });
   }
 
-  void _setCurrentLyrics(String line) {
+  void _setCurrentLyric(String line) {
     setState(() {
-      _currentLyrics = line;
+      _currentLyric = line;
     });
   }
 
@@ -136,8 +136,8 @@ class _Manager extends State<Manager> {
                 child: PlayControl(_addPlay, _changePlay, _changeScore),
               ),
               Play(_play),
-              PlayKaraoke(_selectedSong, _setCurrentLyrics),
-              Text(_currentLyrics),
+              PlayKaraoke(_selectedSong, _setCurrentLyric),
+              Text(_currentLyric),
             ],
           ),
         ),
