@@ -1,10 +1,13 @@
 import 'dart:io';
 import 'dart:async';
-
-import './model_song.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sound/flutter_sound.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:camera/camera.dart';
+
+
+import './model_song.dart';
+import './video_recorder.dart';
 
 class PlayKaraoke extends StatelessWidget {
   final TextEditingController controller = TextEditingController(text: 'KARAOKE');
@@ -78,13 +81,9 @@ class PlayKaraoke extends StatelessWidget {
           },
           child: TextField(enabled: false, controller: controller),
         ),
-        SizedBox(
-          height: 400,
-          width: 300,
-          child: SingleChildScrollView(
-            child: Text(selectedSong.lyrics),
+        Container(
+          child: CameraApp(),
           ),
-        )
       ],
     );
   }

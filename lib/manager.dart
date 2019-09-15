@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutterkaraoke/model_song.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'dart:io';
 
 import './model_song.dart';
 import './appbar_menu.dart';
@@ -13,6 +14,9 @@ import './play_karaoke.dart';
 import './score_board.dart';
 import './score_replay.dart';
 import './score_goToOther.dart';
+
+import './video_recorder.dart';
+
 
 class Manager extends StatefulWidget {
   final String startingMenu;
@@ -33,6 +37,7 @@ class _Manager extends State<Manager> {
   bool _isMenu = false;
   bool _isPlay = false;
   bool _isScore = false;
+  String _selectedCategory = "Hip Hop";
 
   @override
   void initState() {
@@ -40,6 +45,8 @@ class _Manager extends State<Manager> {
     _isMenu = true;
     _getAllSongs();
   }
+
+  
 
   Future<void> _getAllSongs() async {
     const url = 'https://flutterkaraoke.firebaseio.com/songs.json';
@@ -99,6 +106,11 @@ class _Manager extends State<Manager> {
       _selectedSong = song;
     });
   }
+   void _setCategory(String category) {
+    setState(() {
+      _selectedCategory = category;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -110,8 +122,8 @@ class _Manager extends State<Manager> {
         Visibility(
           visible: _isMenu,
           child: Column(children: [
-            MenuSearch(),
-            MenuAlbum(_changeMenu, _changePlay, _allSongs, _setSelectedSong),
+            MenuSearch(_setCategory),
+            MenuAlbum(_changeMenu, _changePlay, _allSongs, _setSelectedSong, _selectedCategory),
           ]),
         ),
         Visibility(
