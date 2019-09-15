@@ -37,6 +37,7 @@ class _Manager extends State<Manager> {
       score: 0,
       isFavorite: false);
   String _currentLyric = "Lyrics Come Here!!";
+  String _karaokeButton = "";
   bool _isUpload = false;
   bool _isMenu = false;
   bool _isPlay = false;
@@ -45,6 +46,7 @@ class _Manager extends State<Manager> {
   @override
   void initState() {
     super.initState();
+    _karaokeButton = "KARAOKE";
     _isMenu = true;
     _getAllSongs();
   }
@@ -113,6 +115,12 @@ class _Manager extends State<Manager> {
     });
   }
 
+  void _setKaraokeButton(String text) {
+    setState(() {
+      _karaokeButton = text;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -136,7 +144,7 @@ class _Manager extends State<Manager> {
                 child: PlayControl(_addPlay, _changePlay, _changeScore),
               ),
               Play(_play),
-              PlayKaraoke(_selectedSong, _setCurrentLyric),
+              PlayKaraoke(_selectedSong, _setCurrentLyric, _karaokeButton, _setKaraokeButton),
               Text(_currentLyric),
             ],
           ),
