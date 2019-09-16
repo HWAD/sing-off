@@ -52,8 +52,6 @@ class _Manager extends State<Manager> {
     _getAllSongs();
   }
 
-  
-
   Future<void> _getAllSongs() async {
     const url = 'https://flutterkaraoke.firebaseio.com/songs.json';
     http.get(url).then((response) {
@@ -112,7 +110,8 @@ class _Manager extends State<Manager> {
       _selectedSong = song;
     });
   }
-   void _setCategory(String category) {
+
+  void _setCategory(String category) {
     setState(() {
       _selectedCategory = category;
     });
@@ -141,7 +140,8 @@ class _Manager extends State<Manager> {
           visible: _isMenu,
           child: Column(children: [
             MenuSearch(_setCategory),
-            MenuAlbum(_changeMenu, _changePlay, _allSongs, _setSelectedSong, _selectedCategory),
+            MenuAlbum(_changeMenu, _changePlay, _allSongs, _setSelectedSong,
+                _selectedCategory),
           ]),
         ),
         Visibility(
@@ -153,7 +153,8 @@ class _Manager extends State<Manager> {
                 child: PlayControl(_addPlay, _changePlay, _changeScore),
               ),
               Play(_play),
-              PlayKaraoke(_selectedSong, _setCurrentLyric, _karaokeButton, _setKaraokeButton),
+              PlayKaraoke(_selectedSong, _setCurrentLyric, _karaokeButton,
+                  _setKaraokeButton),
               Text(_currentLyric),
             ],
           ),

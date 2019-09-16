@@ -68,7 +68,7 @@ class PlayKaraoke extends StatelessWidget {
     return location;
   }
 
-  Future _startAudio() async {
+  Future <void>_startAudio() async {
     await flutterSound.startRecorder('sdcard/recorded.m4a');
     try {
       print("lyrics? ${selectedSong.lyrics}");
@@ -126,6 +126,7 @@ class PlayKaraoke extends StatelessWidget {
           },
           child: Text(karaokeButton),
         ),
+        CameraExampleHome(startAudio: _startAudio),
       ],
     );
   }
