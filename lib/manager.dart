@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_sound/flutter_sound.dart';
 import 'package:flutterkaraoke/model_song.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -28,6 +29,7 @@ class Manager extends StatefulWidget {
 class _Manager extends State<Manager> {
   List<String> _play = [];
   List<ModelSong> _allSongs = [];
+  FlutterSound _flutterSound = new FlutterSound();
   ModelSong _selectedSong = new ModelSong(
       title: "none",
       artist: "none",
@@ -144,7 +146,7 @@ class _Manager extends State<Manager> {
                 child: PlayControl(_addPlay, _changePlay, _changeScore),
               ),
               Play(_play),
-              PlayKaraoke(_selectedSong, _setCurrentLyric, _karaokeButton, _setKaraokeButton),
+              PlayKaraoke(_flutterSound, _selectedSong, _setCurrentLyric, _karaokeButton, _setKaraokeButton),
               Text(_currentLyric),
             ],
           ),
