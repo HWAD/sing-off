@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-
-import 'package:camera/camera.dart';
 import './manager.dart';
-import './_filepicker.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 Future<bool> _requestPermission(PermissionGroup permission) async {
