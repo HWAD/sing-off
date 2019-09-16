@@ -42,7 +42,6 @@ class MenuSearch extends StatelessWidget {
                   );
                 }).toList()),
           ]),
-          
     );
   }
 }

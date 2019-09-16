@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 
 class MenuSearch extends StatelessWidget {
 
-  MenuSearch();
-
   final titleController = TextEditingController();
 
   @override
