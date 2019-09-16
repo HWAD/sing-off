@@ -10,6 +10,8 @@ class FlutterSound {
   static StreamController<RecordStatus> _recorderController;
   static StreamController<double> _dbPeakController;
   static StreamController<PlayStatus> _playerController;
+  static StreamController<double> _pitchStreamController;
+  Stream<double> get pitchStreamingValues => _pitchStreamController.stream;
   /// Value ranges from 0 to 120
   Stream<double> get onRecorderDbPeakChanged => _dbPeakController.stream;
   Stream<RecordStatus> get onRecorderStateChanged => _recorderController.stream;
@@ -19,6 +21,17 @@ class FlutterSound {
 
   bool _isRecording = false;
   bool _isPlaying = false;
+
+  // Adding stream functionality for pitch///////////////////////////////////////
+  Future<double> _pitchCallbackFunc(int val) async {
+    double result = await _channel
+        .invokeMethod('getPitch');
+    return result;
+  } // yeah not really sure what to do about turning Future into a double ///////
+  checkVal() async {
+    final val = await _pitchCallbackFunc(0);
+    return val; 
+  }
 
   Future<String> setSubscriptionDuration(double sec) async {
     String result = await _channel
@@ -35,6 +48,13 @@ class FlutterSound {
     if (_dbPeakController == null) {
       _dbPeakController = new StreamController.broadcast();
     }
+    if (_pitchStreamController == null) {
+      _pitchStreamController = new StreamController.broadcast();
+    }
+    //Stream<double> pitchStream;
+    //pitchStream.
+    Stream<double> pitchStream = Stream<double>.periodic(Duration(milliseconds: 100), checkVal());
+    _pitchStreamController.addStream(pitchStream);
 
     _channel.setMethodCallHandler((MethodCall call) {
       switch (call.method) {
@@ -83,6 +103,15 @@ class FlutterSound {
     });
   }
 
+  Future<void> _removePitchStreamCallback() async {
+    if (_pitchStreamController != null) {
+      _pitchStreamController
+        ..add(null)
+        ..close();
+      _pitchStreamController = null;
+    }
+  }
+
   Future<void> _removeRecorderCallback() async {
     if (_recorderController != null) {
       _recorderController
@@ -92,7 +121,7 @@ class FlutterSound {
     }
   }
 
-    Future<void> _removeDbPeakCallback() async {
+  Future<void> _removeDbPeakCallback() async {
     if (_dbPeakController != null) {
       _dbPeakController
         ..add(null)
@@ -131,7 +160,8 @@ class FlutterSound {
         'iosQuality': iosQuality?.value
       });
       _setRecorderCallback();
-      
+      //Try stream here
+      //pitchStream.listen();////////////////////////////
       this._isRecording = true;
       return result;
     } catch (err) {
@@ -149,6 +179,7 @@ class FlutterSound {
     this._isRecording = false;
     _removeRecorderCallback();
     _removeDbPeakCallback();
+    _removePitchStreamCallback();
     return result;
   }
 

@@ -114,6 +114,9 @@ public class FlutterSoundPlugin implements MethodCallHandler, PluginRegistry.Req
         double duration = call.argument("sec");
         this.setSubscriptionDuration(duration, result);
         break;
+      case "getPitch":
+        this.getPitch();
+        break;
       default:
         result.notImplemented();
         break;
@@ -165,8 +168,9 @@ public class FlutterSoundPlugin implements MethodCallHandler, PluginRegistry.Req
       @Override
       public void handlePitch(PitchDetectionResult result,AudioEvent e) {
         final float pitchInHz = result.getPitch();
+        long time = System.currentTimeMillis();
         outsidePitchInHz = pitchInHz;
-        System.out.println("Pitch is " + pitchInHz);
+        System.out.println("Pitch is " + pitchInHz + " time is " + time);
         // runOnUiThread(new Runnable() { THIS CODE CAN LIKELY BE REMOVED
         //   @Override
         //   public void run() {
@@ -184,15 +188,15 @@ public class FlutterSoundPlugin implements MethodCallHandler, PluginRegistry.Req
       this.model.setMediaRecorder(new MediaRecorder());
       this.model.getMediaRecorder().setAudioSource(MediaRecorder.AudioSource.MIC);
       this.model.getMediaRecorder().setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);//OutputFormat.AMR_WB);
-      this.model.getMediaRecorder().setAudioEncoder(androidEncoder);//AudioEncoder.AMR_WB);
+      this.model.getMediaRecorder().setAudioEncoder(AudioEncoder.AAC);//AudioEncoder.AMR_WB);//androidEncoder);//
       this.model.getMediaRecorder().setAudioChannels(numChannels);
-      this.model.getMediaRecorder().setAudioSamplingRate(sampleRate);//change rate to be better
+      this.model.getMediaRecorder().setAudioSamplingRate(44100);//change rate to be better
 
       this.model.getMediaRecorder().setOutputFile(path);
       // If bitrate is defined, the use it, otherwise use the OS default
-      if(bitRate != null){
-        this.model.getMediaRecorder().setAudioEncodingBitRate(bitRate);
-      }
+      //if(bitRate != null){
+        this.model.getMediaRecorder().setAudioEncodingBitRate(256000);
+      //}
     }
     try {
       System.out.println("Media recorder is" + this.model.getMediaRecorder()); //delete this
