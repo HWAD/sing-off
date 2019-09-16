@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-
 import './manager.dart';
-import './_filepicker.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 Future<bool> _requestPermission(PermissionGroup permission) async {
@@ -17,7 +15,9 @@ Future<void> _requestingPermission() async {
   await _requestPermission(PermissionGroup.microphone);
 }
 
-void main() => runApp(App());
+void main() {
+  runApp(App());
+}
 
 class App extends StatelessWidget {
   @override
@@ -34,3 +34,5 @@ class App extends StatelessWidget {
     );
   }
 }
+
+

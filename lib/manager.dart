@@ -5,10 +5,8 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 import './model_song.dart';
-import './appbar_menu.dart';
 import './menu_search.dart';
 import './menu_album.dart';
-import './play.dart';
 import './play_control.dart';
 import './play_karaoke.dart';
 import './score_board.dart';
@@ -27,7 +25,6 @@ class Manager extends StatefulWidget {
 }
 
 class _Manager extends State<Manager> {
-  List<String> _play = [];
   List<ModelSong> _allSongs = [];
   FlutterSound _flutterSound = new FlutterSound();
   ModelSong _selectedSong = new ModelSong(
@@ -40,10 +37,10 @@ class _Manager extends State<Manager> {
       isFavorite: false);
   String _currentLyric = "Lyrics Come Here!!";
   String _karaokeButton = "";
-  bool _isUpload = false;
   bool _isMenu = false;
   bool _isPlay = false;
   bool _isScore = false;
+  String _selectedCategory = "Hip Hop";
 
   @override
   void initState() {
@@ -64,6 +61,7 @@ class _Manager extends State<Manager> {
             title: dynamicList[i]["title"],
             artist: dynamicList[i]["artist"],
             downloadURL: dynamicList[i]["downloadURL"],
+            category: dynamicList[i]["category"],
             image: dynamicList[i]["image"],
             score: dynamicList[i]["score"],
             lyrics: dynamicList[i]["lyrics"],
@@ -72,18 +70,6 @@ class _Manager extends State<Manager> {
       setState(() {
         _allSongs = modelSongList;
       });
-    });
-  }
-
-  void _addPlay(String play) {
-    setState(() {
-      _play.add(play);
-    });
-  }
-
-  void _changeUpload(bool isUpload) {
-    setState(() {
-      _isUpload = isUpload;
     });
   }
 
@@ -111,6 +97,12 @@ class _Manager extends State<Manager> {
     });
   }
 
+  void _setCategory(String category) {
+    setState(() {
+      _selectedCategory = category;
+    });
+  }
+
   void _setCurrentLyric(String line) {
     setState(() {
       _currentLyric = line;
@@ -127,14 +119,12 @@ class _Manager extends State<Manager> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        AppBar(title: Text('Karaoke Mania'), actions: [
-          AppBarMenu(_changeUpload, _changeMenu),
-        ]),
         Visibility(
           visible: _isMenu,
           child: Column(children: [
-            MenuSearch(),
-            MenuAlbum(_changeMenu, _changePlay, _allSongs, _setSelectedSong),
+            MenuSearch(_setCategory),
+            MenuAlbum(_changeMenu, _changePlay, _allSongs, _setSelectedSong,
+                _selectedCategory),
           ]),
         ),
         Visibility(
@@ -143,11 +133,10 @@ class _Manager extends State<Manager> {
             children: [
               Container(
                 margin: EdgeInsets.all(10.0),
-                child: PlayControl(_addPlay, _changePlay, _changeScore),
+                child: PlayControl(_changePlay, _changeScore),
               ),
-              Play(_play),
-              PlayKaraoke(_flutterSound, _selectedSong, _setCurrentLyric, _karaokeButton, _setKaraokeButton),
               Text(_currentLyric),
+              PlayKaraoke(_flutterSound, _selectedSong, _setCurrentLyric, _karaokeButton, _setKaraokeButton),
             ],
           ),
         ),

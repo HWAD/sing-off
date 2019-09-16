@@ -2,11 +2,14 @@ import 'dart:io';
 import 'dart:async';
 import 'dart:collection';
 
+import 'package:flutter_sound/android_encoder.dart';
+
 import './model_song.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sound/flutter_sound.dart';
 import 'package:intl/intl.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import './video_recorder.dart';
 
 class PlayKaraoke extends StatelessWidget {
   final FlutterSound flutterSound;
@@ -48,9 +51,27 @@ class PlayKaraoke extends StatelessWidget {
     return location;
   }
 
-  Future _startAudio() async {
+  Future<String> _uploadAudio([String audioFileName]) async {
+    if (audioFileName == null) {
+      audioFileName = "RyoheiRecorded2.m4a";
+    }
+
+    File audioFile = File("sdcard/recorded.m4a");
+
+    StorageUploadTask ref = storageReference
+        .child("audioFiles/" + audioFileName)
+        .putFile(audioFile);
+    String location = await (await ref.onComplete).ref.getDownloadURL();
+    print(location.toString());
+    return location;
+  }
+
+  Future<void> _startAudio() async {
     try {
-      await flutterSound.startRecorder('sdcard/recorded.m4a');
+      await flutterSound.startRecorder('sdcard/recorded.m4a',
+          bitRate: 256000,
+          sampleRate: 44100,
+          androidEncoder: AndroidEncoder.AAC);
       print("lyrics? ${selectedSong.lyrics}");
       await flutterSound.startPlayer(selectedSong.downloadURL);
       DateTime lyricStartTime = DateFormat('mm:ss:SS', 'en_US')
@@ -107,6 +128,7 @@ class PlayKaraoke extends StatelessWidget {
           },
           child: Text(karaokeButton),
         ),
+        CameraExampleHome(startAudio: _startAudio, stopAudio: _stopAudio),
       ],
     );
   }
