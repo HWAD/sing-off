@@ -17,8 +17,10 @@ class PlayKaraoke extends StatelessWidget {
   final ModelSong selectedSong;
   final Function setCurrentLyric;
   final LinkedHashMap<String, String> mappedLyrics;
+  final String karaokeButton;
+  final Function setKaraokeButton;
 
-  PlayKaraoke(ModelSong selectedSong, Function setCurrentLyric)
+  PlayKaraoke(ModelSong selectedSong, Function setCurrentLyric, String karaokeButton, Function setKaraokeButton)
       : this.selectedSong = selectedSong,
         this.setCurrentLyric = setCurrentLyric,
         this.mappedLyrics = selectedSong.lyrics.split('[').fold(
@@ -27,7 +29,9 @@ class PlayKaraoke extends StatelessWidget {
             accumuLines[currentLine.split(']')[0]] = currentLine.split(']')[1];
           }
           return accumuLines;
-        });
+        }),
+        this.karaokeButton = karaokeButton,
+        this.setKaraokeButton = setKaraokeButton;
 
   final TextEditingController controller =
       TextEditingController(text: 'KARAOKE');
@@ -113,15 +117,15 @@ class PlayKaraoke extends StatelessWidget {
       children: <Widget>[
         RaisedButton(
           onPressed: () {
-            if (controller.text == 'KARAOKE') {
+            if (karaokeButton == 'KARAOKE') {
               _startAudio();
-              controller.text = 'STOP';
-            } else if (controller.text == 'STOP') {
+              setKaraokeButton('STOP');
+            } else if (karaokeButton == 'STOP') {
               _stopAudio();
-              controller.text = 'KARAOKE';
+              setKaraokeButton('KARAOKE');
             }
           },
-          child: TextField(enabled: false, controller: controller),
+          child: Text(karaokeButton),
         ),
       ],
     );
