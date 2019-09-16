@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutterkaraoke/model_song.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'dart:io';
 
 import './model_song.dart';
 import './appbar_menu.dart';
@@ -14,9 +13,6 @@ import './play_karaoke.dart';
 import './score_board.dart';
 import './score_replay.dart';
 import './score_goToOther.dart';
-
-import './video_recorder.dart';
-
 
 class Manager extends StatefulWidget {
   final String startingMenu;

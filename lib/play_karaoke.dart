@@ -57,10 +57,9 @@ class PlayKaraoke extends StatelessWidget {
     if (audioFileName == null) {
       audioFileName = "RyoheiRecorded2.m4a";
     }
-    // if (audioFile == null) {
-    // audioFile = "sdcard/recorded.m4a";
+    
     File audioFile = File("sdcard/recorded.m4a");
-    // }
+
     StorageUploadTask ref = storageReference
         .child("audioFiles/" + audioFileName)
         .putFile(audioFile);
