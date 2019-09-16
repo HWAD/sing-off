@@ -4,12 +4,14 @@ class ModelSong {
   String downloadURL;
   String image;
   String lyrics;
+  String category;
   int score;
   bool isFavorite;
   ModelSong({
     this.title,
     this.artist,
     this.downloadURL,
+    this.category,
     this.image,
     this.score,
     this.lyrics,
@@ -19,6 +21,7 @@ class ModelSong {
         'title': title,
         'artist': artist,
         'downloadURL': downloadURL,
+        'category': category,
         'image': image,
         'score': score,
         'isFavorite': isFavorite,

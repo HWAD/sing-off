@@ -17,14 +17,14 @@ class AppBarMenu extends StatelessWidget {
         },
         child: Text('Upload'),
       ),
-      RaisedButton(
-        color: Colors.deepOrange,
-        onPressed: () {
-          // changeScore(false);
-          // changePlay(true);
-        },
-        child: Text('Logout'),
-      )
+      // RaisedButton(
+      //   color: Colors.deepOrange,
+      //   onPressed: () {
+      //     // changeScore(false);
+      //     // changePlay(true);
+      //   },
+      //   child: Text('Logout'),
+      // )
     ]);
   }
 }
