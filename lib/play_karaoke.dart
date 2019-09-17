@@ -73,6 +73,8 @@ class PlayKaraoke extends StatelessWidget {
           sampleRate: 44100,
           androidEncoder: AndroidEncoder.AAC);
       print("lyrics? ${selectedSong.lyrics}");
+      print(flutterSound.pitchStreamingValues);
+      flutterSound.pitchStreamingValues.listen((data) {print(data);});
       await flutterSound.startPlayer(selectedSong.downloadURL);
       DateTime lyricStartTime = DateFormat('mm:ss:SS', 'en_US')
           .parseUTC(mappedLyrics.keys.first.padRight(9, "0"));

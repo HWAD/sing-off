@@ -63,7 +63,7 @@ packages:
       name: firebase_analytics
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "5.0.1"
+    version: "5.0.2"
   firebase_core:
     dependency: "direct main"
     description:
@@ -93,9 +93,9 @@ packages:
   flutter_sound:
     dependency: "direct main"
     description:
-      name: flutter_sound
-      url: "https://pub.dartlang.org"
-    source: hosted
+      path: "flutter_sound-1.4.3-hijacking"
+      relative: true
+    source: path
     version: "1.4.3"
   flutter_test:
     dependency: "direct dev"
