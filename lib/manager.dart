@@ -9,6 +9,7 @@ import 'dart:convert';
 import './model_song.dart';
 import './menu_search.dart';
 import './menu_album.dart';
+import './menu_row.dart';
 import './play_control.dart';
 import './play_karaoke.dart';
 import './score_board.dart';
@@ -40,6 +41,7 @@ class _Manager extends State<Manager> {
       isFavorite: false);
   String _currentLyric = "Lyrics Come Here!!";
   String _karaokeButton = "";
+  bool _isCategory = false;
   bool _isMenu = false;
   bool _isPlay = false;
   bool _isScore = false;
@@ -51,11 +53,12 @@ class _Manager extends State<Manager> {
   void initState() {
     super.initState();
     _karaokeButton = "KARAOKE";
-    _isMenu = true;
+    _isCategory = true;
     _getAllSongs();
   }
 
   Future<void> _getAllSongs() async {
+    print('in get all songs');
     const url = 'https://flutterkaraoke.firebaseio.com/songs.json';
     http.get(url).then((response) {
       Map<String, dynamic> mappedBody = json.decode(response.body);
@@ -90,6 +93,12 @@ class _Manager extends State<Manager> {
     });
   }
 
+  void _changeCategory(bool isCategory) {
+    setState(() {
+      _isCategory = isCategory;
+    });
+  }
+
   void _changeScore(bool isScore) {
     setState(() {
       _isScore = isScore;
@@ -105,6 +114,10 @@ class _Manager extends State<Manager> {
   void _setCategory(String category) {
     setState(() {
       _selectedCategory = category;
+      // _isCategory = false;
+      _changeCategory(false);
+      // _isMenu = true;
+      _changeMenu(true);
     });
   }
 
@@ -131,9 +144,15 @@ class _Manager extends State<Manager> {
     return Column(
       children: [
         Visibility(
-          visible: _isMenu,
+          visible: _isCategory,
           child: Column(children: [
             MenuSearch(_setCategory),
+          ]),
+        ),
+        Visibility(
+          visible: _isMenu,
+          child: Column(children: [
+            MenuRow(_setCategory, _changeMenu, _changeCategory),
             MenuAlbum(_changeMenu, _changePlay, _allSongs, _setSelectedSong,
                 _selectedCategory),
           ]),
@@ -143,10 +162,14 @@ class _Manager extends State<Manager> {
           child: Column(
             children: [
               Container(
-                margin: EdgeInsets.all(10.0),
-                child: PlayControl(_changePlay, _changeScore),
+                // margin: EdgeInsets.all(10.0),
+                child: PlayControl(_changePlay, _changeScore, _changeMenu,),
               ),
-              Text(_currentLyric),
+              Text(
+                _currentLyric,
+                style: TextStyle(fontSize: 20),
+                maxLines: 1,
+              ),
               PlayKaraoke(_flutterSound, _selectedSong, _setCurrentLyric,
                   _karaokeButton, _setKaraokeButton, _setFilePathToPlay),
             ],

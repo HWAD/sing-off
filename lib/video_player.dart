@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'dart:async';
 import 'package:video_player/video_player.dart';
 import 'package:flutter/material.dart';
@@ -37,7 +36,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.height*(7.2/10),
+      height: MediaQuery.of(context).size.height*(8/10),
       child: Column(
         children: <Widget> [
           FutureBuilder(
@@ -50,7 +49,9 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                   aspectRatio: _controller.value.aspectRatio,
                   child: VideoPlayer(_controller),
                 ),
-                FloatingActionButton(
+                Container(
+                  alignment: Alignment.bottomCenter,
+                  child: FloatingActionButton(
                   onPressed: () {
                   setState(() {
                     // If the video is playing, pause it.
@@ -66,7 +67,9 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
         child: Icon(
           _controller.value.isPlaying ? Icons.pause : Icons.play_arrow,
         ),
-      ),
+      )
+                  ,)
+                ,
             ]
             );
           } else {

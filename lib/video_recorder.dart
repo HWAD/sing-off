@@ -113,8 +113,12 @@ class _CameraExampleHomeState extends State<CameraExampleHome>
           Padding(
             padding: const EdgeInsets.all(5.0),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: <Widget>[],
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Center(
+                  child: Text("For Visual", textAlign: TextAlign.center)
+
+                )],
             ),
           ),
         ],

@@ -25,7 +25,7 @@ class App extends StatelessWidget {
     _requestingPermission();
     return MaterialApp(
       theme: ThemeData(
-          brightness: Brightness.light,
+          brightness: Brightness.dark,
           primarySwatch: Colors.deepOrange,
           accentColor: Colors.deepPurple),
       home: Scaffold(

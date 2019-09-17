@@ -59,6 +59,13 @@ flutter:
     - assets/steppico.jpeg
     - assets/start.jpeg
     - assets/stop.jpeg
+    - assets/christmas.jpeg
+    - assets/pop.jpeg
+    - assets/drake.jpeg
+    - assets/bruce.jpg
+    - assets/country.jpeg
+    - assets/soul.jpeg
+    - assets/bey.jpeg
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
   # For details regarding adding assets from package dependencies, see

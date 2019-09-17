@@ -15,29 +15,37 @@ class MenuAlbum extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      height: 370,
+      margin: EdgeInsets.only(top: 8),
+      // padding: EdgeInsets.only(top: 6),
+      color: Colors.grey[800],
       child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            Container(
-              width: double.infinity,
-              margin: EdgeInsets.only(
-                top: 5,
-              ),
-              padding: EdgeInsets.all(5),
-              child: Card(
-                color: Colors.blue,
-                child: Text(
-                  'Songs',
-                  style: TextStyle(fontSize: 20),
-                ),
-                elevation: 5,
-              ),
-            ),
+            // Container(
+            //   width: double.infinity,
+            //   margin: EdgeInsets.only(
+            //     top: 0.0,
+            //   ),
+            //   padding: EdgeInsets.only(top: 10, bottom: 10),
+            //   child: Container(
+            //     color: Colors.grey[700],
+            //     child: Text(
+            //       'Songs',
+            //       style: TextStyle(fontSize: 20),
+            //       textAlign: TextAlign.center,
+            //     ),
+               
+            //   ),
+            // ),
             Column(
               children: allSongs
                   .where((song) => song.category == selectedCategory)
                   .map((element) {
-                return Card(
+                return Container(
+                  color: Colors.black38,
+                  margin: EdgeInsets.only(bottom:1, top: 1),
+                  // shape: ContinuousRectangleBorder(),
                     child: InkWell(
                         onTap: () {
                           if (element.category != 'Video') {
@@ -70,8 +78,8 @@ class MenuAlbum extends StatelessWidget {
                               ),
                               decoration: BoxDecoration(
                                 border: Border.all(
-                                  color: Colors.purple,
-                                  width: 2,
+                                  color: Colors.white54,
+                                  width: 1,
                                 ),
                                 image: DecorationImage(
                                   image:

@@ -2,7 +2,6 @@ import 'dart:io';
 import 'dart:async';
 import 'dart:collection';
 
-import 'package:flutter_sound/android_encoder.dart';
 
 import './model_song.dart';
 import 'package:flutter/material.dart';
@@ -40,7 +39,7 @@ class PlayKaraoke extends StatelessWidget {
         this.karaokeButton = karaokeButton,
         this.setKaraokeButton = setKaraokeButton,
         this.setFilePathToPlay = setFilePathToPlay;
-        
+
   StreamSubscription<PlayStatus> _playerSubscription;
 
   final StorageReference storageReference = FirebaseStorage().ref();
@@ -75,11 +74,11 @@ class PlayKaraoke extends StatelessWidget {
 
   Future<void> _startAudio() async {
     try {
-      await flutterSound.startRecorder('sdcard/recorded.m4a',
-          bitRate: 256000,
-          sampleRate: 44100,
-          androidEncoder: AndroidEncoder.AAC);
-      print("lyrics? ${selectedSong.lyrics}");
+      // await flutterSound.startRecorder('sdcard/recorded.m4a',
+      //     bitRate: 256000,
+      //     sampleRate: 44100,
+      //     androidEncoder: AndroidEncoder.AAC);
+      // print("lyrics? ${selectedSong.lyrics}");
       await flutterSound.startPlayer(selectedSong.downloadURL);
       DateTime lyricStartTime = DateFormat('mm:ss:SS', 'en_US')
           .parseUTC(mappedLyrics.keys.first.padRight(9, "0"));
@@ -110,7 +109,7 @@ class PlayKaraoke extends StatelessWidget {
 
   Future _stopAudio() async {
     try {
-      await flutterSound.stopRecorder();
+      // await flutterSound.stopRecorder();
       await flutterSound.stopPlayer();
       await _playerSubscription.cancel();
       await uploadAudio();
