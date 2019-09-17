@@ -148,7 +148,7 @@ class _Manager extends State<Manager> {
               ),
               Text(_currentLyric),
               PlayKaraoke(_flutterSound, _selectedSong, _setCurrentLyric,
-                  _karaokeButton, _setKaraokeButton, _setFilePathToPlay, _currentLyric),
+                  _karaokeButton, _setKaraokeButton, _setFilePathToPlay),
             ],
           ),
         ),

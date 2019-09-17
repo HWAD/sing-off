@@ -12,19 +12,17 @@ class CameraExampleHome extends StatefulWidget {
   final Function startAudio;
   final Function stopAudio;
   final Function setFilePathToPlay;
-  String currentLyric;
 
   CameraExampleHome(
       {Key key,
       @required this.startAudio,
       @required this.stopAudio,
-      @required this.setFilePathToPlay,
-      @required this.currentLyric})
+      @required this.setFilePathToPlay,})
       : super(key: key);
 
   @override
   _CameraExampleHomeState createState() {
-    return _CameraExampleHomeState(startAudio, stopAudio, setFilePathToPlay, currentLyric);
+    return _CameraExampleHomeState(startAudio, stopAudio, setFilePathToPlay);
   }
 }
 
@@ -44,10 +42,9 @@ class _CameraExampleHomeState extends State<CameraExampleHome>
   Function startAudio;
   Function stopAudio;
   Function setFilePathToPlay;
-  String currentLyric;
 
   _CameraExampleHomeState(
-      this.startAudio, this.stopAudio, this.setFilePathToPlay, this.currentLyric);
+      this.startAudio, this.stopAudio, this.setFilePathToPlay);
 
   @override
   void initState() {

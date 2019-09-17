@@ -19,17 +19,15 @@ class PlayKaraoke extends StatelessWidget {
   final String karaokeButton;
   final Function setKaraokeButton;
   final Function setFilePathToPlay;
-  String _currentLyric;
 
   PlayKaraoke(
-      FlutterSound flutterSound,
-      ModelSong selectedSong,
-      Function setCurrentLyric,
-      String karaokeButton,
-      Function setKaraokeButton,
-      Function setFilePathToPlay,
-      String _currentLyric)
-      : this.flutterSound = flutterSound,
+    FlutterSound flutterSound,
+    ModelSong selectedSong,
+    Function setCurrentLyric,
+    String karaokeButton,
+    Function setKaraokeButton,
+    Function setFilePathToPlay,
+  )   : this.flutterSound = flutterSound,
         this.selectedSong = selectedSong,
         this.setCurrentLyric = setCurrentLyric,
         this.mappedLyrics = selectedSong.lyrics.split('[').fold(
@@ -41,9 +39,8 @@ class PlayKaraoke extends StatelessWidget {
         }),
         this.karaokeButton = karaokeButton,
         this.setKaraokeButton = setKaraokeButton,
-        this.setFilePathToPlay = setFilePathToPlay,
-        this._currentLyric = _currentLyric;
-
+        this.setFilePathToPlay = setFilePathToPlay;
+        
   StreamSubscription<PlayStatus> _playerSubscription;
 
   final StorageReference storageReference = FirebaseStorage().ref();
@@ -127,10 +124,10 @@ class PlayKaraoke extends StatelessWidget {
     return Column(
       children: <Widget>[
         CameraExampleHome(
-            startAudio: _startAudio,
-            stopAudio: _stopAudio,
-            setFilePathToPlay: setFilePathToPlay,
-            currentLyric: _currentLyric),
+          startAudio: _startAudio,
+          stopAudio: _stopAudio,
+          setFilePathToPlay: setFilePathToPlay,
+        ),
       ],
     );
   }
