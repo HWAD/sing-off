@@ -3,6 +3,7 @@ import 'dart:async';
 import 'dart:collection';
 
 import 'package:flutter_sound/android_encoder.dart';
+import 'package:noise_meter/noise_meter.dart';
 
 import './model_song.dart';
 import 'package:flutter/material.dart';
@@ -18,9 +19,15 @@ class PlayKaraoke extends StatelessWidget {
   final LinkedHashMap<String, String> mappedLyrics;
   final String karaokeButton;
   final Function setKaraokeButton;
+  final Function setDecibels;
 
-  PlayKaraoke(FlutterSound flutterSound, ModelSong selectedSong,
-      Function setCurrentLyric, String karaokeButton, Function setKaraokeButton)
+  PlayKaraoke(
+      FlutterSound flutterSound,
+      ModelSong selectedSong,
+      Function setCurrentLyric,
+      String karaokeButton,
+      Function setKaraokeButton,
+      Function setDecibels)
       : this.flutterSound = flutterSound,
         this.selectedSong = selectedSong,
         this.setCurrentLyric = setCurrentLyric,
@@ -32,9 +39,11 @@ class PlayKaraoke extends StatelessWidget {
           return accumuLines;
         }),
         this.karaokeButton = karaokeButton,
-        this.setKaraokeButton = setKaraokeButton;
+        this.setKaraokeButton = setKaraokeButton,
+        this.setDecibels = setDecibels;
 
   StreamSubscription<PlayStatus> _playerSubscription;
+  StreamSubscription<NoiseEvent> _noiseSubscription;
 
   final StorageReference storageReference = FirebaseStorage().ref();
 
@@ -68,10 +77,12 @@ class PlayKaraoke extends StatelessWidget {
 
   Future<void> _startAudio() async {
     try {
-      await flutterSound.startRecorder('sdcard/recorded.m4a',
-          bitRate: 256000,
-          sampleRate: 44100,
-          androidEncoder: AndroidEncoder.AAC);
+      _noiseSubscription =
+          new Noise(500).noiseStream.listen((e) => setDecibels(e.decibel));
+      // await flutterSound.startRecorder('sdcard/recorded.m4a',
+      //     bitRate: 256000,
+      //     sampleRate: 44100,
+      //     androidEncoder: AndroidEncoder.AAC);
       print("lyrics? ${selectedSong.lyrics}");
       await flutterSound.startPlayer(selectedSong.downloadURL);
       DateTime lyricStartTime = DateFormat('mm:ss:SS', 'en_US')
@@ -103,7 +114,8 @@ class PlayKaraoke extends StatelessWidget {
 
   Future _stopAudio() async {
     try {
-      await flutterSound.stopRecorder();
+      await _noiseSubscription.cancel();
+      // await flutterSound.stopRecorder();
       await flutterSound.stopPlayer();
       await _playerSubscription.cancel();
       await uploadAudio();

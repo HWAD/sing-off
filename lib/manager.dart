@@ -41,6 +41,7 @@ class _Manager extends State<Manager> {
   bool _isPlay = false;
   bool _isScore = false;
   String _selectedCategory = "Hip Hop";
+  List<int> _decibels = [];
 
   @override
   void initState() {
@@ -115,6 +116,15 @@ class _Manager extends State<Manager> {
     });
   }
 
+  void _setDecibels(int decibel) {
+    setState(() {
+      _decibels.add(decibel);
+    });
+    print("Insert Decibel");
+    print(_decibels.last);
+    print(_decibels.length);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -136,7 +146,8 @@ class _Manager extends State<Manager> {
                 child: PlayControl(_changePlay, _changeScore),
               ),
               Text(_currentLyric),
-              PlayKaraoke(_flutterSound, _selectedSong, _setCurrentLyric, _karaokeButton, _setKaraokeButton),
+              PlayKaraoke(_flutterSound, _selectedSong, _setCurrentLyric,
+                  _karaokeButton, _setKaraokeButton, _setDecibels),
             ],
           ),
         ),
