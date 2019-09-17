@@ -18,9 +18,17 @@ class PlayKaraoke extends StatelessWidget {
   final LinkedHashMap<String, String> mappedLyrics;
   final String karaokeButton;
   final Function setKaraokeButton;
+  final Function setFilePathToPlay;
+  String _currentLyric;
 
-  PlayKaraoke(FlutterSound flutterSound, ModelSong selectedSong,
-      Function setCurrentLyric, String karaokeButton, Function setKaraokeButton)
+  PlayKaraoke(
+      FlutterSound flutterSound,
+      ModelSong selectedSong,
+      Function setCurrentLyric,
+      String karaokeButton,
+      Function setKaraokeButton,
+      Function setFilePathToPlay,
+      String _currentLyric)
       : this.flutterSound = flutterSound,
         this.selectedSong = selectedSong,
         this.setCurrentLyric = setCurrentLyric,
@@ -32,7 +40,9 @@ class PlayKaraoke extends StatelessWidget {
           return accumuLines;
         }),
         this.karaokeButton = karaokeButton,
-        this.setKaraokeButton = setKaraokeButton;
+        this.setKaraokeButton = setKaraokeButton,
+        this.setFilePathToPlay = setFilePathToPlay,
+        this._currentLyric = _currentLyric;
 
   StreamSubscription<PlayStatus> _playerSubscription;
 
@@ -116,19 +126,11 @@ class PlayKaraoke extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        RaisedButton(
-          onPressed: () {
-            if (karaokeButton == 'KARAOKE') {
-              _startAudio();
-              setKaraokeButton('STOP');
-            } else if (karaokeButton == 'STOP') {
-              _stopAudio();
-              setKaraokeButton('KARAOKE');
-            }
-          },
-          child: Text(karaokeButton),
-        ),
-        CameraExampleHome(startAudio: _startAudio, stopAudio: _stopAudio),
+        CameraExampleHome(
+            startAudio: _startAudio,
+            stopAudio: _stopAudio,
+            setFilePathToPlay: setFilePathToPlay,
+            currentLyric: _currentLyric),
       ],
     );
   }

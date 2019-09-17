@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_sound/flutter_sound.dart';
 import 'package:flutterkaraoke/model_song.dart';
@@ -12,6 +14,7 @@ import './play_karaoke.dart';
 import './score_board.dart';
 import './score_replay.dart';
 import './score_goToOther.dart';
+import './video_player.dart';
 
 class Manager extends StatefulWidget {
   final String startingMenu;
@@ -41,6 +44,8 @@ class _Manager extends State<Manager> {
   bool _isPlay = false;
   bool _isScore = false;
   String _selectedCategory = "Hip Hop";
+
+  String filePathToPlay;
 
   @override
   void initState() {
@@ -115,6 +120,12 @@ class _Manager extends State<Manager> {
     });
   }
 
+  void _setFilePathToPlay(String text) {
+    setState(() {
+      filePathToPlay = text;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -136,7 +147,8 @@ class _Manager extends State<Manager> {
                 child: PlayControl(_changePlay, _changeScore),
               ),
               Text(_currentLyric),
-              PlayKaraoke(_flutterSound, _selectedSong, _setCurrentLyric, _karaokeButton, _setKaraokeButton),
+              PlayKaraoke(_flutterSound, _selectedSong, _setCurrentLyric,
+                  _karaokeButton, _setKaraokeButton, _setFilePathToPlay, _currentLyric),
             ],
           ),
         ),
@@ -144,9 +156,10 @@ class _Manager extends State<Manager> {
           visible: _isScore,
           child: Column(
             children: [
-              ScoreBoard(),
-              ScoreReplay(),
+              // ScoreBoard(),
+              // // ScoreReplay(),
               ScoreGoToOther(_changeMenu, _changePlay, _changeScore),
+              VideoPlayerScreen(filePathToPlay: filePathToPlay)
             ],
           ),
         ),
