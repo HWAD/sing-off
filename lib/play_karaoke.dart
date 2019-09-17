@@ -12,12 +12,20 @@ class PlayKaraoke extends StatelessWidget {
   final FlutterSound flutterSound;
   final ModelSong selectedSong;
   final Function setCurrentLyric;
+  final List<Duration> highlightDurations;
+  final Function setHighlightDurations;
   final LinkedHashMap<String, String> mappedLyrics;
   final String karaokeButton;
   final Function setKaraokeButton;
 
-  PlayKaraoke(FlutterSound flutterSound, ModelSong selectedSong,
-      Function setCurrentLyric, String karaokeButton, Function setKaraokeButton)
+  PlayKaraoke(
+      FlutterSound flutterSound,
+      ModelSong selectedSong,
+      Function setCurrentLyric,
+      List<Duration> highlightDurations,
+      Function setHighlightDurations,
+      String karaokeButton,
+      Function setKaraokeButton)
       : this.flutterSound = flutterSound,
         this.selectedSong = selectedSong,
         this.setCurrentLyric = setCurrentLyric,
@@ -28,6 +36,8 @@ class PlayKaraoke extends StatelessWidget {
           }
           return accumuLines;
         }),
+        this.highlightDurations = highlightDurations,
+        this.setHighlightDurations = setHighlightDurations,
         this.karaokeButton = karaokeButton,
         this.setKaraokeButton = setKaraokeButton;
 
@@ -69,10 +79,43 @@ class PlayKaraoke extends StatelessWidget {
               currentTime.isBefore(lyricStopTime)) {
             print(lyricLine);
             setCurrentLyric(lyricLine);
+            setHighlightDurations(null);
+            setHighlightDurations(
+                lyricStopTime.difference(lyricStartTime) ~/ lyricLine.length);
+            setHighlightDurations(
+                lyricStopTime.difference(lyricStartTime) ~/ lyricLine.length);
+            setHighlightDurations(
+                lyricStopTime.difference(lyricStartTime) ~/ lyricLine.length);
+            print("Check!!!");
+            print(highlightDurations[0]);
+            print(highlightDurations[1]);
+            print(highlightDurations[2]);
+            print(highlightDurations[3]);
+            print(highlightDurations.fold(new Duration(),
+                (accumuDuration, currentDuration) {
+              if (currentDuration != null) {
+                print("accumuDuration of fold!!!");
+                print(accumuDuration);
+                print("currentDuration of fold!!!");
+                print(currentDuration);
+                accumuDuration = currentDuration + accumuDuration;
+              }
+              return accumuDuration;
+            }));
+            print("^this is folded Duration");
             lyricStartTime = lyricStopTime;
             lyricLine = mappedLyrics[mappedLyrics.keys.first];
             mappedLyrics.remove(mappedLyrics.keys.first);
           }
+          // if (lyricStartTime.add(
+          //         highlightDurations.reduce((accumuDuration, currentDuration) {
+          //       accumuDuration = accumuDuration + currentDuration;
+          //       return accumuDuration;
+          //     })).isBefore(currentTime) &&
+          //     currentTime.isBefore(lyricStopTime)) {
+          //   setHighlightDurations(
+          //       highlightDurations[highlightDurations.length - 1]);
+          // }
         }
       });
     } catch (err) {

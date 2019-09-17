@@ -39,6 +39,7 @@ class _Manager extends State<Manager> {
       score: 0,
       isFavorite: false);
   String _currentLyric = "Lyrics Come Here!!";
+  List<Duration> _highlightDurations = new List<Duration>(30);
   String _karaokeButton = "";
   bool _isUpload = false;
   bool _isMenu = false;
@@ -117,6 +118,19 @@ class _Manager extends State<Manager> {
     });
   }
 
+  void _setHighlightDurations(Duration duration) {
+    setState(() {
+      print("Set Duration");
+      print(_highlightDurations.indexOf(null));
+      print(duration);
+      if (duration == null) {
+        _highlightDurations = new List<Duration>(30);
+      } else {
+        _highlightDurations[_highlightDurations.indexOf(null)] = duration;
+      }
+    });
+  }
+
   void _setKaraokeButton(String text) {
     setState(() {
       _karaokeButton = text;
@@ -146,7 +160,8 @@ class _Manager extends State<Manager> {
                 child: PlayControl(_addPlay, _changePlay, _changeScore),
               ),
               Play(_play),
-              PlayKaraoke(_flutterSound, _selectedSong, _setCurrentLyric, _karaokeButton, _setKaraokeButton),
+              PlayKaraoke(_flutterSound, _selectedSong, _setCurrentLyric, _highlightDurations, _setHighlightDurations,
+                  _karaokeButton, _setKaraokeButton),
               Text(_currentLyric),
             ],
           ),
