@@ -11,18 +11,20 @@ import 'dart:async';
 class CameraExampleHome extends StatefulWidget {
   final Function startAudio;
   final Function stopAudio;
+  final Function setFilePathToPlay;
 
   CameraExampleHome(
-      {Key key, @required this.startAudio, @required this.stopAudio})
+      {Key key,
+      @required this.startAudio,
+      @required this.stopAudio,
+      @required this.setFilePathToPlay,})
       : super(key: key);
 
   @override
   _CameraExampleHomeState createState() {
-    return _CameraExampleHomeState(startAudio, stopAudio);
+    return _CameraExampleHomeState(startAudio, stopAudio, setFilePathToPlay);
   }
 }
-
-
 
 void logError(String code, String message) =>
     print('Error: $code\nError Message: $message');
@@ -39,8 +41,10 @@ class _CameraExampleHomeState extends State<CameraExampleHome>
   List<CameraDescription> cameras;
   Function startAudio;
   Function stopAudio;
+  Function setFilePathToPlay;
 
-  _CameraExampleHomeState(this.startAudio, this.stopAudio);
+  _CameraExampleHomeState(
+      this.startAudio, this.stopAudio, this.setFilePathToPlay);
 
   @override
   void initState() {
@@ -77,13 +81,12 @@ class _CameraExampleHomeState extends State<CameraExampleHome>
     super.dispose();
   }
 
-
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.height * (40 / 100),
+      height: MediaQuery.of(context).size.height * (80 / 100),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
@@ -111,8 +114,7 @@ class _CameraExampleHomeState extends State<CameraExampleHome>
             padding: const EdgeInsets.all(5.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
-              children: <Widget>[
-              ],
+              children: <Widget>[],
             ),
           ),
         ],
@@ -152,19 +154,6 @@ class _CameraExampleHomeState extends State<CameraExampleHome>
                   controller.value.isInitialized &&
                   !controller.value.isRecordingVideo
               ? onVideoRecordButtonPressed
-              : null,
-        ),
-        IconButton(
-          icon: controller != null && controller.value.isRecordingPaused
-              ? Icon(Icons.play_arrow)
-              : Icon(Icons.pause),
-          color: Colors.blue,
-          onPressed: controller != null &&
-                  controller.value.isInitialized &&
-                  controller.value.isRecordingVideo
-              ? (controller != null && controller.value.isRecordingPaused
-                  ? onResumeButtonPressed
-                  : onPauseButtonPressed)
               : null,
         ),
         IconButton(
@@ -216,7 +205,6 @@ class _CameraExampleHomeState extends State<CameraExampleHome>
 
 //Database = add song
   void addVideo(Map<String, dynamic> upload) {
-    print(upload);
     // FirebaseDataClass song
     const url = 'https://flutterkaraoke.firebaseio.com/videos.json';
     http.post(url, body: json.encode(upload)).then((response) {
@@ -228,7 +216,7 @@ class _CameraExampleHomeState extends State<CameraExampleHome>
   void _megaUpload(path) async {
     //wait for download url
     String url = await videoUpload(path);
-    
+
     ModelSong uploadObject = ModelSong(
       title: "Ryohei's Awesome Video",
       artist: "Ryohei",
@@ -247,7 +235,8 @@ class _CameraExampleHomeState extends State<CameraExampleHome>
 
   Future<String> videoUpload(String path) async {
     File videoFile = File(path);
-    
+    setFilePathToPlay(path);
+
     List storagePath = path.split('/');
     StorageUploadTask ref = storageReference
         .child("videoFiles/" + storagePath[storagePath.length - 1])
@@ -295,6 +284,8 @@ class _CameraExampleHomeState extends State<CameraExampleHome>
     final String dirPath = 'sdcard';
     await Directory(dirPath).create(recursive: true);
     final String filePath = '$dirPath/${timestamp()}.mp4';
+    print('filePath: $filePath');
+    setFilePathToPlay(filePath);
 
     if (controller.value.isRecordingVideo) {
       // A recording is already started, do nothing.
@@ -382,7 +373,6 @@ class _CameraExampleHomeState extends State<CameraExampleHome>
     showInSnackBar('Error: ${e.code}\n${e.description}');
   }
 }
-
 
 List<CameraDescription> cameras;
 Future<List> fetchCameras() async {
