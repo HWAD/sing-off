@@ -39,7 +39,7 @@ class _Manager extends State<Manager> {
       score: 0,
       isFavorite: false);
   String _currentLyric = "Lyrics Come Here!!";
-  List<Duration> _highlightDurations = new List<Duration>(30);
+  List<Duration> _highlightDurations = [];
   String _karaokeButton = "";
   bool _isUpload = false;
   bool _isMenu = false;
@@ -118,15 +118,14 @@ class _Manager extends State<Manager> {
     });
   }
 
-  void _setHighlightDurations(Duration duration) {
+  void _setHighlightDurations(List<Duration> durations) {
     setState(() {
       print("Set Duration");
-      print(_highlightDurations.indexOf(null));
-      print(duration);
-      if (duration == null) {
-        _highlightDurations = new List<Duration>(30);
+      print(durations);
+      if (durations == null) {
+        _highlightDurations = [];
       } else {
-        _highlightDurations[_highlightDurations.indexOf(null)] = duration;
+        _highlightDurations = durations;
       }
     });
   }
@@ -160,9 +159,27 @@ class _Manager extends State<Manager> {
                 child: PlayControl(_addPlay, _changePlay, _changeScore),
               ),
               Play(_play),
-              PlayKaraoke(_flutterSound, _selectedSong, _setCurrentLyric, _highlightDurations, _setHighlightDurations,
-                  _karaokeButton, _setKaraokeButton),
+              PlayKaraoke(
+                  _flutterSound,
+                  _selectedSong,
+                  _setCurrentLyric,
+                  _highlightDurations,
+                  _setHighlightDurations,
+                  _karaokeButton,
+                  _setKaraokeButton),
               Text(_currentLyric),
+              RichText(
+                text: TextSpan(
+                  text: 'Hello ',
+                  style: DefaultTextStyle.of(context).style,
+                  children: <TextSpan>[
+                    TextSpan(
+                        text: 'bold',
+                        style: TextStyle(fontWeight: FontWeight.bold)),
+                    TextSpan(text: ' world!'),
+                  ],
+                ),
+              )
             ],
           ),
         ),

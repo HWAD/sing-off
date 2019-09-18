@@ -66,6 +66,8 @@ class PlayKaraoke extends StatelessWidget {
       DateTime lyricStartTime = DateFormat('mm:ss:SS', 'en_US')
           .parseUTC(mappedLyrics.keys.first.padRight(9, "0"));
       String lyricLine = mappedLyrics[mappedLyrics.keys.first];
+      DateTime highlightStartTime = lyricStartTime;
+      String highlightLine = lyricLine;
       mappedLyrics.remove(mappedLyrics.keys.first);
 
       _playerSubscription = flutterSound.onPlayerStateChanged.listen((e) {
@@ -80,42 +82,43 @@ class PlayKaraoke extends StatelessWidget {
             print(lyricLine);
             setCurrentLyric(lyricLine);
             setHighlightDurations(null);
-            setHighlightDurations(
+            // setHighlightDurations(
+            //     lyricStopTime.difference(lyricStartTime) ~/ lyricLine.length);
+            if (highlightDurations.length >= 1) {
+              highlightDurations.removeRange(0, highlightDurations.length - 1);
+            }
+            highlightDurations.add(
                 lyricStopTime.difference(lyricStartTime) ~/ lyricLine.length);
-            setHighlightDurations(
-                lyricStopTime.difference(lyricStartTime) ~/ lyricLine.length);
-            setHighlightDurations(
-                lyricStopTime.difference(lyricStartTime) ~/ lyricLine.length);
-            print("Check!!!");
-            print(highlightDurations[0]);
-            print(highlightDurations[1]);
-            print(highlightDurations[2]);
-            print(highlightDurations[3]);
-            print(highlightDurations.fold(new Duration(),
-                (accumuDuration, currentDuration) {
-              if (currentDuration != null) {
-                print("accumuDuration of fold!!!");
-                print(accumuDuration);
-                print("currentDuration of fold!!!");
-                print(currentDuration);
-                accumuDuration = currentDuration + accumuDuration;
-              }
-              return accumuDuration;
-            }));
-            print("^this is folded Duration");
+            setHighlightDurations(highlightDurations);
+            highlightStartTime = lyricStartTime;
+            highlightLine = lyricLine;
             lyricStartTime = lyricStopTime;
             lyricLine = mappedLyrics[mappedLyrics.keys.first];
             mappedLyrics.remove(mappedLyrics.keys.first);
           }
-          // if (lyricStartTime.add(
-          //         highlightDurations.reduce((accumuDuration, currentDuration) {
-          //       accumuDuration = accumuDuration + currentDuration;
-          //       return accumuDuration;
-          //     })).isBefore(currentTime) &&
-          //     currentTime.isBefore(lyricStopTime)) {
-          //   setHighlightDurations(
-          //       highlightDurations[highlightDurations.length - 1]);
-          // }
+          print(highlightStartTime.add(highlightDurations.fold(new Duration(),
+              (accumuDuration, currentDuration) {
+            // print("accumuDuration of fold!!!");
+            // print(accumuDuration);
+            // print("currentDuration of fold!!!");
+            // print(currentDuration);
+            accumuDuration = currentDuration + accumuDuration;
+            return accumuDuration;
+          })));
+          print("^this is folded Duration");
+          if (highlightStartTime
+                  .add(highlightDurations.fold(
+                      new Duration(),
+                      (accumuDuration, currentDuration) =>
+                          currentDuration + accumuDuration))
+                  .isBefore(currentTime) &&
+              currentTime.isBefore(lyricStartTime)) {
+            highlightDurations.add(
+                lyricStartTime.difference(highlightStartTime) ~/ highlightLine.length);
+            setHighlightDurations(highlightDurations);
+            print("Check!!!");
+            print(highlightDurations);
+          }
         }
       });
     } catch (err) {
