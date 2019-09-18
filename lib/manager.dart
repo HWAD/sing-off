@@ -38,7 +38,7 @@ class _Manager extends State<Manager> {
   String _karaokeButton = "";
   bool _isCategory = false;
   bool _isMenu = false;
-  bool _isPlay = false;
+  bool _isVideo = false;
   bool _isScore = false;
   String _selectedCategory = "Hip Hop";
   List<int> _decibels = [];
@@ -54,7 +54,6 @@ class _Manager extends State<Manager> {
   }
 
   Future<void> _getAllSongs() async {
-    print('in get all songs');
     const url = 'https://flutterkaraoke.firebaseio.com/songs.json';
     http.get(url).then((response) {
       Map<String, dynamic> mappedBody = json.decode(response.body);
@@ -83,9 +82,9 @@ class _Manager extends State<Manager> {
     });
   }
 
-  void _changePlay(bool isPlay) {
+  void _changeVideo(bool isVideo) {
     setState(() {
-      _isPlay = isPlay;
+      _isVideo = isVideo;
     });
   }
 
@@ -153,23 +152,21 @@ class _Manager extends State<Manager> {
           visible: _isMenu,
           child: Column(children: [
             MenuRow(_setCategory, _changeMenu, _changeCategory),
-            MenuAlbum(_changeMenu, _changePlay, _allSongs, _setSelectedSong,
+            MenuAlbum(_changeMenu, _changeVideo, _allSongs, _setSelectedSong,
                 _selectedCategory),
           ]),
         ),
         Visibility(
-          visible: _isPlay,
+          visible: _isVideo,
           child: Column(
             children: [
               Container(
-                // margin: EdgeInsets.all(10.0),
                 child: PlayControl(
-                  _changePlay,
+                  _changeVideo,
                   _changeScore,
                   _changeMenu,
                 ),
               ),
-
               VideoRecorder(
                 setFilePathToPlay: _setFilePathToPlay,
                 currentLyric: _currentLyric,
@@ -186,7 +183,7 @@ class _Manager extends State<Manager> {
           visible: _isScore,
           child: Column(
             children: [
-              ScoreGoToOther(_changeMenu, _changePlay, _changeScore),
+              ScoreGoToOther(_changeMenu, _changeVideo, _changeScore),
               VideoPlayerScreen(filePathToPlay: filePathToPlay)
             ],
           ),
