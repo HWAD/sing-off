@@ -96,7 +96,7 @@ class _VideoRecorder extends State<VideoRecorder> with WidgetsBindingObserver {
       controller.addListener(() {
         if (mounted) setState(() {});
         if (controller.value.hasError) {
-          showInSnackBar('Camera error ${controller.value.errorDescription}');
+          // showInSnackBar('Camera error ${controller.value.errorDescription}');
         }
       });
 
@@ -129,7 +129,7 @@ class _VideoRecorder extends State<VideoRecorder> with WidgetsBindingObserver {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.height * (80 / 100),
+      height: MediaQuery.of(context).size.height * (60 / 100),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
@@ -145,14 +145,15 @@ class _VideoRecorder extends State<VideoRecorder> with WidgetsBindingObserver {
                       height: 60,
                       color: Colors.grey[600].withOpacity(0.7),
                       child: Container(
-                        padding: EdgeInsets.only(top:5),
+                        padding: EdgeInsets.only(top: 5),
                         child: Text(domesticLyric,
-                      textAlign: TextAlign.center,
-                      maxLines: 2,
-                          style: TextStyle(
-                            fontSize: 20,
-                          )),
-                    ),),
+                            textAlign: TextAlign.center,
+                            maxLines: 2,
+                            style: TextStyle(
+                              fontSize: 20,
+                            )),
+                      ),
+                    ),
                   ]),
                 ),
               ),
@@ -172,9 +173,9 @@ class _VideoRecorder extends State<VideoRecorder> with WidgetsBindingObserver {
             padding: const EdgeInsets.all(5.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Center(child: Text("For Visual", textAlign: TextAlign.center))
-              ],
+              // children: <Widget>[
+              //   Center(child: Text("For Visual", textAlign: TextAlign.center))
+              // ],
             ),
           ),
         ],
@@ -248,7 +249,7 @@ class _VideoRecorder extends State<VideoRecorder> with WidgetsBindingObserver {
     controller.addListener(() {
       if (mounted) setState(() {});
       if (controller.value.hasError) {
-        showInSnackBar('Camera error ${controller.value.errorDescription}');
+        // showInSnackBar('Camera error ${controller.value.errorDescription}');
       }
     });
 
@@ -368,7 +369,7 @@ class _VideoRecorder extends State<VideoRecorder> with WidgetsBindingObserver {
   void onVideoRecordButtonPressed() {
     startVideoRecording().then((String filePath) {
       if (mounted) setState(() {});
-      if (filePath != null) showInSnackBar('Saving video to $filePath');
+      // if (filePath != null) showInSnackBar('Saving video to $filePath');
       filePathExtractor = filePath;
     });
   }
@@ -377,27 +378,27 @@ class _VideoRecorder extends State<VideoRecorder> with WidgetsBindingObserver {
     stopAudio();
     stopVideoRecording().then((_) {
       if (mounted) setState(() {});
-      showInSnackBar('Video recorded to: $videoPath');
+      // showInSnackBar('Video recorded to: $videoPath');
     });
   }
 
   void onPauseButtonPressed() {
     pauseVideoRecording().then((_) {
       if (mounted) setState(() {});
-      showInSnackBar('Video recording paused');
+      // showInSnackBar('Video recording paused');
     });
   }
 
   void onResumeButtonPressed() {
     resumeVideoRecording().then((_) {
       if (mounted) setState(() {});
-      showInSnackBar('Video recording resumed');
+      // showInSnackBar('Video recording resumed');
     });
   }
 
   Future<String> startVideoRecording() async {
     if (!controller.value.isInitialized) {
-      showInSnackBar('Error: select a camera first.');
+      // showInSnackBar('Error: select a camera first.');
       return null;
     }
 
@@ -490,7 +491,7 @@ class _VideoRecorder extends State<VideoRecorder> with WidgetsBindingObserver {
 
   void _showCameraException(CameraException e) {
     logError(e.code, e.description);
-    showInSnackBar('Error: ${e.code}\n${e.description}');
+    // showInSnackBar('Error: ${e.code}\n${e.description}');
   }
 
   Future<String> uploadAudio(
