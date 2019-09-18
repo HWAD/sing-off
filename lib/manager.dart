@@ -8,9 +8,9 @@ import './menu_search.dart';
 import './menu_album.dart';
 import './menu_row.dart';
 import './play_control.dart';
-import './score_goToOther.dart';
-import './score_player.dart';
-import './video_recorder.dart';
+// import './score_goToOther.dart';
+import './player.dart';
+import './recorder.dart';
 
 class Manager extends StatefulWidget {
   final String startingMenu;
@@ -38,8 +38,8 @@ class _Manager extends State<Manager> {
   String _karaokeButton = "";
   bool _isCategory = false;
   bool _isMenu = false;
-  bool _isVideo = false;
-  bool _isScore = false;
+  bool _isRecorder = false;
+  bool _isPlayer = false;
   String _selectedCategory = "Hip Hop";
   List<int> _decibels = [];
 
@@ -82,9 +82,9 @@ class _Manager extends State<Manager> {
     });
   }
 
-  void _changeVideo(bool isVideo) {
+  void _changeRecorder(bool isRecorder) {
     setState(() {
-      _isVideo = isVideo;
+      _isRecorder = isRecorder;
     });
   }
 
@@ -94,9 +94,9 @@ class _Manager extends State<Manager> {
     });
   }
 
-  void _changeScore(bool isScore) {
+  void _changePlayer(bool isPlayer) {
     setState(() {
-      _isScore = isScore;
+      _isPlayer = isPlayer;
     });
   }
 
@@ -152,12 +152,12 @@ class _Manager extends State<Manager> {
           visible: _isMenu,
           child: Column(children: [
             MenuRow(_setCategory, _changeMenu, _changeCategory),
-            MenuAlbum(_changeMenu, _changeVideo, _allSongs, _setSelectedSong,
+            MenuAlbum(_changeMenu, _changeRecorder, _allSongs, _setSelectedSong,
                 _selectedCategory),
           ]),
         ),
         Visibility(
-          visible: _isVideo,
+          visible: _isRecorder,
           child: Column(
             children: [
               VideoRecorder(
@@ -171,8 +171,8 @@ class _Manager extends State<Manager> {
                 setDecibels: _setDecibels,),
                 Container(
                 child: PlayControl(
-                  _changeVideo,
-                  _changeScore,
+                  _changeRecorder,
+                  _changePlayer,
                   _changeMenu,
                 ),
               ),
@@ -180,11 +180,11 @@ class _Manager extends State<Manager> {
           ),
         ),
         Visibility(
-          visible: _isScore,
+          visible: _isPlayer,
           child: Column(
             children: [
-              VideoPlayerScreen(filePathToPlay: filePathToPlay),
-              ScoreGoToOther(_changeMenu, _changeVideo, _changeScore),
+              VideoPlayerScreen(filePathToPlay: filePathToPlay, changeMenu: _changeMenu, changeRecorder: _changeRecorder, changePlayer: _changePlayer),
+              // ScoreGoToOther(_changeMenu, _changePlay, _changeScore),
             ],
           ),
         ),

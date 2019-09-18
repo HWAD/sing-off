@@ -70,7 +70,7 @@ class _VideoRecorder extends State<VideoRecorder> with WidgetsBindingObserver {
   Function setKaraokeButton;
   Function setDecibels;
 
-  String domesticLyric = 'Lyrics Here For Dom';
+  String domesticLyric = '';
 
   _VideoRecorder(
     this.setFilePathToPlay,
@@ -141,12 +141,13 @@ class _VideoRecorder extends State<VideoRecorder> with WidgetsBindingObserver {
                   child: Stack(children: [
                     _cameraPreviewWidget(),
                     Container(
-                      height: 60,
                       color: Colors.grey[600].withOpacity(0.7),
                       child: Container(
                         width: double.infinity,
                         padding: EdgeInsets.only(top:5),
-                        child: Text(domesticLyric,
+                        child: domesticLyric == '' ? Icon(
+                        Icons.pause)
+                            :Text(domesticLyric,
                       textAlign: TextAlign.center,
                       maxLines: 2,
                           style: TextStyle(
