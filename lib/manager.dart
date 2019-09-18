@@ -44,6 +44,7 @@ class _Manager extends State<Manager> {
   bool _isPlay = false;
   bool _isScore = false;
   String _selectedCategory = "Hip Hop";
+  List<int> _decibels = [];
 
   String filePathToPlay;
 
@@ -124,7 +125,13 @@ class _Manager extends State<Manager> {
     setState(() {
       filePathToPlay = text;
     });
-  }
+    
+  void _setDecibels(int decibel) {
+    setState(() {
+      _decibels.add(decibel);
+    });
+    print(_decibels.last);
+    }
 
   @override
   Widget build(BuildContext context) {
@@ -148,7 +155,7 @@ class _Manager extends State<Manager> {
               ),
               Text(_currentLyric),
               PlayKaraoke(_flutterSound, _selectedSong, _setCurrentLyric,
-                  _karaokeButton, _setKaraokeButton, _setFilePathToPlay),
+                  _karaokeButton, _setKaraokeButton, _setFilePathToPlay, _setDecibels),
             ],
           ),
         ),
