@@ -51,7 +51,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
               if (snapshot.connectionState == ConnectionState.done) {
                 return Column(children: <Widget>[
                   Container(
-                    height: 650,
+                    height: 580,
                     child: VideoPlayer(_controller),
                   ),
                   
