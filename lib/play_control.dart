@@ -13,7 +13,8 @@ class PlayControl extends StatelessWidget {
       // color: Colors.grey[900],
       padding: EdgeInsets.only(left: 30),
       child: Column(
-        children: [Row(
+        children: [
+          Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             Container(
@@ -37,7 +38,8 @@ class PlayControl extends StatelessWidget {
                 },
                 child: Icon(Icons.arrow_forward_ios)), 
             ),
-          ])]),
+          ]),
+          ]),
     );
   }
 }
