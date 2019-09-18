@@ -324,10 +324,8 @@ class _VideoRecorder extends State<VideoRecorder> with WidgetsBindingObserver {
 
 //Database = add song
   void addVideo(Map<String, dynamic> upload) {
-    // FirebaseDataClass song
     const url = 'https://flutterkaraoke.firebaseio.com/videos.json';
     http.post(url, body: json.encode(upload)).then((response) {
-      print('posted');
     });
   }
 
