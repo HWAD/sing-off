@@ -10,7 +10,7 @@ class PlayControl extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.grey[800],
+      // color: Colors.grey[900],
       padding: EdgeInsets.only(left: 30),
       child: Column(
         children: [Row(

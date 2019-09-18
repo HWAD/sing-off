@@ -9,7 +9,7 @@ import './menu_album.dart';
 import './menu_row.dart';
 import './play_control.dart';
 import './score_goToOther.dart';
-import './video_player.dart';
+import './score_player.dart';
 import './video_recorder.dart';
 
 class Manager extends StatefulWidget {
@@ -160,13 +160,6 @@ class _Manager extends State<Manager> {
           visible: _isVideo,
           child: Column(
             children: [
-              Container(
-                child: PlayControl(
-                  _changeVideo,
-                  _changeScore,
-                  _changeMenu,
-                ),
-              ),
               VideoRecorder(
                 setFilePathToPlay: _setFilePathToPlay,
                 currentLyric: _currentLyric,
@@ -175,7 +168,14 @@ class _Manager extends State<Manager> {
                 setCurrentLyric: _setCurrentLyric,
                 karaokeButton: _karaokeButton,
                 setKaraokeButton: _setKaraokeButton,
-                setDecibels: _setDecibels,)
+                setDecibels: _setDecibels,),
+                Container(
+                child: PlayControl(
+                  _changeVideo,
+                  _changeScore,
+                  _changeMenu,
+                ),
+              ),
             ],
           ),
         ),
@@ -183,8 +183,8 @@ class _Manager extends State<Manager> {
           visible: _isScore,
           child: Column(
             children: [
+              VideoPlayerScreen(filePathToPlay: filePathToPlay),
               ScoreGoToOther(_changeMenu, _changeVideo, _changeScore),
-              VideoPlayerScreen(filePathToPlay: filePathToPlay)
             ],
           ),
         ),

@@ -35,15 +35,13 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: MediaQuery.of(context).size.height*(7.8/10),
-      child: Column(
+    return Column(
         children: <Widget> [
           FutureBuilder(
         future: _initializeVideoPlayerFuture,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
-            return Stack(
+            return Column(
               children: <Widget> [
                 AspectRatio(
                   aspectRatio: _controller.value.aspectRatio,
@@ -78,7 +76,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
         },
       ),
          ],
-       ) // This trailing comma makes auto-formatting nicer for build methods.
+        // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }

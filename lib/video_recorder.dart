@@ -129,7 +129,7 @@ class _VideoRecorder extends State<VideoRecorder> with WidgetsBindingObserver {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.height * (80 / 100),
+      height: MediaQuery.of(context).size.height * (90 / 100),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
@@ -137,14 +137,14 @@ class _VideoRecorder extends State<VideoRecorder> with WidgetsBindingObserver {
             child: Container(
               child: Padding(
                 padding: const EdgeInsets.all(1.0),
-                child: Center(
+                child: Container(
                   child: Stack(children: [
                     _cameraPreviewWidget(),
                     Container(
-                      width: double.infinity,
                       height: 60,
                       color: Colors.grey[600].withOpacity(0.7),
                       child: Container(
+                        width: double.infinity,
                         padding: EdgeInsets.only(top:5),
                         child: Text(domesticLyric,
                       textAlign: TextAlign.center,
@@ -186,7 +186,7 @@ class _VideoRecorder extends State<VideoRecorder> with WidgetsBindingObserver {
   Widget _cameraPreviewWidget() {
     if (controller == null || !controller.value.isInitialized) {
       return const Text(
-        'Let\'s Sing!',
+        '',
         style: TextStyle(
           color: Colors.white,
           fontSize: 24.0,
@@ -194,8 +194,8 @@ class _VideoRecorder extends State<VideoRecorder> with WidgetsBindingObserver {
         ),
       );
     } else {
-      return AspectRatio(
-        aspectRatio: controller.value.aspectRatio,
+      return Container(
+        // aspectRatio: controller.value.aspectRatio,
         child: CameraPreview(controller),
       );
     }
