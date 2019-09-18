@@ -18,6 +18,8 @@ class VideoRecorder extends StatefulWidget {
   final FlutterSound flutterSound;
   final ModelSong selectedSong;
   final Function setCurrentLyric;
+  // final List<Duration> highlightDurations;
+  // final Function setHighlightDurations;
   final String karaokeButton;
   final Function setKaraokeButton;
   String currentLyric;
@@ -30,6 +32,8 @@ class VideoRecorder extends StatefulWidget {
     @required this.flutterSound,
     @required this.selectedSong,
     @required this.setCurrentLyric,
+    // @required this.highlightDurations,
+    // @required this.setHighlightDurations,
     @required this.karaokeButton,
     @required this.setKaraokeButton,
     @required this.setDecibels,
@@ -43,6 +47,8 @@ class VideoRecorder extends StatefulWidget {
         flutterSound,
         selectedSong,
         setCurrentLyric,
+        // highlightDurations,
+        // setHighlightDurations,
         karaokeButton,
         setKaraokeButton,
         setDecibels);
@@ -66,6 +72,8 @@ class _VideoRecorder extends State<VideoRecorder> with WidgetsBindingObserver {
   FlutterSound flutterSound;
   ModelSong selectedSong;
   Function setCurrentLyric;
+  List<Duration> highlightDurations = new List<Duration>();
+  // Function setHighlightDurations;
   String karaokeButton;
   Function setKaraokeButton;
   Function setDecibels;
@@ -78,6 +86,8 @@ class _VideoRecorder extends State<VideoRecorder> with WidgetsBindingObserver {
     this.flutterSound,
     this.selectedSong,
     this.setCurrentLyric,
+    // this.highlightDurations,
+    // this.setHighlightDurations,
     this.karaokeButton,
     this.setKaraokeButton,
     this.setDecibels,
@@ -124,6 +134,12 @@ class _VideoRecorder extends State<VideoRecorder> with WidgetsBindingObserver {
     });
   }
 
+  void setHighlightDurations(List<Duration> durations) {
+    setState(() {
+      highlightDurations = durations;
+    });
+  }
+
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -144,16 +160,36 @@ class _VideoRecorder extends State<VideoRecorder> with WidgetsBindingObserver {
                       color: Colors.grey[600].withOpacity(0.7),
                       child: Container(
                         width: double.infinity,
-                        padding: EdgeInsets.only(top:5),
-                        child: domesticLyric == '' ? Icon(
-                        Icons.pause)
-                            :Text(domesticLyric,
-                      textAlign: TextAlign.center,
-                      maxLines: 2,
-                          style: TextStyle(
-                            fontSize: 20,
-                          )),
-                    ),),
+                        padding: EdgeInsets.only(top: 5),
+                        child: RichText(
+                          text: TextSpan(
+                            style: DefaultTextStyle.of(context).style,
+                            children: <TextSpan>[
+                              TextSpan(
+                                  text: highlightDurations.length >= 1
+                                      ? domesticLyric.substring(
+                                          0, highlightDurations.length - 1)
+                                      : "",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 20,
+                                    foreground: Paint()
+                                      ..style = PaintingStyle.stroke
+                                      ..strokeWidth = 1
+                                      ..color = Colors.red[700],
+                                  )),
+                              TextSpan(
+                                text: highlightDurations.length >= 1
+                                    ? domesticLyric.substring(
+                                        highlightDurations.length - 1)
+                                    : domesticLyric,
+                                style: TextStyle(fontSize: 20),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
                   ]),
                 ),
               ),
@@ -286,6 +322,8 @@ class _VideoRecorder extends State<VideoRecorder> with WidgetsBindingObserver {
       DateTime lyricStartTime = DateFormat('mm:ss:SS', 'en_US')
           .parseUTC(mappedLyrics.keys.first.padRight(9, "0"));
       String lyricLine = mappedLyrics[mappedLyrics.keys.first];
+      DateTime highlightStartTime = lyricStartTime;
+      String highlightLine = lyricLine;
       mappedLyrics.remove(mappedLyrics.keys.first);
 
       _playerSubscription = flutterSound.onPlayerStateChanged.listen((e) {
@@ -299,9 +337,30 @@ class _VideoRecorder extends State<VideoRecorder> with WidgetsBindingObserver {
               currentTime.isBefore(lyricStopTime)) {
             setDomesticLyric(lyricLine);
             setCurrentLyric(lyricLine);
+            highlightStartTime = lyricStartTime;
+            highlightLine = lyricLine;
             lyricStartTime = lyricStopTime;
             lyricLine = mappedLyrics[mappedLyrics.keys.first];
+            setHighlightDurations(new List<Duration>());
+            if (highlightDurations.length >= 1) {
+              highlightDurations.removeRange(0, highlightDurations.length);
+            }
             mappedLyrics.remove(mappedLyrics.keys.first);
+          }
+          if (highlightStartTime
+                  .add(highlightDurations.fold(
+                      lyricStartTime.difference(highlightStartTime) ~/
+                          highlightLine.length,
+                      (accumuDuration, currentDuration) =>
+                          currentDuration + accumuDuration))
+                  .isBefore(currentTime) &&
+              currentTime.isBefore(lyricStartTime)) {
+            highlightDurations.add(
+                lyricStartTime.difference(highlightStartTime) ~/
+                    highlightLine.length);
+            setHighlightDurations(highlightDurations);
+            print("Check!!!");
+            print(highlightDurations);
           }
         }
       });
@@ -325,8 +384,7 @@ class _VideoRecorder extends State<VideoRecorder> with WidgetsBindingObserver {
 //Database = add song
   void addVideo(Map<String, dynamic> upload) {
     const url = 'https://flutterkaraoke.firebaseio.com/videos.json';
-    http.post(url, body: json.encode(upload)).then((response) {
-    });
+    http.post(url, body: json.encode(upload)).then((response) {});
   }
 
 //Storage & Database Upload
