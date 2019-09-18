@@ -1,20 +1,16 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_sound/flutter_sound.dart';
 import 'package:flutterkaraoke/model_song.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-
 import './model_song.dart';
 import './menu_search.dart';
 import './menu_album.dart';
+import './menu_row.dart';
 import './play_control.dart';
-import './play_karaoke.dart';
-import './score_board.dart';
-import './score_replay.dart';
 import './score_goToOther.dart';
 import './video_player.dart';
+import './video_recorder.dart';
 
 class Manager extends StatefulWidget {
   final String startingMenu;
@@ -40,6 +36,7 @@ class _Manager extends State<Manager> {
       isFavorite: false);
   String _currentLyric = "Lyrics Come Here!!";
   String _karaokeButton = "";
+  bool _isCategory = false;
   bool _isMenu = false;
   bool _isPlay = false;
   bool _isScore = false;
@@ -52,11 +49,12 @@ class _Manager extends State<Manager> {
   void initState() {
     super.initState();
     _karaokeButton = "KARAOKE";
-    _isMenu = true;
+    _isCategory = true;
     _getAllSongs();
   }
 
   Future<void> _getAllSongs() async {
+    print('in get all songs');
     const url = 'https://flutterkaraoke.firebaseio.com/songs.json';
     http.get(url).then((response) {
       Map<String, dynamic> mappedBody = json.decode(response.body);
@@ -91,6 +89,12 @@ class _Manager extends State<Manager> {
     });
   }
 
+  void _changeCategory(bool isCategory) {
+    setState(() {
+      _isCategory = isCategory;
+    });
+  }
+
   void _changeScore(bool isScore) {
     setState(() {
       _isScore = isScore;
@@ -106,6 +110,8 @@ class _Manager extends State<Manager> {
   void _setCategory(String category) {
     setState(() {
       _selectedCategory = category;
+      _changeCategory(false);
+      _changeMenu(true);
     });
   }
 
@@ -125,22 +131,28 @@ class _Manager extends State<Manager> {
     setState(() {
       filePathToPlay = text;
     });
-    
+  }
+
   void _setDecibels(int decibel) {
     setState(() {
       _decibels.add(decibel);
     });
-    print(_decibels.last);
-    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         Visibility(
-          visible: _isMenu,
+          visible: _isCategory,
           child: Column(children: [
             MenuSearch(_setCategory),
+          ]),
+        ),
+        Visibility(
+          visible: _isMenu,
+          child: Column(children: [
+            MenuRow(_setCategory, _changeMenu, _changeCategory),
             MenuAlbum(_changeMenu, _changePlay, _allSongs, _setSelectedSong,
                 _selectedCategory),
           ]),
@@ -150,12 +162,23 @@ class _Manager extends State<Manager> {
           child: Column(
             children: [
               Container(
-                margin: EdgeInsets.all(10.0),
-                child: PlayControl(_changePlay, _changeScore),
+                // margin: EdgeInsets.all(10.0),
+                child: PlayControl(
+                  _changePlay,
+                  _changeScore,
+                  _changeMenu,
+                ),
               ),
-              Text(_currentLyric),
-              PlayKaraoke(_flutterSound, _selectedSong, _setCurrentLyric,
-                  _karaokeButton, _setKaraokeButton, _setFilePathToPlay, _setDecibels),
+
+              VideoRecorder(
+                setFilePathToPlay: _setFilePathToPlay,
+                currentLyric: _currentLyric,
+                flutterSound: _flutterSound,
+                selectedSong: _selectedSong,
+                setCurrentLyric: _setCurrentLyric,
+                karaokeButton: _karaokeButton,
+                setKaraokeButton: _setKaraokeButton,
+                setDecibels: _setDecibels,)
             ],
           ),
         ),
@@ -163,8 +186,6 @@ class _Manager extends State<Manager> {
           visible: _isScore,
           child: Column(
             children: [
-              // ScoreBoard(),
-              // // ScoreReplay(),
               ScoreGoToOther(_changeMenu, _changePlay, _changeScore),
               VideoPlayerScreen(filePathToPlay: filePathToPlay)
             ],

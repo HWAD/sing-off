@@ -9,23 +9,68 @@ class ScoreGoToOther extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(children: [
-      RaisedButton(
-        color: Colors.blue,
-        onPressed: () {
-          changeScore(false);
-          changeMenu(true);
-        },
-        child: Text('Go Album'),
-      ),
-      RaisedButton(
-        color: Colors.blue,
-        onPressed: () {
-          changeScore(false);
-          changePlay(true);
-        },
-        child: Text('Try Again'),
-      )
-    ]);
+    return Container(
+      color: Colors.grey[800],
+      padding: EdgeInsets.only(left: 30),
+      child: Column(
+        children: [Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: <Widget>[
+            Container( 
+              padding: EdgeInsets.only(top: 10),
+              child:InkWell(
+                onTap: () {
+                  changeScore(false);
+                  changePlay(true);
+                },
+                child: Icon(Icons.arrow_back_ios)), 
+            ),
+            Container(
+              height: 50,
+              padding: EdgeInsets.only(left: 280),
+              child: InkWell(
+              onTap: () {
+                changeScore(false);
+                changeMenu(true);
+              },
+              child: Icon(Icons.home,)
+            ), 
+            ),
+          ])]),
+    );
   }
 }
+
+
+/*
+return Container(
+      color: Colors.grey[800],
+      padding: EdgeInsets.only(left: 30),
+      child: Column(
+        children: [Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: <Widget>[
+            Container(
+              height: 50,
+              padding: EdgeInsets.only(top: 10),
+              child: InkWell(
+              onTap: () {
+                changeScore(false);
+                changeMenu(true);
+              },
+              child: Icon(Icons.arrow_back_ios,)
+            ), 
+            ),
+            Container( 
+              padding: EdgeInsets.only(left: 280),
+              child:InkWell(
+                onTap: () {
+                  changeScore(false);
+                  changePlay(true);
+                },
+                child: Icon(Icons.home)), 
+            ),
+          ])]),
+    );
+
+*/

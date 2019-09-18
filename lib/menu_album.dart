@@ -15,29 +15,19 @@ class MenuAlbum extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      height: 370,
+      margin: EdgeInsets.only(top: 8),
+      color: Colors.grey[800],
       child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            Container(
-              width: double.infinity,
-              margin: EdgeInsets.only(
-                top: 5,
-              ),
-              padding: EdgeInsets.all(5),
-              child: Card(
-                color: Colors.blue,
-                child: Text(
-                  'Songs',
-                  style: TextStyle(fontSize: 20),
-                ),
-                elevation: 5,
-              ),
-            ),
             Column(
               children: allSongs
                   .where((song) => song.category == selectedCategory)
                   .map((element) {
-                return Card(
+                return Container(
+                  color: Colors.black38,
+                  margin: EdgeInsets.only(bottom:1, top: 1),
                     child: InkWell(
                         onTap: () {
                           if (element.category != 'Video') {
@@ -70,8 +60,8 @@ class MenuAlbum extends StatelessWidget {
                               ),
                               decoration: BoxDecoration(
                                 border: Border.all(
-                                  color: Colors.purple,
-                                  width: 2,
+                                  color: Colors.white54,
+                                  width: 1,
                                 ),
                                 image: DecorationImage(
                                   image:
