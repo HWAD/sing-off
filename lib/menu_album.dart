@@ -17,27 +17,10 @@ class MenuAlbum extends StatelessWidget {
     return Container(
       height: 370,
       margin: EdgeInsets.only(top: 8),
-      // padding: EdgeInsets.only(top: 6),
       color: Colors.grey[800],
       child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            // Container(
-            //   width: double.infinity,
-            //   margin: EdgeInsets.only(
-            //     top: 0.0,
-            //   ),
-            //   padding: EdgeInsets.only(top: 10, bottom: 10),
-            //   child: Container(
-            //     color: Colors.grey[700],
-            //     child: Text(
-            //       'Songs',
-            //       style: TextStyle(fontSize: 20),
-            //       textAlign: TextAlign.center,
-            //     ),
-               
-            //   ),
-            // ),
             Column(
               children: allSongs
                   .where((song) => song.category == selectedCategory)
@@ -45,7 +28,6 @@ class MenuAlbum extends StatelessWidget {
                 return Container(
                   color: Colors.black38,
                   margin: EdgeInsets.only(bottom:1, top: 1),
-                  // shape: ContinuousRectangleBorder(),
                     child: InkWell(
                         onTap: () {
                           if (element.category != 'Video') {

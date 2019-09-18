@@ -1,21 +1,16 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_sound/flutter_sound.dart';
 import 'package:flutterkaraoke/model_song.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-
 import './model_song.dart';
 import './menu_search.dart';
 import './menu_album.dart';
 import './menu_row.dart';
 import './play_control.dart';
-import './play_karaoke.dart';
-import './score_board.dart';
-import './score_replay.dart';
 import './score_goToOther.dart';
 import './video_player.dart';
+import './video_recorder.dart';
 
 class Manager extends StatefulWidget {
   final String startingMenu;
@@ -46,6 +41,7 @@ class _Manager extends State<Manager> {
   bool _isPlay = false;
   bool _isScore = false;
   String _selectedCategory = "Hip Hop";
+  List<int> _decibels = [];
 
   String filePathToPlay;
 
@@ -114,9 +110,7 @@ class _Manager extends State<Manager> {
   void _setCategory(String category) {
     setState(() {
       _selectedCategory = category;
-      // _isCategory = false;
       _changeCategory(false);
-      // _isMenu = true;
       _changeMenu(true);
     });
   }
@@ -136,6 +130,12 @@ class _Manager extends State<Manager> {
   void _setFilePathToPlay(String text) {
     setState(() {
       filePathToPlay = text;
+    });
+  }
+
+  void _setDecibels(int decibel) {
+    setState(() {
+      _decibels.add(decibel);
     });
   }
 
@@ -163,15 +163,22 @@ class _Manager extends State<Manager> {
             children: [
               Container(
                 // margin: EdgeInsets.all(10.0),
-                child: PlayControl(_changePlay, _changeScore, _changeMenu,),
+                child: PlayControl(
+                  _changePlay,
+                  _changeScore,
+                  _changeMenu,
+                ),
               ),
-              Text(
-                _currentLyric,
-                style: TextStyle(fontSize: 20),
-                maxLines: 1,
-              ),
-              PlayKaraoke(_flutterSound, _selectedSong, _setCurrentLyric,
-                  _karaokeButton, _setKaraokeButton, _setFilePathToPlay, _currentLyric),
+
+              VideoRecorder(
+                setFilePathToPlay: _setFilePathToPlay,
+                currentLyric: _currentLyric,
+                flutterSound: _flutterSound,
+                selectedSong: _selectedSong,
+                setCurrentLyric: _setCurrentLyric,
+                karaokeButton: _karaokeButton,
+                setKaraokeButton: _setKaraokeButton,
+                setDecibels: _setDecibels,)
             ],
           ),
         ),

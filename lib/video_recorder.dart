@@ -8,24 +8,44 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:async';
 
-class VideoRecorder extends StatefulWidget {
-  final Function startAudio;
-  final Function stopAudio;
-  final Function setFilePathToPlay;
-  String currentLyric;
+import 'dart:collection';
+import 'package:noise_meter/noise_meter.dart';
+import 'package:flutter_sound/flutter_sound.dart';
+import 'package:intl/intl.dart';
 
-  VideoRecorder(
-      {Key key,
-      @required this.startAudio,
-      @required this.stopAudio,
-      @required this.setFilePathToPlay,
-      @required this.currentLyric})
-      : super(key: key);
+class VideoRecorder extends StatefulWidget {
+  final Function setFilePathToPlay;
+  final FlutterSound flutterSound;
+  final ModelSong selectedSong;
+  final Function setCurrentLyric;
+  final String karaokeButton;
+  final Function setKaraokeButton;
+  String currentLyric;
+  final Function setDecibels;
+
+  VideoRecorder({
+    Key key,
+    @required this.setFilePathToPlay,
+    @required this.currentLyric,
+    @required this.flutterSound,
+    @required this.selectedSong,
+    @required this.setCurrentLyric,
+    @required this.karaokeButton,
+    @required this.setKaraokeButton,
+    @required this.setDecibels,
+  }) : super(key: key);
 
   @override
   _VideoRecorder createState() {
     return _VideoRecorder(
-        startAudio, stopAudio, setFilePathToPlay, currentLyric);
+        setFilePathToPlay,
+        currentLyric,
+        flutterSound,
+        selectedSong,
+        setCurrentLyric,
+        karaokeButton,
+        setKaraokeButton,
+        setDecibels);
   }
 }
 
@@ -41,13 +61,27 @@ class _VideoRecorder extends State<VideoRecorder> with WidgetsBindingObserver {
   bool enableAudio = true;
   String filePathExtractor;
   List<CameraDescription> cameras;
-  Function startAudio;
-  Function stopAudio;
   Function setFilePathToPlay;
   String currentLyric;
+  FlutterSound flutterSound;
+  ModelSong selectedSong;
+  Function setCurrentLyric;
+  String karaokeButton;
+  Function setKaraokeButton;
+  Function setDecibels;
 
-  _VideoRecorder(this.startAudio, this.stopAudio, this.setFilePathToPlay,
-      this.currentLyric);
+  String domesticLyric = 'Lyrics Here For Dom';
+
+  _VideoRecorder(
+    this.setFilePathToPlay,
+    this.currentLyric,
+    this.flutterSound,
+    this.selectedSong,
+    this.setCurrentLyric,
+    this.karaokeButton,
+    this.setKaraokeButton,
+    this.setDecibels,
+  );
 
   @override
   void initState() {
@@ -84,6 +118,12 @@ class _VideoRecorder extends State<VideoRecorder> with WidgetsBindingObserver {
     super.dispose();
   }
 
+  void setDomesticLyric(String line) {
+    setState(() {
+      domesticLyric = line;
+    });
+  }
+
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -98,16 +138,22 @@ class _VideoRecorder extends State<VideoRecorder> with WidgetsBindingObserver {
               child: Padding(
                 padding: const EdgeInsets.all(1.0),
                 child: Center(
-                  child: Stack(
-                      children: [ 
-                        _cameraPreviewWidget(),
-                        Container(
-                          color: Colors.grey[400],
-                          child: Text(
-                          currentLyric,
-                          style: TextStyle(backgroundColor: Colors.grey,)
-                   ),), 
-                   ]),
+                  child: Stack(children: [
+                    _cameraPreviewWidget(),
+                    Container(
+                      width: double.infinity,
+                      height: 60,
+                      color: Colors.grey[600].withOpacity(0.7),
+                      child: Container(
+                        padding: EdgeInsets.only(top:5),
+                        child: Text(domesticLyric,
+                      textAlign: TextAlign.center,
+                      maxLines: 2,
+                          style: TextStyle(
+                            fontSize: 20,
+                          )),
+                    ),),
+                  ]),
                 ),
               ),
               decoration: BoxDecoration(
@@ -186,7 +232,7 @@ class _VideoRecorder extends State<VideoRecorder> with WidgetsBindingObserver {
   String timestamp() => DateTime.now().millisecondsSinceEpoch.toString();
 
   void showInSnackBar(String message) {
-    _scaffoldKey.currentState.showSnackBar(SnackBar(content: Text(message)));
+    // _scaffoldKey.currentState.showSnackBar(SnackBar(content: Text(message)));
   }
 
   void onNewCameraSelected(CameraDescription cameraDescription) async {
@@ -214,6 +260,64 @@ class _VideoRecorder extends State<VideoRecorder> with WidgetsBindingObserver {
 
     if (mounted) {
       setState(() {});
+    }
+  }
+
+  Future<void> startAudio() async {
+    LinkedHashMap<String, String> mappedLyrics = selectedSong.lyrics
+        .split('[')
+        .fold(new LinkedHashMap<String, String>(), (accumuLines, currentLine) {
+      if (currentLine != "") {
+        accumuLines[currentLine.split(']')[0]] = currentLine.split(']')[1];
+      }
+      return accumuLines;
+    });
+    try {
+      _noiseSubscription =
+          new Noise(500).noiseStream.listen((e) => setDecibels(e.decibel));
+      // await flutterSound.startRecorder('sdcard/recorded.m4a',
+      //     bitRate: 256000,
+      //     sampleRate: 44100,
+      //     androidEncoder: AndroidEncoder.AAC);
+      // print("lyrics? ${selectedSong.lyrics}");
+      print("lyrics? ${selectedSong.lyrics}");
+      await flutterSound.startPlayer(selectedSong.downloadURL);
+      DateTime lyricStartTime = DateFormat('mm:ss:SS', 'en_US')
+          .parseUTC(mappedLyrics.keys.first.padRight(9, "0"));
+      String lyricLine = mappedLyrics[mappedLyrics.keys.first];
+      mappedLyrics.remove(mappedLyrics.keys.first);
+
+      _playerSubscription = flutterSound.onPlayerStateChanged.listen((e) {
+        if (e != null) {
+          DateTime currentTime = new DateTime.fromMillisecondsSinceEpoch(
+              e.currentPosition.toInt(),
+              isUtc: true);
+          DateTime lyricStopTime = DateFormat('mm:ss:SS', 'en_US')
+              .parseUTC(mappedLyrics.keys.first.padRight(9, "0"));
+          if (lyricStartTime.isBefore(currentTime) &&
+              currentTime.isBefore(lyricStopTime)) {
+            setDomesticLyric(lyricLine);
+            setCurrentLyric(lyricLine);
+            lyricStartTime = lyricStopTime;
+            lyricLine = mappedLyrics[mappedLyrics.keys.first];
+            mappedLyrics.remove(mappedLyrics.keys.first);
+          }
+        }
+      });
+    } catch (err) {
+      print('Start Error! $err');
+    }
+  }
+
+  Future stopAudio() async {
+    try {
+      await _noiseSubscription.cancel();
+      // await flutterSound.stopRecorder();
+      await flutterSound.stopPlayer();
+      await _playerSubscription.cancel();
+      await uploadAudio();
+    } catch (err) {
+      print("Stop Error! $err");
     }
   }
 
@@ -245,6 +349,8 @@ class _VideoRecorder extends State<VideoRecorder> with WidgetsBindingObserver {
     addVideo(uploadJSON);
   }
 
+  StreamSubscription<PlayStatus> _playerSubscription;
+  StreamSubscription<NoiseEvent> _noiseSubscription;
   final StorageReference storageReference = FirebaseStorage().ref();
 
   Future<String> videoUpload(String path) async {
@@ -386,15 +492,42 @@ class _VideoRecorder extends State<VideoRecorder> with WidgetsBindingObserver {
     logError(e.code, e.description);
     showInSnackBar('Error: ${e.code}\n${e.description}');
   }
-}
 
-List<CameraDescription> cameras;
-Future<List> fetchCameras() async {
-  try {
-    WidgetsFlutterBinding.ensureInitialized();
-    cameras = await availableCameras();
-  } on CameraException catch (e) {
-    logError(e.code, e.description);
+  Future<String> uploadAudio(
+      [String audioFileName, String audioTitle, String artist]) async {
+    if (audioFileName == null) {
+      audioFileName = "RyoheiRecorded2.m4a";
+    }
+    File audioFile = File("sdcard/recorded.m4a");
+    StorageUploadTask ref = storageReference
+        .child("audioFiles/" + audioFileName)
+        .putFile(audioFile);
+    String location = await (await ref.onComplete).ref.getDownloadURL();
+    return location;
   }
-  return cameras;
+
+  Future<String> _uploadAudio([String audioFileName]) async {
+    if (audioFileName == null) {
+      audioFileName = "RyoheiRecorded2.m4a";
+    }
+
+    File audioFile = File("sdcard/recorded.m4a");
+
+    StorageUploadTask ref = storageReference
+        .child("audioFiles/" + audioFileName)
+        .putFile(audioFile);
+    String location = await (await ref.onComplete).ref.getDownloadURL();
+    print(location.toString());
+    return location;
+  }
+
+  Future<List> fetchCameras() async {
+    try {
+      WidgetsFlutterBinding.ensureInitialized();
+      cameras = await availableCameras();
+    } on CameraException catch (e) {
+      logError(e.code, e.description);
+    }
+    return cameras;
+  }
 }

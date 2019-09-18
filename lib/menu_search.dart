@@ -14,7 +14,8 @@ class MenuSearch extends StatelessWidget {
             Container(
                 color: Colors.grey[700],
                 child: AppBar(
-                  title: Text('Genre',
+                  backgroundColor: Colors.black,
+                  title: Text('Sing-Off',
                   style: TextStyle(fontSize: 18),
                   textAlign: TextAlign.center,
                 ),
