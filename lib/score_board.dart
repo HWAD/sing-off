@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
+import './model_song.dart';
 
 class ScoreBoard extends StatelessWidget {
+  final ModelSong selectedSong;
+
+  ScoreBoard(this.selectedSong);
+
   @override
   Widget build(BuildContext context) {
     return Column(children: [
@@ -13,7 +18,7 @@ class ScoreBoard extends StatelessWidget {
           borderRadius: BorderRadius.circular(10.0),
         ),
         child: Text(
-          'It' 's My Life !',
+          selectedSong.title,
           textAlign: TextAlign.center,
           style: TextStyle(
             color: Colors.black,

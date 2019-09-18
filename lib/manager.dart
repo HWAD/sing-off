@@ -155,7 +155,7 @@ class _Manager extends State<Manager> {
           visible: _isScore,
           child: Column(
             children: [
-              ScoreBoard(),
+              ScoreBoard(_selectedSong),
               ScoreReplay(),
               ScoreGoToOther(_changeMenu, _changePlay, _changeScore),
             ],
