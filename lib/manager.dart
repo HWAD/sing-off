@@ -178,7 +178,9 @@ class _Manager extends State<Manager> {
                 setKaraokeButton: _setKaraokeButton,
                 setDecibels: _setDecibels,
               ),
-              WaveAnimation(_decibels),
+
+              /// ANIMATION. FOR NOW IS DISABLED. TO TOGGLE IN ONLY IF PITCH IS AVAILABLE.
+              // WaveAnimation(_decibels),
               Container(
                 child: PlayControl(
                   _changeRecorder,
