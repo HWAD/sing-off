@@ -35,6 +35,7 @@ class _Manager extends State<Manager> {
       score: 0,
       isFavorite: false);
   String _currentLyric = "Lyrics Come Here!!";
+  // List<Duration> _highlightDurations = new List<Duration>();
   String _karaokeButton = "";
   bool _isCategory = false;
   bool _isMenu = false;
@@ -120,6 +121,12 @@ class _Manager extends State<Manager> {
     });
   }
 
+  // void _setHighlightDurations(List<Duration> durations) {
+  //   setState(() {
+  //     _highlightDurations = durations;
+  //   });
+  // }
+
   void _setKaraokeButton(String text) {
     setState(() {
       _karaokeButton = text;
@@ -166,10 +173,12 @@ class _Manager extends State<Manager> {
                 flutterSound: _flutterSound,
                 selectedSong: _selectedSong,
                 setCurrentLyric: _setCurrentLyric,
+                // highlightDurations: _highlightDurations,
                 karaokeButton: _karaokeButton,
                 setKaraokeButton: _setKaraokeButton,
-                setDecibels: _setDecibels,),
-                Container(
+                setDecibels: _setDecibels,
+              ),
+              Container(
                 child: PlayControl(
                   _changeRecorder,
                   _changePlayer,
@@ -183,7 +192,11 @@ class _Manager extends State<Manager> {
           visible: _isPlayer,
           child: Column(
             children: [
-              VideoPlayerScreen(filePathToPlay: filePathToPlay, changeMenu: _changeMenu, changeRecorder: _changeRecorder, changePlayer: _changePlayer),
+              VideoPlayerScreen(
+                  filePathToPlay: filePathToPlay,
+                  changeMenu: _changeMenu,
+                  changeRecorder: _changeRecorder,
+                  changePlayer: _changePlayer),
               // ScoreGoToOther(_changeMenu, _changePlay, _changeScore),
             ],
           ),
