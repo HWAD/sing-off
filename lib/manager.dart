@@ -39,7 +39,7 @@ class _Manager extends State<Manager> {
       score: 0,
       isFavorite: false);
   String _currentLyric = "Lyrics Come Here!!";
-  List<Duration> _highlightDurations = [];
+  List<Duration> _highlightDurations = new List<Duration>();
   String _karaokeButton = "";
   bool _isUpload = false;
   bool _isMenu = false;
@@ -120,13 +120,7 @@ class _Manager extends State<Manager> {
 
   void _setHighlightDurations(List<Duration> durations) {
     setState(() {
-      print("Set Duration");
-      print(durations);
-      if (durations == null) {
-        _highlightDurations = [];
-      } else {
-        _highlightDurations = durations;
-      }
+      _highlightDurations = durations;
     });
   }
 
@@ -167,16 +161,22 @@ class _Manager extends State<Manager> {
                   _setHighlightDurations,
                   _karaokeButton,
                   _setKaraokeButton),
-              Text(_currentLyric),
               RichText(
                 text: TextSpan(
-                  text: 'Hello ',
                   style: DefaultTextStyle.of(context).style,
                   children: <TextSpan>[
                     TextSpan(
-                        text: 'bold',
+                        text: _highlightDurations.length >= 1
+                            ? _currentLyric.substring(
+                                0, _highlightDurations.length - 1)
+                            : "",
                         style: TextStyle(fontWeight: FontWeight.bold)),
-                    TextSpan(text: ' world!'),
+                    TextSpan(
+                      text: _highlightDurations.length >= 1
+                          ? _currentLyric
+                              .substring(_highlightDurations.length - 1)
+                          : _currentLyric,
+                    ),
                   ],
                 ),
               )

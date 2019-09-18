@@ -81,40 +81,27 @@ class PlayKaraoke extends StatelessWidget {
               currentTime.isBefore(lyricStopTime)) {
             print(lyricLine);
             setCurrentLyric(lyricLine);
-            setHighlightDurations(null);
-            // setHighlightDurations(
-            //     lyricStopTime.difference(lyricStartTime) ~/ lyricLine.length);
-            if (highlightDurations.length >= 1) {
-              highlightDurations.removeRange(0, highlightDurations.length - 1);
-            }
-            highlightDurations.add(
-                lyricStopTime.difference(lyricStartTime) ~/ lyricLine.length);
-            setHighlightDurations(highlightDurations);
             highlightStartTime = lyricStartTime;
             highlightLine = lyricLine;
             lyricStartTime = lyricStopTime;
             lyricLine = mappedLyrics[mappedLyrics.keys.first];
+            setHighlightDurations(new List<Duration>());
+            if (highlightDurations.length >= 1) {
+              highlightDurations.removeRange(0, highlightDurations.length);
+            }
             mappedLyrics.remove(mappedLyrics.keys.first);
           }
-          print(highlightStartTime.add(highlightDurations.fold(new Duration(),
-              (accumuDuration, currentDuration) {
-            // print("accumuDuration of fold!!!");
-            // print(accumuDuration);
-            // print("currentDuration of fold!!!");
-            // print(currentDuration);
-            accumuDuration = currentDuration + accumuDuration;
-            return accumuDuration;
-          })));
-          print("^this is folded Duration");
           if (highlightStartTime
                   .add(highlightDurations.fold(
-                      new Duration(),
+                      lyricStartTime.difference(highlightStartTime) ~/
+                          highlightLine.length,
                       (accumuDuration, currentDuration) =>
                           currentDuration + accumuDuration))
                   .isBefore(currentTime) &&
               currentTime.isBefore(lyricStartTime)) {
             highlightDurations.add(
-                lyricStartTime.difference(highlightStartTime) ~/ highlightLine.length);
+                lyricStartTime.difference(highlightStartTime) ~/
+                    highlightLine.length);
             setHighlightDurations(highlightDurations);
             print("Check!!!");
             print(highlightDurations);
