@@ -171,7 +171,7 @@ class _Manager extends State<Manager> {
                 maxLines: 1,
               ),
               PlayKaraoke(_flutterSound, _selectedSong, _setCurrentLyric,
-                  _karaokeButton, _setKaraokeButton, _setFilePathToPlay),
+                  _karaokeButton, _setKaraokeButton, _setFilePathToPlay, _currentLyric),
             ],
           ),
         ),
@@ -179,8 +179,6 @@ class _Manager extends State<Manager> {
           visible: _isScore,
           child: Column(
             children: [
-              // ScoreBoard(),
-              // // ScoreReplay(),
               ScoreGoToOther(_changeMenu, _changePlay, _changeScore),
               VideoPlayerScreen(filePathToPlay: filePathToPlay)
             ],

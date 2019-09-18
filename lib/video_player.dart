@@ -36,7 +36,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.height*(8/10),
+      height: MediaQuery.of(context).size.height*(7.8/10),
       child: Column(
         children: <Widget> [
           FutureBuilder(

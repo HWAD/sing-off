@@ -2,7 +2,6 @@ import 'dart:io';
 import 'dart:async';
 import 'dart:collection';
 
-
 import './model_song.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sound/flutter_sound.dart';
@@ -18,15 +17,17 @@ class PlayKaraoke extends StatelessWidget {
   final String karaokeButton;
   final Function setKaraokeButton;
   final Function setFilePathToPlay;
+  String currentLyric;
 
   PlayKaraoke(
-    FlutterSound flutterSound,
-    ModelSong selectedSong,
-    Function setCurrentLyric,
-    String karaokeButton,
-    Function setKaraokeButton,
-    Function setFilePathToPlay,
-  )   : this.flutterSound = flutterSound,
+      FlutterSound flutterSound,
+      ModelSong selectedSong,
+      Function setCurrentLyric,
+      String karaokeButton,
+      Function setKaraokeButton,
+      Function setFilePathToPlay,
+      String currentLyric)
+      : this.flutterSound = flutterSound,
         this.selectedSong = selectedSong,
         this.setCurrentLyric = setCurrentLyric,
         this.mappedLyrics = selectedSong.lyrics.split('[').fold(
@@ -38,7 +39,8 @@ class PlayKaraoke extends StatelessWidget {
         }),
         this.karaokeButton = karaokeButton,
         this.setKaraokeButton = setKaraokeButton,
-        this.setFilePathToPlay = setFilePathToPlay;
+        this.setFilePathToPlay = setFilePathToPlay,
+        this.currentLyric = currentLyric;
 
   StreamSubscription<PlayStatus> _playerSubscription;
 
@@ -122,10 +124,11 @@ class PlayKaraoke extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        CameraExampleHome(
+        VideoRecorder(
           startAudio: _startAudio,
           stopAudio: _stopAudio,
           setFilePathToPlay: setFilePathToPlay,
+          currentLyric: currentLyric,
         ),
       ],
     );

@@ -8,29 +8,31 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:async';
 
-class CameraExampleHome extends StatefulWidget {
+class VideoRecorder extends StatefulWidget {
   final Function startAudio;
   final Function stopAudio;
   final Function setFilePathToPlay;
+  String currentLyric;
 
-  CameraExampleHome(
+  VideoRecorder(
       {Key key,
       @required this.startAudio,
       @required this.stopAudio,
-      @required this.setFilePathToPlay,})
+      @required this.setFilePathToPlay,
+      @required this.currentLyric})
       : super(key: key);
 
   @override
-  _CameraExampleHomeState createState() {
-    return _CameraExampleHomeState(startAudio, stopAudio, setFilePathToPlay);
+  _VideoRecorder createState() {
+    return _VideoRecorder(
+        startAudio, stopAudio, setFilePathToPlay, currentLyric);
   }
 }
 
 void logError(String code, String message) =>
     print('Error: $code\nError Message: $message');
 
-class _CameraExampleHomeState extends State<CameraExampleHome>
-    with WidgetsBindingObserver {
+class _VideoRecorder extends State<VideoRecorder> with WidgetsBindingObserver {
   CameraController controller;
   String imagePath;
   String videoPath;
@@ -42,9 +44,10 @@ class _CameraExampleHomeState extends State<CameraExampleHome>
   Function startAudio;
   Function stopAudio;
   Function setFilePathToPlay;
+  String currentLyric;
 
-  _CameraExampleHomeState(
-      this.startAudio, this.stopAudio, this.setFilePathToPlay);
+  _VideoRecorder(this.startAudio, this.stopAudio, this.setFilePathToPlay,
+      this.currentLyric);
 
   @override
   void initState() {
@@ -95,7 +98,16 @@ class _CameraExampleHomeState extends State<CameraExampleHome>
               child: Padding(
                 padding: const EdgeInsets.all(1.0),
                 child: Center(
-                  child: _cameraPreviewWidget(),
+                  child: Stack(
+                      children: [ 
+                        _cameraPreviewWidget(),
+                        Container(
+                          color: Colors.grey[400],
+                          child: Text(
+                          currentLyric,
+                          style: TextStyle(backgroundColor: Colors.grey,)
+                   ),), 
+                   ]),
                 ),
               ),
               decoration: BoxDecoration(
@@ -115,10 +127,8 @@ class _CameraExampleHomeState extends State<CameraExampleHome>
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                Center(
-                  child: Text("For Visual", textAlign: TextAlign.center)
-
-                )],
+                Center(child: Text("For Visual", textAlign: TextAlign.center))
+              ],
             ),
           ),
         ],
