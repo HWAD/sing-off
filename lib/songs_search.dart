@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-class MenuSearch extends StatelessWidget {
+class SongSearch extends StatelessWidget {
   final Function setCategory;
-  MenuSearch(this.setCategory);
+  SongSearch(this.setCategory);
   final List items = ['Hip Hop', 'Rock', 'Christmas', 'Video'];
 
   @override

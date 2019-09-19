@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-class MenuRow extends StatelessWidget {
+class SongRow extends StatelessWidget {
   final Function setCategory;
-  final Function changeMenu;
+  final Function changeSongs;
   final Function changeCategory;
-  MenuRow(this.setCategory, this.changeMenu, this.changeCategory);
+  SongRow(this.setCategory, this.changeSongs, this.changeCategory);
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +20,7 @@ class MenuRow extends StatelessWidget {
                 child: InkWell(
                     onTap: () {
                       changeCategory(true);
-                      changeMenu(false);
+                      changeSongs(false);
                     },
                     child: Icon(
                       Icons.arrow_back_ios,

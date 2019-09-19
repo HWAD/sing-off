@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 class RecorderControl extends StatelessWidget {
   final Function changeRecorder;
   final Function changePlayer;
-  final Function changeMenu;
+  final Function changeSongs;
 
-  RecorderControl(this.changeRecorder, this.changePlayer, this.changeMenu);
+  RecorderControl(this.changeRecorder, this.changePlayer, this.changeSongs);
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +23,7 @@ class RecorderControl extends StatelessWidget {
               child: InkWell(
               onTap: () {
                 changePlayer(false);
-                changeMenu(true);
+                changeSongs(true);
                 changeRecorder(false);
               },
               child: Icon(Icons.arrow_back_ios,)
