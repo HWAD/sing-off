@@ -7,7 +7,7 @@ import './model_song.dart';
 import './menu_search.dart';
 import './menu_album.dart';
 import './menu_row.dart';
-import './play_control.dart';
+import './recorder_control.dart';
 import './animation.dart';
 import './player.dart';
 import './recorder.dart';
@@ -182,7 +182,7 @@ class _Manager extends State<Manager> {
               /// ANIMATION. FOR NOW IS DISABLED. TO TOGGLE IN ONLY IF PITCH IS AVAILABLE.
               // WaveAnimation(_decibels),
               Container(
-                child: PlayControl(
+                child: RecorderControl(
                   _changeRecorder,
                   _changePlayer,
                   _changeMenu,

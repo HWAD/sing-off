@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-class PlayControl extends StatelessWidget {
-  final Function changePlay;
-  final Function changeScore;
+class RecorderControl extends StatelessWidget {
+  final Function changeRecorder;
+  final Function changePlayer;
   final Function changeMenu;
 
-  PlayControl(this.changePlay, this.changeScore, this.changeMenu);
+  RecorderControl(this.changeRecorder, this.changePlayer, this.changeMenu);
 
   @override
   Widget build(BuildContext context) {
@@ -22,9 +22,9 @@ class PlayControl extends StatelessWidget {
               padding: EdgeInsets.only(top: 10),
               child: InkWell(
               onTap: () {
-                changeScore(false);
+                changePlayer(false);
                 changeMenu(true);
-                changePlay(false);
+                changeRecorder(false);
               },
               child: Icon(Icons.arrow_back_ios,)
             ), 
@@ -33,8 +33,8 @@ class PlayControl extends StatelessWidget {
               padding: EdgeInsets.only(left: 280),
               child:InkWell(
                 onTap: () {
-                  changePlay(false);
-                  changeScore(true);
+                  changeRecorder(false);
+                  changePlayer(true);
                 },
                 child: Icon(Icons.arrow_forward_ios)), 
             ),
