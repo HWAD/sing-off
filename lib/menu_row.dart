@@ -31,7 +31,24 @@ class MenuRow extends StatelessWidget {
                 padding: EdgeInsets.only(top: 20, left: 50),
                 child: Text(
                   'Genre',
-                  style: TextStyle(fontSize: 18),
+                  style: TextStyle(fontSize: 18,
+                  shadows: [
+      Shadow( // bottomLeft
+	offset: Offset(-1.5, -1.5),
+	color: Colors.black
+      ),
+      Shadow( // bottomRight
+	offset: Offset(1.5, -1.5),
+	color: Colors.black
+      ),
+      Shadow( // topRight
+	offset: Offset(1.5, 1.5),
+	color: Colors.black
+      ),
+      Shadow( // topLeft
+	offset: Offset(-1.5, 1.5),
+	color: Colors.black
+      ),]),
                   textAlign: TextAlign.left,
                 ),
               ),
@@ -57,7 +74,24 @@ class MenuRow extends StatelessWidget {
                         },
                         child: Center(
                           child:
-                              Text("Christmas", style: TextStyle(fontSize: 18)),
+                              Text("Christmas", style: TextStyle(fontSize: 18,
+                              shadows: [
+      Shadow( // bottomLeft
+	offset: Offset(-1.5, -1.5),
+	color: Colors.black
+      ),
+      Shadow( // bottomRight
+	offset: Offset(1.5, -1.5),
+	color: Colors.black
+      ),
+      Shadow( // topRight
+	offset: Offset(1.5, 1.5),
+	color: Colors.black
+      ),
+      Shadow( // topLeft
+	offset: Offset(-1.5, 1.5),
+	color: Colors.black
+      ),])),
                         ),
                       ),
                     )),
@@ -73,7 +107,24 @@ class MenuRow extends StatelessWidget {
                         },
                         child: Center(
                           child:
-                              Text("Hip Hop", style: TextStyle(fontSize: 18)),
+                              Text("Hip Hop", style: TextStyle(fontSize: 18,
+                              shadows: [
+      Shadow( // bottomLeft
+	offset: Offset(-1.5, -1.5),
+	color: Colors.black
+      ),
+      Shadow( // bottomRight
+	offset: Offset(1.5, -1.5),
+	color: Colors.black
+      ),
+      Shadow( // topRight
+	offset: Offset(1.5, 1.5),
+	color: Colors.black
+      ),
+      Shadow( // topLeft
+	offset: Offset(-1.5, 1.5),
+	color: Colors.black
+      ),])),
                         ),
                       ),
                     )),
@@ -88,7 +139,24 @@ class MenuRow extends StatelessWidget {
                           setCategory("Pop");
                         },
                         child: Center(
-                          child: Text("Pop", style: TextStyle(fontSize: 18)),
+                          child: Text("Pop", style: TextStyle(fontSize: 18,
+                          shadows: [
+      Shadow( // bottomLeft
+	offset: Offset(-1.5, -1.5),
+	color: Colors.black
+      ),
+      Shadow( // bottomRight
+	offset: Offset(1.5, -1.5),
+	color: Colors.black
+      ),
+      Shadow( // topRight
+	offset: Offset(1.5, 1.5),
+	color: Colors.black
+      ),
+      Shadow( // topLeft
+	offset: Offset(-1.5, 1.5),
+	color: Colors.black
+      ),])),
                         ),
                       ),
                     )),
@@ -103,7 +171,120 @@ class MenuRow extends StatelessWidget {
                           setCategory("Rock");
                         },
                         child: Center(
-                          child: Text("Rock", style: TextStyle(fontSize: 18)),
+                          child: Text("Rock", style: TextStyle(fontSize: 18,
+                          shadows: [
+      Shadow( // bottomLeft
+	offset: Offset(-1.5, -1.5),
+	color: Colors.black
+      ),
+      Shadow( // bottomRight
+	offset: Offset(1.5, -1.5),
+	color: Colors.black
+      ),
+      Shadow( // topRight
+	offset: Offset(1.5, 1.5),
+	color: Colors.black
+      ),
+      Shadow( // topLeft
+	offset: Offset(-1.5, 1.5),
+	color: Colors.black
+      ),])),
+                        ),
+                      ),
+                    )),
+                    Container(
+                    width: 100,
+                    margin: EdgeInsets.only(left: 7),
+                    child: Ink.image(
+                      image: AssetImage("assets/country.jpeg"),
+                      fit: BoxFit.fill,
+                      child: InkWell(
+                        onTap: () {
+                          setCategory("Rock");
+                        },
+                        child: Center(
+                          child: Text("Country", style: TextStyle(fontSize: 18,
+                          shadows: [
+      Shadow( // bottomLeft
+	offset: Offset(-1.5, -1.5),
+	color: Colors.black
+      ),
+      Shadow( // bottomRight
+	offset: Offset(1.5, -1.5),
+	color: Colors.black
+      ),
+      Shadow( // topRight
+	offset: Offset(1.5, 1.5),
+	color: Colors.black
+      ),
+      Shadow( // topLeft
+	offset: Offset(-1.5, 1.5),
+	color: Colors.black
+      ),])),
+                        ),
+                      ),
+                    )),
+                    Container(
+                    width: 100,
+                    margin: EdgeInsets.only(left: 7),
+                    child: Ink.image(
+                      image: AssetImage("assets/soul.jpeg"),
+                      fit: BoxFit.fill,
+                      child: InkWell(
+                        onTap: () {
+                          setCategory("Rock");
+                        },
+                        child: Center(
+                          child: Text("Soul", style: TextStyle(fontSize: 18,
+                          shadows: [
+      Shadow( // bottomLeft
+	offset: Offset(-1.5, -1.5),
+	color: Colors.black
+      ),
+      Shadow( // bottomRight
+	offset: Offset(1.5, -1.5),
+	color: Colors.black
+      ),
+      Shadow( // topRight
+	offset: Offset(1.5, 1.5),
+	color: Colors.black
+      ),
+      Shadow( // topLeft
+	offset: Offset(-1.5, 1.5),
+	color: Colors.black
+      ),])),
+                        ),
+                      ),
+                    )),
+                    Container(
+                    width: 100,
+                    margin: EdgeInsets.only(left: 7),
+                    child: Ink.image(
+                      image: AssetImage("assets/bey.jpeg"),
+                      fit: BoxFit.fill,
+                      child: InkWell(
+                        onTap: () {
+                          setCategory("Rock");
+                        },
+                        child: Center(
+                          child: Text("Bey", style: TextStyle(fontSize: 18,
+                          shadows: [
+      Shadow( // bottomLeft
+	offset: Offset(-1.5, -1.5),
+	color: Colors.black
+      ),
+      Shadow( // bottomRight
+	offset: Offset(1.5, -1.5),
+	color: Colors.black
+      ),
+      Shadow( // topRight
+	offset: Offset(1.5, 1.5),
+	color: Colors.black
+      ),
+      Shadow( // topLeft
+	offset: Offset(-1.5, 1.5),
+	color: Colors.black
+      ),])),
                         ),
                       ),
                     )),

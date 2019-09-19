@@ -3,13 +3,13 @@ import 'package:flutterkaraoke/model_song.dart';
 
 class MenuAlbum extends StatelessWidget {
   final Function changeMenu;
-  final Function changePlay;
+  final Function changeRecorder;
   final List<ModelSong> allSongs;
   final Function setSelectedSong;
   final String selectedCategory;
   List filteredAllSongs;
 
-  MenuAlbum(this.changeMenu, this.changePlay, this.allSongs,
+  MenuAlbum(this.changeMenu, this.changeRecorder, this.allSongs,
       this.setSelectedSong, this.selectedCategory);
 
   @override
@@ -32,7 +32,7 @@ class MenuAlbum extends StatelessWidget {
                         onTap: () {
                           if (element.category != 'Video') {
                             changeMenu(false);
-                            changePlay(true);
+                            changeRecorder(true);
                             setSelectedSong(element);
                           }
                           if (element.category == 'Video') {
@@ -90,13 +90,7 @@ class MenuAlbum extends StatelessWidget {
                                 mainAxisSize: MainAxisSize.max,
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: <Widget>[
-                                  FlatButton(
-                                    child: Text('Favorite', style: TextStyle()),
-                                    textColor: Colors.blue,
-                                    onPressed: () {
-                                      print('I just added this to favorites!');
-                                    },
-                                  ),
+                                 
                                 ],
                               ),
                             )

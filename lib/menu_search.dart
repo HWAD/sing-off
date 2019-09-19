@@ -44,7 +44,25 @@ class MenuSearch extends StatelessWidget {
                       },
                       child: Center(
                         child: Text("Christmas",
-                        style: TextStyle(fontSize: 25)),
+                        style: TextStyle(fontSize: 25,
+                        shadows: [
+      Shadow( // bottomLeft
+	offset: Offset(-1.5, -1.5),
+	color: Colors.black
+      ),
+      Shadow( // bottomRight
+	offset: Offset(1.5, -1.5),
+	color: Colors.black
+      ),
+      Shadow( // topRight
+	offset: Offset(1.5, 1.5),
+	color: Colors.black
+      ),
+      Shadow( // topLeft
+	offset: Offset(-1.5, 1.5),
+	color: Colors.black
+      ),
+  ],)),
                         ),),)
                         ),
                    Container(
@@ -59,7 +77,25 @@ class MenuSearch extends StatelessWidget {
                       },
                       child: Center(
                         child: Text("Hip Hop",
-                        style: TextStyle(fontSize: 25)),
+                        style: TextStyle(fontSize: 25,
+                        shadows: [
+      Shadow( // bottomLeft
+	offset: Offset(-1.5, -1.5),
+	color: Colors.black
+      ),
+      Shadow( // bottomRight
+	offset: Offset(1.5, -1.5),
+	color: Colors.black
+      ),
+      Shadow( // topRight
+	offset: Offset(1.5, 1.5),
+	color: Colors.black
+      ),
+      Shadow( // topLeft
+	offset: Offset(-1.5, 1.5),
+	color: Colors.black
+      ),
+  ],)),
                         ),),)
                         ),
                    Container(
@@ -74,7 +110,25 @@ class MenuSearch extends StatelessWidget {
                       },
                       child: Center(
                         child: Text("Pop",
-                        style: TextStyle(fontSize: 25)),
+                        style: TextStyle(fontSize: 25,
+                        shadows: [
+      Shadow( // bottomLeft
+	offset: Offset(-1.5, -1.5),
+	color: Colors.black
+      ),
+      Shadow( // bottomRight
+	offset: Offset(1.5, -1.5),
+	color: Colors.black
+      ),
+      Shadow( // topRight
+	offset: Offset(1.5, 1.5),
+	color: Colors.black
+      ),
+      Shadow( // topLeft
+	offset: Offset(-1.5, 1.5),
+	color: Colors.black
+      ),
+  ],)),
                         ),),)
                         ),
                   Container(
@@ -90,7 +144,25 @@ class MenuSearch extends StatelessWidget {
                       child: Center(
                         child: Text(
                         "Rock",
-                        style: TextStyle(fontSize: 25)
+                        style: TextStyle(fontSize: 25,
+                        shadows: [
+      Shadow( // bottomLeft
+	offset: Offset(-1.5, -1.5),
+	color: Colors.black
+      ),
+      Shadow( // bottomRight
+	offset: Offset(1.5, -1.5),
+	color: Colors.black
+      ),
+      Shadow( // topRight
+	offset: Offset(1.5, 1.5),
+	color: Colors.black
+      ),
+      Shadow( // topLeft
+	offset: Offset(-1.5, 1.5),
+	color: Colors.black
+      ),
+  ],)
                       ),),),)
                         ),
                         Container(
@@ -106,7 +178,25 @@ class MenuSearch extends StatelessWidget {
                       child: Center(
                         child: Text(
                         "Country",
-                        style: TextStyle(fontSize: 25)
+                        style: TextStyle(fontSize: 25,
+                        shadows: [
+      Shadow( // bottomLeft
+	offset: Offset(-1.5, -1.5),
+	color: Colors.black
+      ),
+      Shadow( // bottomRight
+	offset: Offset(1.5, -1.5),
+	color: Colors.black
+      ),
+      Shadow( // topRight
+	offset: Offset(1.5, 1.5),
+	color: Colors.black
+      ),
+      Shadow( // topLeft
+	offset: Offset(-1.5, 1.5),
+	color: Colors.black
+      ),
+  ],)
                       ),),),)
                         ),
                         Container(
@@ -122,7 +212,25 @@ class MenuSearch extends StatelessWidget {
                       child: Center(
                         child: Text(
                         "Soul",
-                        style: TextStyle(fontSize: 25)
+                        style: TextStyle(fontSize: 25,
+                        shadows: [
+      Shadow( // bottomLeft
+	offset: Offset(-1.5, -1.5),
+	color: Colors.black
+      ),
+      Shadow( // bottomRight
+	offset: Offset(1.5, -1.5),
+	color: Colors.black
+      ),
+      Shadow( // topRight
+	offset: Offset(1.5, 1.5),
+	color: Colors.black
+      ),
+      Shadow( // topLeft
+	offset: Offset(-1.5, 1.5),
+	color: Colors.black
+      ),
+  ],)
                       ),),),)
                         ),
                         Container(
@@ -138,7 +246,25 @@ class MenuSearch extends StatelessWidget {
                       child: Center(
                         child: Text(
                         "Bey",
-                        style: TextStyle(fontSize: 25)
+                        style: TextStyle(fontSize: 25,
+                        shadows: [
+      Shadow( // bottomLeft
+	offset: Offset(-1.5, -1.5),
+	color: Colors.black
+      ),
+      Shadow( // bottomRight
+	offset: Offset(1.5, -1.5),
+	color: Colors.black
+      ),
+      Shadow( // topRight
+	offset: Offset(1.5, 1.5),
+	color: Colors.black
+      ),
+      Shadow( // topLeft
+	offset: Offset(-1.5, 1.5),
+	color: Colors.black
+      ),
+  ],)
                       ),),),)
                         ),
                 ]),

@@ -8,10 +8,9 @@ import './menu_search.dart';
 import './menu_album.dart';
 import './menu_row.dart';
 import './play_control.dart';
-import './score_goToOther.dart';
-import './video_player.dart';
-import './video_recorder.dart';
 import './animation.dart';
+import './player.dart';
+import './recorder.dart';
 
 class Manager extends StatefulWidget {
   final String startingMenu;
@@ -36,11 +35,12 @@ class _Manager extends State<Manager> {
       score: 0,
       isFavorite: false);
   String _currentLyric = "Lyrics Come Here!!";
+  // List<Duration> _highlightDurations = new List<Duration>();
   String _karaokeButton = "";
   bool _isCategory = false;
   bool _isMenu = false;
-  bool _isPlay = false;
-  bool _isScore = false;
+  bool _isRecorder = false;
+  bool _isPlayer = false;
   String _selectedCategory = "Hip Hop";
   List<int> _decibels = [];
 
@@ -55,7 +55,6 @@ class _Manager extends State<Manager> {
   }
 
   Future<void> _getAllSongs() async {
-    print('in get all songs');
     const url = 'https://flutterkaraoke.firebaseio.com/songs.json';
     http.get(url).then((response) {
       Map<String, dynamic> mappedBody = json.decode(response.body);
@@ -84,9 +83,9 @@ class _Manager extends State<Manager> {
     });
   }
 
-  void _changePlay(bool isPlay) {
+  void _changeRecorder(bool isRecorder) {
     setState(() {
-      _isPlay = isPlay;
+      _isRecorder = isRecorder;
     });
   }
 
@@ -96,9 +95,9 @@ class _Manager extends State<Manager> {
     });
   }
 
-  void _changeScore(bool isScore) {
+  void _changePlayer(bool isPlayer) {
     setState(() {
-      _isScore = isScore;
+      _isPlayer = isPlayer;
     });
   }
 
@@ -121,6 +120,12 @@ class _Manager extends State<Manager> {
       _currentLyric = line;
     });
   }
+
+  // void _setHighlightDurations(List<Duration> durations) {
+  //   setState(() {
+  //     _highlightDurations = durations;
+  //   });
+  // }
 
   void _setKaraokeButton(String text) {
     setState(() {
@@ -154,42 +159,48 @@ class _Manager extends State<Manager> {
           visible: _isMenu,
           child: Column(children: [
             MenuRow(_setCategory, _changeMenu, _changeCategory),
-            MenuAlbum(_changeMenu, _changePlay, _allSongs, _setSelectedSong,
+            MenuAlbum(_changeMenu, _changeRecorder, _allSongs, _setSelectedSong,
                 _selectedCategory),
           ]),
         ),
         Visibility(
-          visible: _isPlay,
+          visible: _isRecorder,
           child: Column(
             children: [
-              Container(
-                // margin: EdgeInsets.all(10.0),
-                child: PlayControl(
-                  _changePlay,
-                  _changeScore,
-                  _changeMenu,
-                ),
-              ),
               VideoRecorder(
                 setFilePathToPlay: _setFilePathToPlay,
                 currentLyric: _currentLyric,
                 flutterSound: _flutterSound,
                 selectedSong: _selectedSong,
                 setCurrentLyric: _setCurrentLyric,
+                // highlightDurations: _highlightDurations,
                 karaokeButton: _karaokeButton,
                 setKaraokeButton: _setKaraokeButton,
                 setDecibels: _setDecibels,
               ),
-              WaveAnimation(_decibels),
+
+              /// ANIMATION. FOR NOW IS DISABLED. TO TOGGLE IN ONLY IF PITCH IS AVAILABLE.
+              // WaveAnimation(_decibels),
+              Container(
+                child: PlayControl(
+                  _changeRecorder,
+                  _changePlayer,
+                  _changeMenu,
+                ),
+              ),
             ],
           ),
         ),
         Visibility(
-          visible: _isScore,
+          visible: _isPlayer,
           child: Column(
             children: [
-              ScoreGoToOther(_changeMenu, _changePlay, _changeScore),
-              VideoPlayerScreen(filePathToPlay: filePathToPlay)
+              VideoPlayerScreen(
+                  filePathToPlay: filePathToPlay,
+                  changeMenu: _changeMenu,
+                  changeRecorder: _changeRecorder,
+                  changePlayer: _changePlayer),
+              // ScoreGoToOther(_changeMenu, _changePlay, _changeScore),
             ],
           ),
         ),

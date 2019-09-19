@@ -18,6 +18,8 @@ class VideoRecorder extends StatefulWidget {
   final FlutterSound flutterSound;
   final ModelSong selectedSong;
   final Function setCurrentLyric;
+  // final List<Duration> highlightDurations;
+  // final Function setHighlightDurations;
   final String karaokeButton;
   final Function setKaraokeButton;
   String currentLyric;
@@ -30,6 +32,8 @@ class VideoRecorder extends StatefulWidget {
     @required this.flutterSound,
     @required this.selectedSong,
     @required this.setCurrentLyric,
+    // @required this.highlightDurations,
+    // @required this.setHighlightDurations,
     @required this.karaokeButton,
     @required this.setKaraokeButton,
     @required this.setDecibels,
@@ -43,6 +47,8 @@ class VideoRecorder extends StatefulWidget {
         flutterSound,
         selectedSong,
         setCurrentLyric,
+        // highlightDurations,
+        // setHighlightDurations,
         karaokeButton,
         setKaraokeButton,
         setDecibels);
@@ -66,11 +72,13 @@ class _VideoRecorder extends State<VideoRecorder> with WidgetsBindingObserver {
   FlutterSound flutterSound;
   ModelSong selectedSong;
   Function setCurrentLyric;
+  List<Duration> highlightDurations = new List<Duration>();
+  // Function setHighlightDurations;
   String karaokeButton;
   Function setKaraokeButton;
   Function setDecibels;
 
-  String domesticLyric = 'Lyrics Here For Dom';
+  String domesticLyric = '';
 
   _VideoRecorder(
     this.setFilePathToPlay,
@@ -78,6 +86,8 @@ class _VideoRecorder extends State<VideoRecorder> with WidgetsBindingObserver {
     this.flutterSound,
     this.selectedSong,
     this.setCurrentLyric,
+    // this.highlightDurations,
+    // this.setHighlightDurations,
     this.karaokeButton,
     this.setKaraokeButton,
     this.setDecibels,
@@ -124,12 +134,18 @@ class _VideoRecorder extends State<VideoRecorder> with WidgetsBindingObserver {
     });
   }
 
+  void setHighlightDurations(List<Duration> durations) {
+    setState(() {
+      highlightDurations = durations;
+    });
+  }
+
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.height * (60 / 100),
+      height: MediaQuery.of(context).size.height * (90 / 100),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
@@ -137,21 +153,42 @@ class _VideoRecorder extends State<VideoRecorder> with WidgetsBindingObserver {
             child: Container(
               child: Padding(
                 padding: const EdgeInsets.all(1.0),
-                child: Center(
+                child: Container(
                   child: Stack(children: [
                     _cameraPreviewWidget(),
                     Container(
-                      width: double.infinity,
-                      height: 60,
                       color: Colors.grey[600].withOpacity(0.7),
                       child: Container(
+                        width: double.infinity,
                         padding: EdgeInsets.only(top: 5),
-                        child: Text(domesticLyric,
-                            textAlign: TextAlign.center,
-                            maxLines: 2,
-                            style: TextStyle(
-                              fontSize: 20,
-                            )),
+                        child: RichText(
+                          textAlign: TextAlign.center,
+                          text: TextSpan(
+                            style: DefaultTextStyle.of(context).style,
+                            children: <TextSpan>[
+                              TextSpan(
+                                  text: highlightDurations.length >= 1
+                                      ? domesticLyric.substring(
+                                          0, highlightDurations.length - 1)
+                                      : "",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 20,
+                                    foreground: Paint()
+                                      ..style = PaintingStyle.stroke
+                                      ..strokeWidth = 1
+                                      ..color = Colors.red[700],
+                                  )),
+                              TextSpan(
+                                text: highlightDurations.length >= 1
+                                    ? domesticLyric.substring(
+                                        highlightDurations.length - 1)
+                                    : domesticLyric,
+                                style: TextStyle(fontSize: 20),
+                              ),
+                            ],
+                          ),
+                        ),
                       ),
                     ),
                   ]),
@@ -187,7 +224,7 @@ class _VideoRecorder extends State<VideoRecorder> with WidgetsBindingObserver {
   Widget _cameraPreviewWidget() {
     if (controller == null || !controller.value.isInitialized) {
       return const Text(
-        'Let\'s Sing!',
+        '',
         style: TextStyle(
           color: Colors.white,
           fontSize: 24.0,
@@ -195,8 +232,8 @@ class _VideoRecorder extends State<VideoRecorder> with WidgetsBindingObserver {
         ),
       );
     } else {
-      return AspectRatio(
-        aspectRatio: controller.value.aspectRatio,
+      return Container(
+        // aspectRatio: controller.value.aspectRatio,
         child: CameraPreview(controller),
       );
     }
@@ -283,9 +320,11 @@ class _VideoRecorder extends State<VideoRecorder> with WidgetsBindingObserver {
       // print("lyrics? ${selectedSong.lyrics}");
       print("lyrics? ${selectedSong.lyrics}");
       await flutterSound.startPlayer(selectedSong.downloadURL);
-      DateTime lyricStartTime = DateFormat('mm:ss:SS', 'en_US')
+      DateTime lyricStartTime = DateFormat('mm:ss.SS', 'en_US')
           .parseUTC(mappedLyrics.keys.first.padRight(9, "0"));
       String lyricLine = mappedLyrics[mappedLyrics.keys.first];
+      DateTime highlightStartTime = lyricStartTime;
+      String highlightLine = lyricLine;
       mappedLyrics.remove(mappedLyrics.keys.first);
 
       _playerSubscription = flutterSound.onPlayerStateChanged.listen((e) {
@@ -293,15 +332,38 @@ class _VideoRecorder extends State<VideoRecorder> with WidgetsBindingObserver {
           DateTime currentTime = new DateTime.fromMillisecondsSinceEpoch(
               e.currentPosition.toInt(),
               isUtc: true);
-          DateTime lyricStopTime = DateFormat('mm:ss:SS', 'en_US')
-              .parseUTC(mappedLyrics.keys.first.padRight(9, "0"));
-          if (lyricStartTime.isBefore(currentTime) &&
-              currentTime.isBefore(lyricStopTime)) {
-            setDomesticLyric(lyricLine);
-            setCurrentLyric(lyricLine);
-            lyricStartTime = lyricStopTime;
-            lyricLine = mappedLyrics[mappedLyrics.keys.first];
-            mappedLyrics.remove(mappedLyrics.keys.first);
+          if (mappedLyrics.length != 0) {
+            DateTime lyricStopTime = DateFormat('mm:ss.SS', 'en_US')
+                .parseUTC(mappedLyrics.keys.first.padRight(9, "0"));
+            if (lyricStartTime.isBefore(currentTime) &&
+                currentTime.isBefore(lyricStopTime)) {
+              setDomesticLyric(lyricLine);
+              setCurrentLyric(lyricLine);
+              highlightStartTime = lyricStartTime;
+              highlightLine = lyricLine;
+              lyricStartTime = lyricStopTime;
+              lyricLine = mappedLyrics[mappedLyrics.keys.first];
+              setHighlightDurations(new List<Duration>());
+              if (highlightDurations.length >= 1) {
+                highlightDurations.removeRange(0, highlightDurations.length);
+              }
+              mappedLyrics.remove(mappedLyrics.keys.first);
+            }
+          }
+          if (highlightStartTime
+                  .add(highlightDurations.fold(
+                      lyricStartTime.difference(highlightStartTime) ~/
+                          highlightLine.length,
+                      (accumuDuration, currentDuration) =>
+                          currentDuration + accumuDuration))
+                  .isBefore(currentTime) &&
+              currentTime.isBefore(lyricStartTime)) {
+            highlightDurations.add(
+                lyricStartTime.difference(highlightStartTime) ~/
+                    highlightLine.length);
+            setHighlightDurations(highlightDurations);
+            print("Check!!!");
+            print(highlightDurations);
           }
         }
       });
@@ -324,11 +386,8 @@ class _VideoRecorder extends State<VideoRecorder> with WidgetsBindingObserver {
 
 //Database = add song
   void addVideo(Map<String, dynamic> upload) {
-    // FirebaseDataClass song
     const url = 'https://flutterkaraoke.firebaseio.com/videos.json';
-    http.post(url, body: json.encode(upload)).then((response) {
-      print('posted');
-    });
+    http.post(url, body: json.encode(upload)).then((response) {});
   }
 
 //Storage & Database Upload
