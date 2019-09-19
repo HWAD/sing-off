@@ -332,21 +332,23 @@ class _VideoRecorder extends State<VideoRecorder> with WidgetsBindingObserver {
           DateTime currentTime = new DateTime.fromMillisecondsSinceEpoch(
               e.currentPosition.toInt(),
               isUtc: true);
-          DateTime lyricStopTime = DateFormat('mm:ss.SS', 'en_US')
-              .parseUTC(mappedLyrics.keys.first.padRight(9, "0"));
-          if (lyricStartTime.isBefore(currentTime) &&
-              currentTime.isBefore(lyricStopTime)) {
-            setDomesticLyric(lyricLine);
-            setCurrentLyric(lyricLine);
-            highlightStartTime = lyricStartTime;
-            highlightLine = lyricLine;
-            lyricStartTime = lyricStopTime;
-            lyricLine = mappedLyrics[mappedLyrics.keys.first];
-            setHighlightDurations(new List<Duration>());
-            if (highlightDurations.length >= 1) {
-              highlightDurations.removeRange(0, highlightDurations.length);
+          if (mappedLyrics.length != 0) {
+            DateTime lyricStopTime = DateFormat('mm:ss.SS', 'en_US')
+                .parseUTC(mappedLyrics.keys.first.padRight(9, "0"));
+            if (lyricStartTime.isBefore(currentTime) &&
+                currentTime.isBefore(lyricStopTime)) {
+              setDomesticLyric(lyricLine);
+              setCurrentLyric(lyricLine);
+              highlightStartTime = lyricStartTime;
+              highlightLine = lyricLine;
+              lyricStartTime = lyricStopTime;
+              lyricLine = mappedLyrics[mappedLyrics.keys.first];
+              setHighlightDurations(new List<Duration>());
+              if (highlightDurations.length >= 1) {
+                highlightDurations.removeRange(0, highlightDurations.length);
+              }
+              mappedLyrics.remove(mappedLyrics.keys.first);
             }
-            mappedLyrics.remove(mappedLyrics.keys.first);
           }
           if (highlightStartTime
                   .add(highlightDurations.fold(
