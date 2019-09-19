@@ -162,6 +162,7 @@ class _VideoRecorder extends State<VideoRecorder> with WidgetsBindingObserver {
                         width: double.infinity,
                         padding: EdgeInsets.only(top: 5),
                         child: RichText(
+                          textAlign: TextAlign.center,
                           text: TextSpan(
                             style: DefaultTextStyle.of(context).style,
                             children: <TextSpan>[
@@ -319,7 +320,7 @@ class _VideoRecorder extends State<VideoRecorder> with WidgetsBindingObserver {
       // print("lyrics? ${selectedSong.lyrics}");
       print("lyrics? ${selectedSong.lyrics}");
       await flutterSound.startPlayer(selectedSong.downloadURL);
-      DateTime lyricStartTime = DateFormat('mm:ss:SS', 'en_US')
+      DateTime lyricStartTime = DateFormat('mm:ss.SS', 'en_US')
           .parseUTC(mappedLyrics.keys.first.padRight(9, "0"));
       String lyricLine = mappedLyrics[mappedLyrics.keys.first];
       DateTime highlightStartTime = lyricStartTime;
@@ -331,7 +332,7 @@ class _VideoRecorder extends State<VideoRecorder> with WidgetsBindingObserver {
           DateTime currentTime = new DateTime.fromMillisecondsSinceEpoch(
               e.currentPosition.toInt(),
               isUtc: true);
-          DateTime lyricStopTime = DateFormat('mm:ss:SS', 'en_US')
+          DateTime lyricStopTime = DateFormat('mm:ss.SS', 'en_US')
               .parseUTC(mappedLyrics.keys.first.padRight(9, "0"));
           if (lyricStartTime.isBefore(currentTime) &&
               currentTime.isBefore(lyricStopTime)) {
