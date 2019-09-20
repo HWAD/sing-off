@@ -65,6 +65,7 @@ class _Manager extends State<Manager> {
             title: dynamicList[i]["title"],
             artist: dynamicList[i]["artist"],
             downloadURL: dynamicList[i]["downloadURL"],
+            length: dynamicList[i]["length"],
             category: dynamicList[i]["category"],
             image: dynamicList[i]["image"],
             score: dynamicList[i]["score"],

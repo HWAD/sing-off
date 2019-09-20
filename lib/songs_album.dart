@@ -26,13 +26,13 @@ class SongAlbum extends StatelessWidget {
                   .where((song) => song.category == selectedCategory)
                   .map((element) {
                 return Container(
-                  color: Colors.black38,
-                  margin: EdgeInsets.only(bottom:1, top: 1),
+                    color: Colors.black38,
+                    margin: EdgeInsets.only(bottom: 1, top: 1),
                     child: InkWell(
                         onTap: () {
-                            changeSongs(false);
-                            changeRecorder(true);
-                            setSelectedSong(element);
+                          changeSongs(false);
+                          changeRecorder(true);
+                          setSelectedSong(element);
                         },
                         child: Row(
                           children: <Widget>[
@@ -43,11 +43,12 @@ class SongAlbum extends StatelessWidget {
                                   alignment: Alignment.bottomRight,
                                   padding: EdgeInsets.symmetric(
                                       vertical: 1, horizontal: 1),
-                                  child: Text(element.score.toString(),
+                                  child: Text(element.length,
                                       style: TextStyle(
-                                        fontSize: 7,
+                                        fontSize: 10,
                                         fontWeight: FontWeight.bold,
                                         color: Colors.white,
+                                        backgroundColor: Colors.black.withOpacity(0.5),
                                       ))),
                               margin: EdgeInsets.symmetric(
                                 vertical: 10,
@@ -84,9 +85,7 @@ class SongAlbum extends StatelessWidget {
                               child: Row(
                                 mainAxisSize: MainAxisSize.max,
                                 mainAxisAlignment: MainAxisAlignment.end,
-                                children: <Widget>[
-                                 
-                                ],
+                                children: <Widget>[],
                               ),
                             )
                           ],
