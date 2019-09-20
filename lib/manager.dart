@@ -167,7 +167,7 @@ class _Manager extends State<Manager> {
           visible: _isRecorder,
           child: Column(
             children: [
-              VideoRecorder(
+              Recorder(
                 setFilePathToPlay: _setFilePathToPlay,
                 currentLyric: _currentLyric,
                 flutterSound: _flutterSound,
@@ -195,12 +195,11 @@ class _Manager extends State<Manager> {
           visible: _isPlayer,
           child: Column(
             children: [
-              VideoPlayerScreen(
+              Player(
                   filePathToPlay: filePathToPlay,
                   changeSongs: _changeSongs,
                   changeRecorder: _changeRecorder,
                   changePlayer: _changePlayer),
-              // ScoreGoToOther(_changeSongs, _changePlay, _changeScore),
             ],
           ),
         ),
