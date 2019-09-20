@@ -13,7 +13,7 @@ import 'package:noise_meter/noise_meter.dart';
 import 'package:flutter_sound/flutter_sound.dart';
 import 'package:intl/intl.dart';
 
-class VideoRecorder extends StatefulWidget {
+class Recorder extends StatefulWidget {
   final Function setFilePathToPlay;
   final FlutterSound flutterSound;
   final ModelSong selectedSong;
@@ -25,7 +25,7 @@ class VideoRecorder extends StatefulWidget {
   String currentLyric;
   final Function setDecibels;
 
-  VideoRecorder({
+  Recorder({
     Key key,
     @required this.setFilePathToPlay,
     @required this.currentLyric,
@@ -40,8 +40,8 @@ class VideoRecorder extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _VideoRecorder createState() {
-    return _VideoRecorder(
+  _Recorder createState() {
+    return _Recorder(
         setFilePathToPlay,
         currentLyric,
         flutterSound,
@@ -58,7 +58,7 @@ class VideoRecorder extends StatefulWidget {
 void logError(String code, String message) =>
     print('Error: $code\nError Message: $message');
 
-class _VideoRecorder extends State<VideoRecorder> with WidgetsBindingObserver {
+class _Recorder extends State<Recorder> with WidgetsBindingObserver {
   CameraController controller;
   String imagePath;
   String videoPath;
@@ -80,7 +80,7 @@ class _VideoRecorder extends State<VideoRecorder> with WidgetsBindingObserver {
 
   String domesticLyric = '';
 
-  _VideoRecorder(
+  _Recorder(
     this.setFilePathToPlay,
     this.currentLyric,
     this.flutterSound,

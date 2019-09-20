@@ -2,20 +2,20 @@ import 'dart:async';
 import 'package:video_player/video_player.dart';
 import 'package:flutter/material.dart';
 
-class VideoPlayerScreen extends StatefulWidget {
+class Player extends StatefulWidget {
   final String filePathToPlay;
   final Function changeSongs;
   final Function changeRecorder;
   final Function changePlayer;
 
-  VideoPlayerScreen({Key key, @required this.filePathToPlay, @required this.changeSongs, @required this.changeRecorder, @required this.changePlayer}) : super(key: key);
+  Player({Key key, @required this.filePathToPlay, @required this.changeSongs, @required this.changeRecorder, @required this.changePlayer}) : super(key: key);
 
   @override
-  _VideoPlayerScreenState createState() =>
-      _VideoPlayerScreenState(filePathToPlay, changeSongs, changeRecorder, changePlayer);
+  _PlayerState createState() =>
+      _PlayerState(filePathToPlay, changeSongs, changeRecorder, changePlayer);
 }
 
-class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
+class _PlayerState extends State<Player> {
   VideoPlayerController _controller;
   String filePathToPlay;
   Function changeSongs;
@@ -23,7 +23,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
   Function changePlayer;
   Future<void> _initializeVideoPlayerFuture;
 
-  _VideoPlayerScreenState(this.filePathToPlay, this.changeSongs,  this.changeRecorder,  this.changePlayer);
+  _PlayerState(this.filePathToPlay, this.changeSongs,  this.changeRecorder,  this.changePlayer);
 
   @override
   void initState() {
