@@ -56,15 +56,14 @@ class SongRow extends StatelessWidget {
           ),
         ),
         Container(
-          height: 110,
+          height: MediaQuery.of(context).size.width / 3.75, //110,
           margin: EdgeInsets.only(top: 8),
           padding: EdgeInsets.only(top: 6, bottom: 6),
           child: ListView(scrollDirection: Axis.horizontal,
               children: <Widget>[
                 Container(
-                    padding: EdgeInsets.only(),
-                    width: 100,
-                    margin: EdgeInsets.only(left: 7),
+                    width: MediaQuery.of(context).size.width / 4,
+                    margin: EdgeInsets.only(left: MediaQuery.of(context).size.width / 40, right: MediaQuery.of(context).size.width / 80),
                     child: Ink.image(
                       image: AssetImage("assets/christmas.jpeg"),
                       fit: BoxFit.fill,
@@ -96,8 +95,8 @@ class SongRow extends StatelessWidget {
                       ),
                     )),
                 Container(
-                    width: 100,
-                    margin: EdgeInsets.only(left: 7),
+                    width: MediaQuery.of(context).size.width / 4,
+                    margin: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width / 80),
                     child: Ink.image(
                       image: AssetImage("assets/drake.jpeg"),
                       fit: BoxFit.fill,
@@ -129,8 +128,8 @@ class SongRow extends StatelessWidget {
                       ),
                     )),
                 Container(
-                    width: 100,
-                    margin: EdgeInsets.only(left: 7),
+                    width: MediaQuery.of(context).size.width / 4,
+                    margin: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width / 80),
                     child: Ink.image(
                       image: AssetImage("assets/pop.jpeg"),
                       fit: BoxFit.fill,
@@ -161,8 +160,8 @@ class SongRow extends StatelessWidget {
                       ),
                     )),
                 Container(
-                    width: 100,
-                    margin: EdgeInsets.only(left: 7),
+                    width: MediaQuery.of(context).size.width / 4,
+                    margin: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width / 80),
                     child: Ink.image(
                       image: AssetImage("assets/bruce.jpg"),
                       fit: BoxFit.fill,
@@ -193,8 +192,8 @@ class SongRow extends StatelessWidget {
                       ),
                     )),
                     Container(
-                    width: 100,
-                    margin: EdgeInsets.only(left: 7),
+                    width: MediaQuery.of(context).size.width / 4,
+                    margin: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width / 80),
                     child: Ink.image(
                       image: AssetImage("assets/country.jpeg"),
                       fit: BoxFit.fill,
@@ -225,8 +224,8 @@ class SongRow extends StatelessWidget {
                       ),
                     )),
                     Container(
-                    width: 100,
-                    margin: EdgeInsets.only(left: 7),
+                    width: MediaQuery.of(context).size.width / 4,
+                    margin: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width / 80),
                     child: Ink.image(
                       image: AssetImage("assets/soul.jpeg"),
                       fit: BoxFit.fill,
@@ -257,8 +256,8 @@ class SongRow extends StatelessWidget {
                       ),
                     )),
                     Container(
-                    width: 100,
-                    margin: EdgeInsets.only(left: 7),
+                    width: MediaQuery.of(context).size.width / 4,
+                    margin: EdgeInsets.only(right: MediaQuery.of(context).size.width / 40, left: MediaQuery.of(context).size.width / 80),
                     child: Ink.image(
                       image: AssetImage("assets/bey.jpeg"),
                       fit: BoxFit.fill,

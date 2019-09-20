@@ -51,7 +51,7 @@ class _PlayerState extends State<Player> {
               if (snapshot.connectionState == ConnectionState.done) {
                 return Column(children: <Widget>[
                   Container(
-                    height: 580,
+                    height: MediaQuery.of(context).size.height * (80 / 100),
                     child: VideoPlayer(_controller),
                   ),
                   
@@ -65,7 +65,7 @@ class _PlayerState extends State<Player> {
 
           children: <Widget>[
             Container( 
-              height: 60,
+              height: MediaQuery.of(context).size.height * (10 / 100),
               child:InkWell(
                 onTap: () {
                   changePlayer(false);
