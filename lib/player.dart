@@ -4,26 +4,26 @@ import 'package:flutter/material.dart';
 
 class VideoPlayerScreen extends StatefulWidget {
   final String filePathToPlay;
-  final Function changeMenu;
+  final Function changeSongs;
   final Function changeRecorder;
   final Function changePlayer;
 
-  VideoPlayerScreen({Key key, @required this.filePathToPlay, @required this.changeMenu, @required this.changeRecorder, @required this.changePlayer}) : super(key: key);
+  VideoPlayerScreen({Key key, @required this.filePathToPlay, @required this.changeSongs, @required this.changeRecorder, @required this.changePlayer}) : super(key: key);
 
   @override
   _VideoPlayerScreenState createState() =>
-      _VideoPlayerScreenState(filePathToPlay, changeMenu, changeRecorder, changePlayer);
+      _VideoPlayerScreenState(filePathToPlay, changeSongs, changeRecorder, changePlayer);
 }
 
 class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
   VideoPlayerController _controller;
   String filePathToPlay;
-  Function changeMenu;
+  Function changeSongs;
   Function changeRecorder;
   Function changePlayer;
   Future<void> _initializeVideoPlayerFuture;
 
-  _VideoPlayerScreenState(this.filePathToPlay, this.changeMenu,  this.changeRecorder,  this.changePlayer);
+  _VideoPlayerScreenState(this.filePathToPlay, this.changeSongs,  this.changeRecorder,  this.changePlayer);
 
   @override
   void initState() {
@@ -100,7 +100,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
               child: InkWell(
               onTap: () {
                 changePlayer(false);
-                changeMenu(true);
+                changeSongs(true);
               },
               child: Icon(Icons.home,)
             ), 

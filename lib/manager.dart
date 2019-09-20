@@ -4,10 +4,10 @@ import 'package:flutterkaraoke/model_song.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import './model_song.dart';
-import './menu_search.dart';
-import './menu_album.dart';
-import './menu_row.dart';
-import './play_control.dart';
+import './songs_search.dart';
+import './songs_album.dart';
+import './songs_row.dart';
+import './recorder_control.dart';
 import './animation.dart';
 import './player.dart';
 import './recorder.dart';
@@ -38,7 +38,7 @@ class _Manager extends State<Manager> {
   // List<Duration> _highlightDurations = new List<Duration>();
   String _karaokeButton = "";
   bool _isCategory = false;
-  bool _isMenu = false;
+  bool _isSongs = false;
   bool _isRecorder = false;
   bool _isPlayer = false;
   String _selectedCategory = "Hip Hop";
@@ -77,9 +77,9 @@ class _Manager extends State<Manager> {
     });
   }
 
-  void _changeMenu(bool isMenu) {
+  void _changeSongs(bool isSongs) {
     setState(() {
-      _isMenu = isMenu;
+      _isSongs = isSongs;
     });
   }
 
@@ -111,7 +111,7 @@ class _Manager extends State<Manager> {
     setState(() {
       _selectedCategory = category;
       _changeCategory(false);
-      _changeMenu(true);
+      _changeSongs(true);
     });
   }
 
@@ -152,14 +152,14 @@ class _Manager extends State<Manager> {
         Visibility(
           visible: _isCategory,
           child: Column(children: [
-            MenuSearch(_setCategory),
+            SongSearch(_setCategory),
           ]),
         ),
         Visibility(
-          visible: _isMenu,
+          visible: _isSongs,
           child: Column(children: [
-            MenuRow(_setCategory, _changeMenu, _changeCategory),
-            MenuAlbum(_changeMenu, _changeRecorder, _allSongs, _setSelectedSong,
+            SongRow(_setCategory, _changeSongs, _changeCategory),
+            SongAlbum(_changeSongs, _changeRecorder, _allSongs, _setSelectedSong,
                 _selectedCategory),
           ]),
         ),
@@ -182,10 +182,10 @@ class _Manager extends State<Manager> {
               /// ANIMATION. FOR NOW IS DISABLED. TO TOGGLE IN ONLY IF PITCH IS AVAILABLE.
               // WaveAnimation(_decibels),
               Container(
-                child: PlayControl(
+                child: RecorderControl(
                   _changeRecorder,
                   _changePlayer,
-                  _changeMenu,
+                  _changeSongs,
                 ),
               ),
             ],
@@ -197,10 +197,10 @@ class _Manager extends State<Manager> {
             children: [
               VideoPlayerScreen(
                   filePathToPlay: filePathToPlay,
-                  changeMenu: _changeMenu,
+                  changeSongs: _changeSongs,
                   changeRecorder: _changeRecorder,
                   changePlayer: _changePlayer),
-              // ScoreGoToOther(_changeMenu, _changePlay, _changeScore),
+              // ScoreGoToOther(_changeSongs, _changePlay, _changeScore),
             ],
           ),
         ),

@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutterkaraoke/model_song.dart';
 
-class MenuAlbum extends StatelessWidget {
-  final Function changeMenu;
+class SongAlbum extends StatelessWidget {
+  final Function changeSongs;
   final Function changeRecorder;
   final List<ModelSong> allSongs;
   final Function setSelectedSong;
   final String selectedCategory;
   List filteredAllSongs;
 
-  MenuAlbum(this.changeMenu, this.changeRecorder, this.allSongs,
+  SongAlbum(this.changeSongs, this.changeRecorder, this.allSongs,
       this.setSelectedSong, this.selectedCategory);
 
   @override
@@ -31,7 +31,7 @@ class MenuAlbum extends StatelessWidget {
                     child: InkWell(
                         onTap: () {
                           if (element.category != 'Video') {
-                            changeMenu(false);
+                            changeSongs(false);
                             changeRecorder(true);
                             setSelectedSong(element);
                           }
