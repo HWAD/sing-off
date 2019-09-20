@@ -15,7 +15,7 @@ class SongAlbum extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.height / 1.4,
+      height: MediaQuery.of(context).size.height / 1.5,
       margin: EdgeInsets.only(top: 8),
       color: Colors.grey[800],
       child: Column(
@@ -30,14 +30,9 @@ class SongAlbum extends StatelessWidget {
                   margin: EdgeInsets.only(bottom:1, top: 1),
                     child: InkWell(
                         onTap: () {
-                          if (element.category != 'Video') {
                             changeSongs(false);
                             changeRecorder(true);
                             setSelectedSong(element);
-                          }
-                          if (element.category == 'Video') {
-                            print('It\'s a video');
-                          }
                         },
                         child: Row(
                           children: <Widget>[
@@ -71,8 +66,8 @@ class SongAlbum extends StatelessWidget {
                               ),
                             ),
                             Container(
-                              width: MediaQuery.of(context).size.width / 2,
-                              padding: EdgeInsets.symmetric(horizontal: 3),
+                              width: MediaQuery.of(context).size.width / 1.5,
+                              padding: EdgeInsets.only(left: 3, right: 2),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[
