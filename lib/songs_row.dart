@@ -63,7 +63,7 @@ class SongRow extends StatelessWidget {
               children: <Widget>[
                 Container(
                     width: MediaQuery.of(context).size.width / 4,
-                    margin: EdgeInsets.only(left: MediaQuery.of(context).size.width / 40, right: MediaQuery.of(context).size.width / 80),
+                    margin: EdgeInsets.only(left: MediaQuery.of(context).size.width / 60, right: MediaQuery.of(context).size.width / 80),
                     child: Ink.image(
                       image: AssetImage("assets/christmas.jpeg"),
                       fit: BoxFit.fill,
@@ -257,7 +257,7 @@ class SongRow extends StatelessWidget {
                     )),
                     Container(
                     width: MediaQuery.of(context).size.width / 4,
-                    margin: EdgeInsets.only(right: MediaQuery.of(context).size.width / 40, left: MediaQuery.of(context).size.width / 80),
+                    margin: EdgeInsets.only(right: MediaQuery.of(context).size.width / 60, left: MediaQuery.of(context).size.width / 80),
                     child: Ink.image(
                       image: AssetImage("assets/bey.jpeg"),
                       fit: BoxFit.fill,

@@ -51,15 +51,25 @@ class _PlayerState extends State<Player> {
               if (snapshot.connectionState == ConnectionState.done) {
                 return Column(children: <Widget>[
                   Container(
-                    height: MediaQuery.of(context).size.height * (80 / 100),
+                    height: MediaQuery.of(context).size.height * (75 / 100),
                     child: VideoPlayer(_controller),
                   ),
-                  
                   Container(
       color: Colors.grey[800],
 
       child: Column(
         children: [
+          Container(
+            color: Colors.grey[500],
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+            Container(
+              alignment: Alignment.center,
+              height: MediaQuery.of(context).size.height * (7 / 100),
+              child: Text("Points")
+            )
+          ],),),
           Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
 
