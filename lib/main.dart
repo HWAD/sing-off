@@ -14,6 +14,7 @@ Future<bool> _requestPermission(PermissionGroup permission) async {
 Future<void> _requestingPermission() async {
   await _requestPermission(PermissionGroup.storage);
   await _requestPermission(PermissionGroup.microphone);
+  await _requestPermission(PermissionGroup.camera);
 }
 
 void main() {
@@ -36,5 +37,3 @@ class App extends StatelessWidget {
     );
   }
 }
-
-
