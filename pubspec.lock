@@ -100,10 +100,10 @@ packages:
   flutter_sound:
     dependency: "direct main"
     description:
-      name: flutter_sound
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.4.3"
+      path: "flutter_sound-1.4.5-hijacking"
+      relative: true
+    source: path
+    version: "1.4.5"
   flutter_test:
     dependency: "direct dev"
     description: flutter

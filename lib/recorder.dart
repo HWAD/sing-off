@@ -311,9 +311,9 @@ class _Recorder extends State<Recorder> with WidgetsBindingObserver {
       return accumuLines;
     });
     try {
-      _noiseSubscription =
-          new Noise(500).noiseStream.listen((e) => setDecibels(e.decibel));
-      // await flutterSound.startRecorder('sdcard/recorded.m4a',
+      // _noiseSubscription =
+      //     new Noise(500).noiseStream.listen((e) => setDecibels(e.decibel));
+      await flutterSound.startRecorder('sdcard/recorded.m4a');//,
       //     bitRate: 256000,
       //     sampleRate: 44100,
       //     androidEncoder: AndroidEncoder.AAC);
@@ -375,7 +375,7 @@ class _Recorder extends State<Recorder> with WidgetsBindingObserver {
   Future stopAudio() async {
     try {
       await _noiseSubscription.cancel();
-      // await flutterSound.stopRecorder();
+      await flutterSound.stopRecorder();
       await flutterSound.stopPlayer();
       await _playerSubscription.cancel();
       await uploadAudio();
@@ -474,7 +474,7 @@ class _Recorder extends State<Recorder> with WidgetsBindingObserver {
 
     try {
       videoPath = filePath;
-      await controller.startVideoRecording(filePath);
+      //await controller.startVideoRecording(filePath);
       startAudio();
     } on CameraException catch (e) {
       _showCameraException(e);
