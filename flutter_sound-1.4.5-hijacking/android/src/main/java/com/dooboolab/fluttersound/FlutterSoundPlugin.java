@@ -6,6 +6,7 @@ import android.os.ParcelFileDescriptor;
 import android.os.AsyncTask;
 import java.io.InputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
@@ -132,6 +133,11 @@ public class FlutterSoundPlugin implements MethodCallHandler, PluginRegistry.Req
 
   static AudioDispatcher dispatcher;
   Thread pitchThread = new Thread(dispatcher,"Audio Dispatcher");
+  double outsidePitchInHz = 0.0;
+  ArrayList<Float> pitchValueArray = new ArrayList<Float>();
+  public double getPitch() {
+    return outsidePitchInHz;
+  }
 
   @Override
   public void startRecorder(int numChannels, int sampleRate, Integer bitRate, int androidEncoder, int androidAudioSource, int androidOutputFormat, String path, final Result result) {
@@ -160,9 +166,9 @@ public class FlutterSoundPlugin implements MethodCallHandler, PluginRegistry.Req
       @Override
       public void handlePitch(PitchDetectionResult result,AudioEvent e) {
         final float pitchInHz = result.getPitch();
-        //long time = System.currentTimeMillis();
+        long time = System.currentTimeMillis();
         //outsidePitchInHz = pitchInHz;
-        //pitchValueArray.add(pitchInHz);
+        pitchValueArray.add(pitchInHz);
         System.out.println("Pitch is " + pitchInHz);// + " time is " + time);                        
       }
     };
@@ -263,26 +269,32 @@ public class FlutterSoundPlugin implements MethodCallHandler, PluginRegistry.Req
 
   @Override
   public void stopRecorder(final Result result) {
+    System.out.println(pitchThread);
+    System.out.println(dispatcher);
     pitchThread.stop();
-    // This remove all pending runnables
-    recordHandler.removeCallbacksAndMessages(null);
-    dbPeakLevelHandler.removeCallbacksAndMessages(null);
-
-    if (this.model.getMediaRecorder() == null) {
-      Log.d(TAG, "mediaRecorder is null");
-      result.error(ERR_RECORDER_IS_NULL, ERR_RECORDER_IS_NULL, ERR_RECORDER_IS_NULL);
-      return;
+    System.out.println(pitchValueArray);
+    for (int x = 0; x < pitchValueArray.size(); x++) {
+      System.out.println("Value " + x + " of array is " + pitchValueArray.get(x));
     }
-    this.model.getMediaRecorder().stop();
-    this.model.getMediaRecorder().reset();
-    this.model.getMediaRecorder().release();
-    this.model.setMediaRecorder(null);
-    mainHandler.post(new Runnable(){
-      @Override
-      public void run() {
-        result.success("recorder stopped.");
-      }
-    });
+    // This remove all pending runnables
+    // recordHandler.removeCallbacksAndMessages(null);
+    // dbPeakLevelHandler.removeCallbacksAndMessages(null);
+
+    // if (this.model.getMediaRecorder() == null) {
+    //   Log.d(TAG, "mediaRecorder is null");
+    //   result.error(ERR_RECORDER_IS_NULL, ERR_RECORDER_IS_NULL, ERR_RECORDER_IS_NULL);
+    //   return;
+    // }
+    // this.model.getMediaRecorder().stop();
+    // this.model.getMediaRecorder().reset();
+    // this.model.getMediaRecorder().release();
+    // this.model.setMediaRecorder(null);
+    // mainHandler.post(new Runnable(){
+    //   @Override
+    //   public void run() {
+    //     result.success("recorder stopped.");
+    //   }
+    // });
 
   }
 

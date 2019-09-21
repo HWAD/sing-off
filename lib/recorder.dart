@@ -248,20 +248,20 @@ class _Recorder extends State<Recorder> with WidgetsBindingObserver {
         IconButton(
           icon: const Icon(Icons.videocam),
           color: Colors.blue,
-          onPressed: controller != null &&
-                  controller.value.isInitialized &&
-                  !controller.value.isRecordingVideo
-              ? onVideoRecordButtonPressed
-              : null,
+          onPressed: startAudio//controller != null &&
+              //     controller.value.isInitialized &&
+              //     !controller.value.isRecordingVideo
+              // ? onVideoRecordButtonPressed
+              // : null,
         ),
         IconButton(
           icon: const Icon(Icons.stop),
           color: Colors.red,
-          onPressed: controller != null &&
-                  controller.value.isInitialized &&
-                  controller.value.isRecordingVideo
-              ? onStopButtonPressed
-              : null,
+          onPressed: stopAudio//controller != null &&
+              //     controller.value.isInitialized &&
+              //     controller.value.isRecordingVideo
+              // ? onStopButtonPressed
+              // : null,
         )
       ],
     );
@@ -374,7 +374,7 @@ class _Recorder extends State<Recorder> with WidgetsBindingObserver {
 
   Future stopAudio() async {
     try {
-      await _noiseSubscription.cancel();
+      // await _noiseSubscription.cancel();
       await flutterSound.stopRecorder();
       await flutterSound.stopPlayer();
       await _playerSubscription.cancel();
