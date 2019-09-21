@@ -24,6 +24,9 @@ class Recorder extends StatefulWidget {
   final Function setKaraokeButton;
   String currentLyric;
   final Function setDecibels;
+  final Function changeRecorder;
+  final Function changePlayer;
+  final Function changeSongs;
 
   Recorder({
     Key key,
@@ -37,6 +40,9 @@ class Recorder extends StatefulWidget {
     @required this.karaokeButton,
     @required this.setKaraokeButton,
     @required this.setDecibels,
+    @required this.changeRecorder,
+    @required this.changePlayer,
+    @required this.changeSongs,
   }) : super(key: key);
 
   @override
@@ -51,7 +57,10 @@ class Recorder extends StatefulWidget {
         // setHighlightDurations,
         karaokeButton,
         setKaraokeButton,
-        setDecibels);
+        setDecibels,
+        changeRecorder,
+        changePlayer,
+        changeSongs);
   }
 }
 
@@ -77,6 +86,10 @@ class _Recorder extends State<Recorder> with WidgetsBindingObserver {
   String karaokeButton;
   Function setKaraokeButton;
   Function setDecibels;
+  Function changeRecorder;
+  Function changePlayer;
+  Function changeSongs;
+  
 
   String domesticLyric = '';
 
@@ -91,6 +104,9 @@ class _Recorder extends State<Recorder> with WidgetsBindingObserver {
     this.karaokeButton,
     this.setKaraokeButton,
     this.setDecibels,
+    this.changeRecorder,
+    this.changePlayer,
+    this.changeSongs,
   );
 
   @override
@@ -145,79 +161,92 @@ class _Recorder extends State<Recorder> with WidgetsBindingObserver {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.height * (90 / 100),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          Expanded(
-            child: Container(
-              child: Padding(
-                padding: const EdgeInsets.all(1.0),
+        height: MediaQuery.of(context).size.height * (90 / 100),
+        child: GestureDetector(
+          onPanUpdate: (details) {
+            if (5 > details.delta.dx) {
+              changeRecorder(false);
+              changePlayer(true);
+            }
+            if (details.delta.dx > 4) {
+              changePlayer(false);
+              changeSongs(true);
+              changeRecorder(false);
+            }
+          },
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Expanded(
                 child: Container(
-                  child: Stack(children: [
-                    _cameraPreviewWidget(),
-                    Container(
-                      color: Colors.grey[600].withOpacity(0.7),
-                      child: Container(
-                        width: double.infinity,
-                        padding: EdgeInsets.only(top: 5),
-                        child: RichText(
-                          textAlign: TextAlign.center,
-                          text: TextSpan(
-                            style: DefaultTextStyle.of(context).style,
-                            children: <TextSpan>[
-                              TextSpan(
-                                  text: highlightDurations.length >= 1
-                                      ? domesticLyric.substring(
-                                          0, highlightDurations.length - 1)
-                                      : "",
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 20,
-                                    foreground: Paint()
-                                      ..style = PaintingStyle.stroke
-                                      ..strokeWidth = 1
-                                      ..color = Colors.red[700],
-                                  )),
-                              TextSpan(
-                                text: highlightDurations.length >= 1
-                                    ? domesticLyric.substring(
-                                        highlightDurations.length - 1)
-                                    : domesticLyric,
-                                style: TextStyle(fontSize: 20),
+                  child: Padding(
+                    padding: const EdgeInsets.all(1.0),
+                    child: Container(
+                      child: Stack(children: [
+                        _cameraPreviewWidget(),
+                        Container(
+                          color: Colors.grey[600].withOpacity(0.7),
+                          child: Container(
+                            width: double.infinity,
+                            padding: EdgeInsets.only(top: 5),
+                            child: RichText(
+                              textAlign: TextAlign.center,
+                              text: TextSpan(
+                                style: DefaultTextStyle.of(context).style,
+                                children: <TextSpan>[
+                                  TextSpan(
+                                      text: highlightDurations.length >= 1
+                                          ? domesticLyric.substring(
+                                              0, highlightDurations.length - 1)
+                                          : "",
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 20,
+                                        foreground: Paint()
+                                          ..style = PaintingStyle.stroke
+                                          ..strokeWidth = 1
+                                          ..color = Colors.red[700],
+                                      )),
+                                  TextSpan(
+                                    text: highlightDurations.length >= 1
+                                        ? domesticLyric.substring(
+                                            highlightDurations.length - 1)
+                                        : domesticLyric,
+                                    style: TextStyle(fontSize: 20),
+                                  ),
+                                ],
                               ),
-                            ],
+                            ),
                           ),
                         ),
-                      ),
+                      ]),
                     ),
-                  ]),
+                  ),
+                  decoration: BoxDecoration(
+                    color: Colors.black,
+                    border: Border.all(
+                      color: controller != null &&
+                              controller.value.isRecordingVideo
+                          ? Colors.redAccent
+                          : Colors.grey,
+                      width: 3.0,
+                    ),
+                  ),
                 ),
               ),
-              decoration: BoxDecoration(
-                color: Colors.black,
-                border: Border.all(
-                  color: controller != null && controller.value.isRecordingVideo
-                      ? Colors.redAccent
-                      : Colors.grey,
-                  width: 3.0,
+              _captureControlRowWidget(),
+              Padding(
+                padding: const EdgeInsets.all(5.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  // children: <Widget>[
+                  //   Center(child: Text("For Visual", textAlign: TextAlign.center))
+                  // ],
                 ),
               ),
-            ),
+            ],
           ),
-          _captureControlRowWidget(),
-          Padding(
-            padding: const EdgeInsets.all(5.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              // children: <Widget>[
-              //   Center(child: Text("For Visual", textAlign: TextAlign.center))
-              // ],
-            ),
-          ),
-        ],
-      ),
-    );
+        ));
   }
 
   /// Display the preview from the camera (or a message if the preview is not available).

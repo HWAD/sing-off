@@ -178,6 +178,9 @@ class _Manager extends State<Manager> {
                 karaokeButton: _karaokeButton,
                 setKaraokeButton: _setKaraokeButton,
                 setDecibels: _setDecibels,
+                changeRecorder: _changeRecorder,
+                changePlayer: _changePlayer,
+                changeSongs: _changeSongs,
               ),
 
               /// ANIMATION. FOR NOW IS DISABLED. TO TOGGLE IN ONLY IF PITCH IS AVAILABLE.
