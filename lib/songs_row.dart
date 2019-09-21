@@ -33,22 +33,22 @@ class SongRow extends StatelessWidget {
                   'Genre',
                   style: TextStyle(fontSize: 18,
                   shadows: [
-      Shadow( // bottomLeft
-	offset: Offset(-1.5, -1.5),
-	color: Colors.black
-      ),
-      Shadow( // bottomRight
-	offset: Offset(1.5, -1.5),
-	color: Colors.black
-      ),
-      Shadow( // topRight
-	offset: Offset(1.5, 1.5),
-	color: Colors.black
-      ),
-      Shadow( // topLeft
-	offset: Offset(-1.5, 1.5),
-	color: Colors.black
-      ),]),
+                      Shadow( // bottomLeft
+                  offset: Offset(-1.5, -1.5),
+                  color: Colors.black
+                      ),
+                      Shadow( // bottomRight
+                  offset: Offset(1.5, -1.5),
+                  color: Colors.black
+                      ),
+                      Shadow( // topRight
+                  offset: Offset(1.5, 1.5),
+                  color: Colors.black
+                      ),
+                      Shadow( // topLeft
+                  offset: Offset(-1.5, 1.5),
+                  color: Colors.black
+                      ),]),
                   textAlign: TextAlign.left,
                 ),
               ),
@@ -63,7 +63,7 @@ class SongRow extends StatelessWidget {
               children: <Widget>[
                 Container(
                     width: MediaQuery.of(context).size.width / 4,
-                    margin: EdgeInsets.only(left: MediaQuery.of(context).size.width / 40, right: MediaQuery.of(context).size.width / 80),
+                    margin: EdgeInsets.only(left: MediaQuery.of(context).size.width / 60, right: MediaQuery.of(context).size.width / 80),
                     child: Ink.image(
                       image: AssetImage("assets/christmas.jpeg"),
                       fit: BoxFit.fill,
@@ -75,22 +75,22 @@ class SongRow extends StatelessWidget {
                           child:
                               Text("Christmas", style: TextStyle(fontSize: 18,
                               shadows: [
-      Shadow( // bottomLeft
-	offset: Offset(-1.5, -1.5),
-	color: Colors.black
-      ),
-      Shadow( // bottomRight
-	offset: Offset(1.5, -1.5),
-	color: Colors.black
-      ),
-      Shadow( // topRight
-	offset: Offset(1.5, 1.5),
-	color: Colors.black
-      ),
-      Shadow( // topLeft
-	offset: Offset(-1.5, 1.5),
-	color: Colors.black
-      ),])),
+                                Shadow( // bottomLeft
+                            offset: Offset(-1.5, -1.5),
+                            color: Colors.black
+                                ),
+                                Shadow( // bottomRight
+                            offset: Offset(1.5, -1.5),
+                            color: Colors.black
+                                ),
+                                Shadow( // topRight
+                            offset: Offset(1.5, 1.5),
+                            color: Colors.black
+                                ),
+                                Shadow( // topLeft
+                            offset: Offset(-1.5, 1.5),
+                            color: Colors.black
+                                ),])),
                         ),
                       ),
                     )),
@@ -108,22 +108,22 @@ class SongRow extends StatelessWidget {
                           child:
                               Text("Hip Hop", style: TextStyle(fontSize: 18,
                               shadows: [
-      Shadow( // bottomLeft
-	offset: Offset(-1.5, -1.5),
-	color: Colors.black
-      ),
-      Shadow( // bottomRight
-	offset: Offset(1.5, -1.5),
-	color: Colors.black
-      ),
-      Shadow( // topRight
-	offset: Offset(1.5, 1.5),
-	color: Colors.black
-      ),
-      Shadow( // topLeft
-	offset: Offset(-1.5, 1.5),
-	color: Colors.black
-      ),])),
+                                Shadow( // bottomLeft
+                            offset: Offset(-1.5, -1.5),
+                            color: Colors.black
+                                ),
+                                Shadow( // bottomRight
+                            offset: Offset(1.5, -1.5),
+                            color: Colors.black
+                                ),
+                                Shadow( // topRight
+                            offset: Offset(1.5, 1.5),
+                            color: Colors.black
+                                ),
+                                Shadow( // topLeft
+                            offset: Offset(-1.5, 1.5),
+                            color: Colors.black
+                                ),])),
                         ),
                       ),
                     )),
@@ -140,22 +140,22 @@ class SongRow extends StatelessWidget {
                         child: Center(
                           child: Text("Pop", style: TextStyle(fontSize: 18,
                           shadows: [
-      Shadow( // bottomLeft
-	offset: Offset(-1.5, -1.5),
-	color: Colors.black
-      ),
-      Shadow( // bottomRight
-	offset: Offset(1.5, -1.5),
-	color: Colors.black
-      ),
-      Shadow( // topRight
-	offset: Offset(1.5, 1.5),
-	color: Colors.black
-      ),
-      Shadow( // topLeft
-	offset: Offset(-1.5, 1.5),
-	color: Colors.black
-      ),])),
+                            Shadow( // bottomLeft
+                        offset: Offset(-1.5, -1.5),
+                        color: Colors.black
+                            ),
+                            Shadow( // bottomRight
+                        offset: Offset(1.5, -1.5),
+                        color: Colors.black
+                            ),
+                            Shadow( // topRight
+                        offset: Offset(1.5, 1.5),
+                        color: Colors.black
+                            ),
+                            Shadow( // topLeft
+                        offset: Offset(-1.5, 1.5),
+                        color: Colors.black
+                            ),])),
                         ),
                       ),
                     )),
@@ -172,22 +172,22 @@ class SongRow extends StatelessWidget {
                         child: Center(
                           child: Text("Rock", style: TextStyle(fontSize: 18,
                           shadows: [
-      Shadow( // bottomLeft
-	offset: Offset(-1.5, -1.5),
-	color: Colors.black
-      ),
-      Shadow( // bottomRight
-	offset: Offset(1.5, -1.5),
-	color: Colors.black
-      ),
-      Shadow( // topRight
-	offset: Offset(1.5, 1.5),
-	color: Colors.black
-      ),
-      Shadow( // topLeft
-	offset: Offset(-1.5, 1.5),
-	color: Colors.black
-      ),])),
+                              Shadow( // bottomLeft
+                          offset: Offset(-1.5, -1.5),
+                          color: Colors.black
+                              ),
+                              Shadow( // bottomRight
+                          offset: Offset(1.5, -1.5),
+                          color: Colors.black
+                              ),
+                              Shadow( // topRight
+                          offset: Offset(1.5, 1.5),
+                          color: Colors.black
+                              ),
+                              Shadow( // topLeft
+                          offset: Offset(-1.5, 1.5),
+                          color: Colors.black
+                              ),])),
                         ),
                       ),
                     )),
@@ -204,22 +204,22 @@ class SongRow extends StatelessWidget {
                         child: Center(
                           child: Text("Country", style: TextStyle(fontSize: 18,
                           shadows: [
-      Shadow( // bottomLeft
-	offset: Offset(-1.5, -1.5),
-	color: Colors.black
-      ),
-      Shadow( // bottomRight
-	offset: Offset(1.5, -1.5),
-	color: Colors.black
-      ),
-      Shadow( // topRight
-	offset: Offset(1.5, 1.5),
-	color: Colors.black
-      ),
-      Shadow( // topLeft
-	offset: Offset(-1.5, 1.5),
-	color: Colors.black
-      ),])),
+                            Shadow( // bottomLeft
+                        offset: Offset(-1.5, -1.5),
+                        color: Colors.black
+                            ),
+                            Shadow( // bottomRight
+                        offset: Offset(1.5, -1.5),
+                        color: Colors.black
+                            ),
+                            Shadow( // topRight
+                        offset: Offset(1.5, 1.5),
+                        color: Colors.black
+                            ),
+                            Shadow( // topLeft
+                        offset: Offset(-1.5, 1.5),
+                        color: Colors.black
+                            ),])),
                         ),
                       ),
                     )),
@@ -236,28 +236,28 @@ class SongRow extends StatelessWidget {
                         child: Center(
                           child: Text("Soul", style: TextStyle(fontSize: 18,
                           shadows: [
-      Shadow( // bottomLeft
-	offset: Offset(-1.5, -1.5),
-	color: Colors.black
-      ),
-      Shadow( // bottomRight
-	offset: Offset(1.5, -1.5),
-	color: Colors.black
-      ),
-      Shadow( // topRight
-	offset: Offset(1.5, 1.5),
-	color: Colors.black
-      ),
-      Shadow( // topLeft
-	offset: Offset(-1.5, 1.5),
-	color: Colors.black
-      ),])),
+                              Shadow( // bottomLeft
+                          offset: Offset(-1.5, -1.5),
+                          color: Colors.black
+                              ),
+                              Shadow( // bottomRight
+                          offset: Offset(1.5, -1.5),
+                          color: Colors.black
+                              ),
+                              Shadow( // topRight
+                          offset: Offset(1.5, 1.5),
+                          color: Colors.black
+                              ),
+                              Shadow( // topLeft
+                          offset: Offset(-1.5, 1.5),
+                          color: Colors.black
+                              ),])),
                         ),
                       ),
                     )),
                     Container(
                     width: MediaQuery.of(context).size.width / 4,
-                    margin: EdgeInsets.only(right: MediaQuery.of(context).size.width / 40, left: MediaQuery.of(context).size.width / 80),
+                    margin: EdgeInsets.only(right: MediaQuery.of(context).size.width / 60, left: MediaQuery.of(context).size.width / 80),
                     child: Ink.image(
                       image: AssetImage("assets/bey.jpeg"),
                       fit: BoxFit.fill,
@@ -268,22 +268,22 @@ class SongRow extends StatelessWidget {
                         child: Center(
                           child: Text("Bey", style: TextStyle(fontSize: 18,
                           shadows: [
-      Shadow( // bottomLeft
-	offset: Offset(-1.5, -1.5),
-	color: Colors.black
-      ),
-      Shadow( // bottomRight
-	offset: Offset(1.5, -1.5),
-	color: Colors.black
-      ),
-      Shadow( // topRight
-	offset: Offset(1.5, 1.5),
-	color: Colors.black
-      ),
-      Shadow( // topLeft
-	offset: Offset(-1.5, 1.5),
-	color: Colors.black
-      ),])),
+                                Shadow( // bottomLeft
+                            offset: Offset(-1.5, -1.5),
+                            color: Colors.black
+                                ),
+                                Shadow( // bottomRight
+                            offset: Offset(1.5, -1.5),
+                            color: Colors.black
+                                ),
+                                Shadow( // topRight
+                            offset: Offset(1.5, 1.5),
+                            color: Colors.black
+                                ),
+                                Shadow( // topLeft
+                            offset: Offset(-1.5, 1.5),
+                            color: Colors.black
+                                ),])),
                         ),
                       ),
                     )),
