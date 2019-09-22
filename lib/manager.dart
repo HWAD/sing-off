@@ -85,12 +85,13 @@ class _Manager extends State<Manager> {
   }
 
   Future<void> _getAllVideos() async {
+    print("ingetallvideos");
     const url = 'https://flutterkaraoke.firebaseio.com/videos.json';
     http.get(url).then((response) {
       Map<String, dynamic> mappedBody = json.decode(response.body);
       List<dynamic> dynamicList = mappedBody.values.toList();
       List<ModelSong> modelVideoList = [];
-      for (int i = 0; i < dynamicList.length; i++) {
+      for (int i = dynamicList.length-1; i >= 0; i--) {
         modelVideoList.add(ModelSong(
             title: dynamicList[i]["title"],
             artist: dynamicList[i]["artist"],
@@ -140,7 +141,6 @@ class _Manager extends State<Manager> {
   void _setCategory(String category) {
     setState(() {
       _selectedCategory = category;
-      _changeCategory(false);
       _changeSongs(true);
     });
   }
@@ -169,7 +169,7 @@ class _Manager extends State<Manager> {
     });
   }
 
-  void _setFeed(bool isFeed) {
+  void _changeFeed(bool isFeed) {
     setState(() {
       _isFeed = isFeed;
     });
@@ -178,7 +178,6 @@ class _Manager extends State<Manager> {
   void _setLogin(bool isLogin) {
     setState(() {
       _isLogin = isLogin;
-      _setFeed(true);
     });
   }
 
@@ -189,25 +188,26 @@ class _Manager extends State<Manager> {
         Visibility(
           visible: _isLogin,
           child: Column(children: [
-            Login(_setLogin, _setFeed),
+            Login(_setLogin, _changeFeed),
           ]),
         ),
         Visibility(
           visible: _isFeed,
           child: Column(children: [
-            Feed(_allVideos, _changeCategory, _setFeed, _setFilePathToPlay, _changePlayer, _getAllVideos),
+            Feed(_allVideos, _changeCategory, _changeFeed, _setFilePathToPlay,
+                _changePlayer, _getAllVideos, _changeSongs),
           ]),
         ),
         Visibility(
           visible: _isCategory,
           child: Column(children: [
-            SongSearch(_setCategory),
+            SongSearch(_setCategory, _changeCategory, _changeFeed),
           ]),
         ),
         Visibility(
           visible: _isSongs,
           child: Column(children: [
-            SongRow(_setCategory, _changeSongs, _changeCategory),
+            SongRow(_setCategory, _changeSongs, _changeCategory, _changeFeed),
             SongAlbum(_changeSongs, _changeRecorder, _allSongs,
                 _setSelectedSong, _selectedCategory),
           ]),
@@ -221,6 +221,7 @@ class _Manager extends State<Manager> {
                   _changeRecorder,
                   _changePlayer,
                   _changeSongs,
+                  _changeFeed,
                 ),
               ),
               Recorder(
@@ -246,10 +247,12 @@ class _Manager extends State<Manager> {
           child: Column(
             children: [
               Player(
-                  filePathToPlay: filePathToPlay,
-                  changeSongs: _changeSongs,
-                  changeRecorder: _changeRecorder,
-                  changePlayer: _changePlayer),
+                filePathToPlay: filePathToPlay,
+                changeSongs: _changeSongs,
+                changeRecorder: _changeRecorder,
+                changePlayer: _changePlayer,
+                changeFeed: _changeFeed,
+              ),
             ],
           ),
         ),

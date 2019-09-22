@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 import 'package:video_player/video_player.dart';
 import './model_song.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -7,30 +8,65 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 class Feed extends StatefulWidget {
   final List<ModelSong> _allVideos;
   final Function changeCategory;
-  final Function setFeed;
+  final Function changeFeed;
   final Function setFilePathToPlay;
   final Function changePlayer;
   final Function getAllVideos;
+  final Function changeSongs;
 
-  Feed(this._allVideos, this.changeCategory, this.setFeed, this.setFilePathToPlay, this.changePlayer, this.getAllVideos);
+  Feed(
+      this._allVideos,
+      this.changeCategory,
+      this.changeFeed,
+      this.setFilePathToPlay,
+      this.changePlayer,
+      this.getAllVideos,
+      this.changeSongs);
 
   @override
   _Feed createState() {
-    return _Feed(_allVideos, changeCategory, setFeed, setFilePathToPlay, changePlayer, getAllVideos);
+    return _Feed(_allVideos, changeCategory, changeFeed, setFilePathToPlay,
+        changePlayer, getAllVideos, changeSongs);
   }
 }
 
 class _Feed extends State<Feed> {
   List<ModelSong> allVideos = [];
   Function changeCategory;
-  Function setFeed;
+  Function changeFeed;
   Function setFilePathToPlay;
   Function changePlayer;
   Function getAllVideos;
+  Function changeSongs;
   // RefreshController _refreshController =
   //     RefreshController(initialRefresh: false);
 
-  _Feed(this.allVideos, this.changeCategory, this.setFeed, this.setFilePathToPlay, this.changePlayer, this.getAllVideos);
+  _Feed(this.allVideos, this.changeCategory, this.changeFeed,
+      this.setFilePathToPlay, this.changePlayer, this.getAllVideos, this.changeSongs);
+
+Future<void> refresh() async {
+    print("ingetallvideos");
+    const url = 'https://flutterkaraoke.firebaseio.com/videos.json';
+    http.get(url).then((response) {
+      Map<String, dynamic> mappedBody = json.decode(response.body);
+      List<dynamic> dynamicList = mappedBody.values.toList();
+      List<ModelSong> modelVideoList = [];
+      for (int i = dynamicList.length-1; i >= 0; i--) {
+        modelVideoList.add(ModelSong(
+            title: dynamicList[i]["title"],
+            artist: dynamicList[i]["artist"],
+            downloadURL: dynamicList[i]["downloadURL"],
+            length: dynamicList[i]["length"],
+            category: dynamicList[i]["category"],
+            image: dynamicList[i]["image"],
+            score: dynamicList[i]["score"],
+            isFavorite: dynamicList[i]["isFavorite"]));
+      }
+      setState(() {
+        allVideos = modelVideoList;
+      });
+    });
+  }
 
   @override
   void initState() {
@@ -56,52 +92,63 @@ class _Feed extends State<Feed> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      // height: MediaQuery.of(context).size.height,
-      // child: SmartRefresher(
-      //   enablePullDown: true,
-      //   enablePullUp: true,
-      //   header: WaterDropHeader(),
-      //   footer: CustomFooter(
-      //     builder: (BuildContext context,LoadStatus mode){
-      //       Widget body ;
-      //       if(mode==LoadStatus.idle){
-      //         body =  Text("pull up load");
-      //       }
-      //       else if(mode==LoadStatus.loading){
-      //         body =  CupertinoActivityIndicator();
-      //       }
-      //       else if(mode == LoadStatus.failed){
-      //         body = Text("Load Failed!Click retry!");
-      //       }
-      //       else{
-      //         body = Text("No more Data");
-      //       }
-      //       return Container(
-      //         height: 55.0,
-      //         child: Center(child:body),
-      //       );
-      //     },
-      //   ),
-      //   controller: _refreshController,
-      //   onRefresh: _onRefresh,
-      //   onLoading: _onLoading,
+        // height: MediaQuery.of(context).size.height,
+        // child: SmartRefresher(
+        //   enablePullDown: true,
+        //   enablePullUp: true,
+        //   header: WaterDropHeader(),
+        //   footer: CustomFooter(
+        //     builder: (BuildContext context,LoadStatus mode){
+        //       Widget body ;
+        //       if(mode==LoadStatus.idle){
+        //         body =  Text("pull up load");
+        //       }
+        //       else if(mode==LoadStatus.loading){
+        //         body =  CupertinoActivityIndicator();
+        //       }
+        //       else if(mode == LoadStatus.failed){
+        //         body = Text("Load Failed!Click retry!");
+        //       }
+        //       else{
+        //         body = Text("No more Data");
+        //       }
+        //       return Container(
+        //         height: 55.0,
+        //         child: Center(child:body),
+        //       );
+        //     },
+        //   ),
+        //   controller: _refreshController,
+        //   onRefresh: _onRefresh,
+        //   onLoading: _onLoading,
         child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
           Container(
               color: Colors.black,
+              height: MediaQuery.of(context).size.height * (7 / 100),
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Container(
-                    height: MediaQuery.of(context).size.height * (7 / 100),
-                    padding: EdgeInsets.only(
-                        left: MediaQuery.of(context).size.width * (6 / 100)),
                     child: InkWell(
                         onTap: () {
-                          setFeed(false);
-                          changeCategory(true);
+                          refresh();
                         },
-                        child: Text("Go To Sing Screen")),
+                        child: Icon(
+                          Icons.autorenew,
+                        )),
+                  ),
+                  Center(child: Text('Sing-Off')),
+                  Container(
+                    child: InkWell(
+                        onTap: () {
+                          changeFeed(false);
+                          changeSongs(true);
+                        },
+                        child: Icon(
+                          Icons.music_video,
+                        )),
                   ),
                 ],
               )),
@@ -118,21 +165,22 @@ class _Feed extends State<Feed> {
                           color: Colors.black38,
                           // margin: EdgeInsets.only(bottom: 1, top: 1),
                           child: InkWell(
-                        onTap: () {
-                          setFilePathToPlay(element.downloadURL);
-                          changePlayer(true);
-                          setFeed(false);
-                        },
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                              onTap: () {
+                                setFilePathToPlay(element.downloadURL);
+                                changePlayer(true);
+                                changeFeed(false);
+                              },
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[
                                   Container(
                                     height: 350,
-                                    width: MediaQuery.of(context).size.width / 1,
+                                    width:
+                                        MediaQuery.of(context).size.width / 1,
                                     child: Container(
                                         alignment: Alignment.bottomRight,
                                         // padding: EdgeInsets.symmetric(
-                                            // vertical: 1, horizontal: 1),
+                                        // vertical: 1, horizontal: 1),
                                         child: Text(element.score.toString(),
                                             style: TextStyle(
                                               fontSize: 10,
