@@ -16,7 +16,8 @@ class SongRow extends StatelessWidget {
           child: Row(
             children: [
               Container(
-                height: 30,
+                height: MediaQuery.of(context).size.height * (7 / 100),
+                padding: EdgeInsets.only(left: MediaQuery.of(context).size.width * (6 / 100)),
                 child: InkWell(
                     onTap: () {
                       changeCategory(true);
