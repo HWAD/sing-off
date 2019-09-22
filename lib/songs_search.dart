@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 class SongSearch extends StatelessWidget {
   final Function setCategory;
   SongSearch(this.setCategory);
-  final List items = ['Hip Hop', 'Rock', 'Christmas', 'Video'];
 
   @override
   Widget build(BuildContext context) {

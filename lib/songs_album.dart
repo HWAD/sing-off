@@ -15,7 +15,7 @@ class SongAlbum extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.height / 1.5,
+      height: MediaQuery.of(context).size.height / 1.3,
       margin: EdgeInsets.only(top: 8),
       color: Colors.grey[800],
       child: Column(

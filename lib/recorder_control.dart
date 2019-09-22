@@ -10,15 +10,15 @@ class RecorderControl extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      // padding: EdgeInsets.only(left: 30),
-      child: Column(
-        children: [
+      color: Colors.black,
+      height: MediaQuery.of(context).size.height * (7 / 100),
+      child: 
           Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             Container(
-              height: MediaQuery.of(context).size.height * (10 / 100),
-              // padding: EdgeInsets.only(top: 10),
+              // height: MediaQuery.of(context).size.height * (7 / 100),
+              padding: EdgeInsets.only(left: MediaQuery.of(context).size.width * (6 / 100)),
               child: InkWell(
               onTap: () {
                 changePlayer(false);
@@ -28,16 +28,14 @@ class RecorderControl extends StatelessWidget {
               child: Icon(Icons.arrow_back_ios,)
             ), 
             ),
-            Container( 
-              // padding: EdgeInsets.only(left: 280),
-              child:InkWell(
-                onTap: () {
-                  changeRecorder(false);
-                  changePlayer(true);
-                },
-                child: Icon(Icons.arrow_forward_ios)), 
-            ),
-          ]),
+            // Container( 
+            //   child:InkWell(
+            //     onTap: () {
+            //       changeRecorder(false);
+            //       changePlayer(true);
+            //     },
+            //     child: Icon(Icons.arrow_forward_ios)), 
+            // ),
           ]),
     );
   }

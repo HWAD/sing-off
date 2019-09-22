@@ -11,7 +11,8 @@ import './recorder_control.dart';
 import './animation.dart';
 import './player.dart';
 import './recorder.dart';
-import './user_page.dart';
+import './feed.dart';
+import './login.dart';
 
 class Manager extends StatefulWidget {
   final String startingMenu;
@@ -26,6 +27,7 @@ class Manager extends StatefulWidget {
 
 class _Manager extends State<Manager> {
   List<ModelSong> _allSongs = [];
+  List<ModelSong> _allVideos = [];
   FlutterSound _flutterSound = new FlutterSound();
   ModelSong _selectedSong = new ModelSong(
       title: "none",
@@ -37,12 +39,12 @@ class _Manager extends State<Manager> {
       isFavorite: false);
   String _currentLyric = "Lyrics Come Here!!";
   // List<Duration> _highlightDurations = new List<Duration>();
-  String _karaokeButton = "";
   bool _isCategory = false;
   bool _isSongs = false;
   bool _isRecorder = false;
   bool _isPlayer = false;
-  bool _isUserPage = false;
+  bool _isFeed = false;
+  bool _isLogin = false;
   String _selectedCategory = "Hip Hop";
   List<int> _decibels = [];
 
@@ -51,8 +53,10 @@ class _Manager extends State<Manager> {
   @override
   void initState() {
     super.initState();
-    _karaokeButton = "KARAOKE";
-    _isCategory = true;
+    // _isCategory = true;
+    // _isFeed = true;
+    _isLogin = true;
+    _getAllVideos();
     _getAllSongs();
   }
 
@@ -76,6 +80,29 @@ class _Manager extends State<Manager> {
       }
       setState(() {
         _allSongs = modelSongList;
+      });
+    });
+  }
+
+  Future<void> _getAllVideos() async {
+    const url = 'https://flutterkaraoke.firebaseio.com/videos.json';
+    http.get(url).then((response) {
+      Map<String, dynamic> mappedBody = json.decode(response.body);
+      List<dynamic> dynamicList = mappedBody.values.toList();
+      List<ModelSong> modelVideoList = [];
+      for (int i = 0; i < dynamicList.length; i++) {
+        modelVideoList.add(ModelSong(
+            title: dynamicList[i]["title"],
+            artist: dynamicList[i]["artist"],
+            downloadURL: dynamicList[i]["downloadURL"],
+            length: dynamicList[i]["length"],
+            category: dynamicList[i]["category"],
+            image: dynamicList[i]["image"],
+            score: dynamicList[i]["score"],
+            isFavorite: dynamicList[i]["isFavorite"]));
+      }
+      setState(() {
+        _allVideos = modelVideoList;
       });
     });
   }
@@ -104,11 +131,11 @@ class _Manager extends State<Manager> {
     });
   }
 
-  void _changeUserPage(bool isUserPage) {
-    setState(() {
-      _isUserPage = isUserPage;
-    });
-  }
+  // void _changeUserPage(bool isUserPage) {
+  //   setState(() {
+  //     _isUserPage = isUserPage;
+  //   });
+  // }
 
   void _setSelectedSong(ModelSong song) {
     setState(() {
@@ -121,7 +148,7 @@ class _Manager extends State<Manager> {
       _selectedCategory = category;
       _changeCategory(false);
       _changeSongs(true);
-      _changeUserPage(false);
+      // _changeUserPage(false);
     });
   }
 
@@ -137,12 +164,6 @@ class _Manager extends State<Manager> {
   //   });
   // }
 
-  void _setKaraokeButton(String text) {
-    setState(() {
-      _karaokeButton = text;
-    });
-  }
-
   void _setFilePathToPlay(String text) {
     setState(() {
       filePathToPlay = text;
@@ -155,10 +176,36 @@ class _Manager extends State<Manager> {
     });
   }
 
+  void _setFeed(bool isFeed) {
+    setState(() {
+      _isFeed = isFeed;
+    });
+  }
+
+  void _setLogin(bool isLogin) {
+    setState(() {
+      _isLogin = isLogin;
+      _setFeed(true);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
+        Visibility(
+          visible: _isLogin,
+          child: Column(children: [
+            Login(_setLogin, _setFeed),
+          ]),
+        ),
+        Visibility(
+          visible: _isFeed,
+          child: Column(children: [
+            Feed(_allVideos, _changeCategory, _setFeed, _setFilePathToPlay,
+                _changePlayer, _getAllVideos),
+          ]),
+        ),
         Visibility(
           visible: _isCategory,
           child: Column(children: [
@@ -168,8 +215,7 @@ class _Manager extends State<Manager> {
         Visibility(
           visible: _isSongs,
           child: Column(children: [
-            SongRow(
-                _setCategory, _changeSongs, _changeCategory, _changeUserPage),
+            SongRow(_setCategory, _changeSongs, _changeCategory),
             SongAlbum(_changeSongs, _changeRecorder, _allSongs,
                 _setSelectedSong, _selectedCategory),
           ]),
@@ -178,6 +224,13 @@ class _Manager extends State<Manager> {
           visible: _isRecorder,
           child: Column(
             children: [
+              Container(
+                child: RecorderControl(
+                  _changeRecorder,
+                  _changePlayer,
+                  _changeSongs,
+                ),
+              ),
               Recorder(
                 setFilePathToPlay: _setFilePathToPlay,
                 currentLyric: _currentLyric,
@@ -185,8 +238,6 @@ class _Manager extends State<Manager> {
                 selectedSong: _selectedSong,
                 setCurrentLyric: _setCurrentLyric,
                 // highlightDurations: _highlightDurations,
-                karaokeButton: _karaokeButton,
-                setKaraokeButton: _setKaraokeButton,
                 setDecibels: _setDecibels,
                 changeRecorder: _changeRecorder,
                 changePlayer: _changePlayer,
@@ -195,13 +246,6 @@ class _Manager extends State<Manager> {
 
               /// ANIMATION. FOR NOW IS DISABLED. TO TOGGLE IN ONLY IF PITCH IS AVAILABLE.
               // WaveAnimation(_decibels),
-              Container(
-                child: RecorderControl(
-                  _changeRecorder,
-                  _changePlayer,
-                  _changeSongs,
-                ),
-              ),
             ],
           ),
         ),
@@ -210,18 +254,14 @@ class _Manager extends State<Manager> {
           child: Column(
             children: [
               Player(
-                  filePathToPlay: filePathToPlay,
-                  changeSongs: _changeSongs,
-                  changeRecorder: _changeRecorder,
-                  changePlayer: _changePlayer,
-                  changeUserPage: _changeUserPage),
+                filePathToPlay: filePathToPlay,
+                changeSongs: _changeSongs,
+                changeRecorder: _changeRecorder,
+                changePlayer: _changePlayer,
+              ),
             ],
           ),
         ),
-        Visibility(
-          visible: _isUserPage,
-          child: UserPage(),
-        )
       ],
     );
   }

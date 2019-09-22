@@ -7,20 +7,19 @@ class Player extends StatefulWidget {
   final Function changeSongs;
   final Function changeRecorder;
   final Function changePlayer;
-  final Function changeUserPage;
+  // final Function changeUserPage;
 
   Player(
       {Key key,
       @required this.filePathToPlay,
       @required this.changeSongs,
       @required this.changeRecorder,
-      @required this.changePlayer,
-      @required this.changeUserPage})
+      @required this.changePlayer})
       : super(key: key);
 
   @override
   _PlayerState createState() => _PlayerState(filePathToPlay, changeSongs,
-      changeRecorder, changePlayer, changeUserPage);
+      changeRecorder, changePlayer, /*changeUserPage*/);
 }
 
 class _PlayerState extends State<Player> {
@@ -29,12 +28,16 @@ class _PlayerState extends State<Player> {
   Function changeSongs;
   Function changeRecorder;
   Function changePlayer;
-  Function changeUserPage;
+  // Function changeUserPage;
 
   Future<void> _initializeVideoPlayerFuture;
 
   _PlayerState(this.filePathToPlay, this.changeSongs, this.changeRecorder,
+<<<<<<< HEAD
       this.changePlayer, this.changeUserPage);
+=======
+      this.changePlayer);
+>>>>>>> c8cf5cb76699c6d3582e61b4840e57c981f793df
 
   @override
   void initState() {
@@ -53,8 +56,8 @@ class _PlayerState extends State<Player> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.height * (93 / 100),
       child: Column(
+<<<<<<< HEAD
         children: <Widget>[
           FutureBuilder(
             future: _initializeVideoPlayerFuture,
@@ -139,6 +142,92 @@ class _PlayerState extends State<Player> {
         ],
         // This trailing comma makes auto-formatting nicer for build methods.
       ),
+=======
+      mainAxisSize: MainAxisSize.max,
+      children: <Widget>[
+            Container(
+              color: Colors.black,
+              height: MediaQuery.of(context).size.height * (7 / 100),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              Center(
+                child: InkWell(
+                    onTap: () {
+                      changePlayer(false);
+                      changeRecorder(true);
+                    },
+                    child: Icon(Icons.arrow_back_ios)),
+              ),
+              Center(
+                child: Text('Sing-Off')
+              ),
+              Center(
+                // height: 60,
+                child: InkWell(
+                    onTap: () {
+                      changePlayer(false);
+                      changeSongs(true);
+                    },
+                    child: Icon(
+                      Icons.home,
+                    )),
+              ),
+            ]),),
+        FutureBuilder(
+          future: _initializeVideoPlayerFuture,
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.done) {
+              return Column(children: <Widget>[
+                Container(
+                  height: MediaQuery.of(context).size.height * (80 / 100),
+                  child: VideoPlayer(_controller),
+                )
+              ]);
+            } else {
+              return Column(children: <Widget>[
+                Container(
+                    height: MediaQuery.of(context).size.height * (80 / 100),
+                    child: Center(child: CircularProgressIndicator()))
+              ]);
+            }
+          },
+        ),
+        Container(
+              color: Colors.grey[400].withOpacity(0.9),
+              height: MediaQuery.of(context).size.height * (7 / 100),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              Center(
+                child: InkWell(
+                  onTap: () {
+                    setState(() {
+                      // If the video is playing, pause it.
+                      if (_controller.value.isPlaying) {
+                        _controller.pause();
+                      } else {
+                        // If the video is paused, play it.
+                        _controller.play();
+                      }
+                    });
+                  },
+                  // Display the correct icon depending on the state of the player.
+                  child: Icon(
+                    _controller.value.isPlaying
+                        ? Icons.pause
+                        : Icons.play_arrow,
+                  ),
+                ),
+              ),
+            
+            ]),),
+        
+      ],
+    ),
+>>>>>>> c8cf5cb76699c6d3582e61b4840e57c981f793df
     );
   }
 }

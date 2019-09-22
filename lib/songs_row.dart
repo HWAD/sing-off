@@ -4,9 +4,12 @@ class SongRow extends StatelessWidget {
   final Function setCategory;
   final Function changeSongs;
   final Function changeCategory;
-  final Function changeUserPage;
-  SongRow(this.setCategory, this.changeSongs, this.changeCategory,
-      this.changeUserPage);
+
+  SongRow(
+    this.setCategory,
+    this.changeSongs,
+    this.changeCategory,
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -19,50 +22,11 @@ class SongRow extends StatelessWidget {
             child: Row(
               children: [
                 Container(
-                  height: 30,
+                  height: MediaQuery.of(context).size.height * (7 / 100),
+                  padding: EdgeInsets.only(
+                      left: MediaQuery.of(context).size.width * (6 / 100)),
                   child: InkWell(
-                      onTap: () {
-                        changeCategory(true);
-                        changeSongs(false);
-                      },
-                      child: Icon(
-                        Icons.arrow_back_ios,
-                      )),
-                ),
-                Container(
-                  height: 60,
-                  padding: EdgeInsets.only(top: 20, left: 50),
-                  child: Text('Genre',
-                      style: TextStyle(
-                        fontSize: 18,
-                        // shadows: [
-                        //   Shadow(
-                        //       // bottomLeft
-                        //       offset: Offset(-1.5, -1.5),
-                        //       color: Colors.black),
-                        //   Shadow(
-                        //       // bottomRight
-                        //       offset: Offset(1.5, -1.5),
-                        //       color: Colors.black),
-                        //   Shadow(
-                        //       // topRight
-                        //       offset: Offset(1.5, 1.5),
-                        //       color: Colors.black),
-                        //   Shadow(
-                        //       // topLeft
-                        //       offset: Offset(-1.5, 1.5),
-                        //       color: Colors.black),
-                        // ],
-                      ),
-                      textAlign: TextAlign.left),
-                ),
-                Container(
-                  height: 60,
-                  padding: EdgeInsets.only(left: 30),
-                  child: InkWell(
-                    child: Icon(Icons.music_video),
                     onTap: () {
-                      changeUserPage(true);
                       changeCategory(false);
                       changeSongs(false);
                     },
@@ -332,3 +296,11 @@ class SongRow extends StatelessWidget {
     );
   }
 }
+
+/*
+Container(
+                  height: 60,
+                  padding: EdgeInsets.only(left: 30),
+                  child: InkWell(
+                    child: Icon(Icons.music_video),
+*/
