@@ -46,25 +46,28 @@ class SongSearch extends StatelessWidget {
                         child: Text("Christmas",
                         style: TextStyle(fontSize: 25,
                         shadows: [
-      Shadow( // bottomLeft
-	offset: Offset(-1.5, -1.5),
-	color: Colors.black
-      ),
-      Shadow( // bottomRight
-	offset: Offset(1.5, -1.5),
-	color: Colors.black
-      ),
-      Shadow( // topRight
-	offset: Offset(1.5, 1.5),
-	color: Colors.black
-      ),
-      Shadow( // topLeft
-	offset: Offset(-1.5, 1.5),
-	color: Colors.black
-      ),
-  ],)),
-                        ),),)
+                          Shadow( // bottomLeft
+                            offset: Offset(-1.5, -1.5),
+                            color: Colors.black,
+                            ),
+                          Shadow( // bottomRight
+                            offset: Offset(1.5, -1.5),
+                            color: Colors.black,
+                          ),
+                          Shadow( // topRight
+                            offset: Offset(1.5, 1.5),
+                            color: Colors.black,
+                          ),
+                          Shadow( // topLeft
+                            offset: Offset(-1.5, 1.5),
+                            color: Colors.black,
+                          )],
+                            ),
+                          ),
                         ),
+                      ),
+                    ),
+                  ),
                    Container(
                         child: Ink.image(
                           image: AssetImage(

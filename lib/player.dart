@@ -7,12 +7,20 @@ class Player extends StatefulWidget {
   final Function changeSongs;
   final Function changeRecorder;
   final Function changePlayer;
+  final Function changeUserPage;
 
-  Player({Key key, @required this.filePathToPlay, @required this.changeSongs, @required this.changeRecorder, @required this.changePlayer}) : super(key: key);
+  Player(
+      {Key key,
+      @required this.filePathToPlay,
+      @required this.changeSongs,
+      @required this.changeRecorder,
+      @required this.changePlayer,
+      @required this.changeUserPage})
+      : super(key: key);
 
   @override
-  _PlayerState createState() =>
-      _PlayerState(filePathToPlay, changeSongs, changeRecorder, changePlayer);
+  _PlayerState createState() => _PlayerState(filePathToPlay, changeSongs,
+      changeRecorder, changePlayer, changeUserPage);
 }
 
 class _PlayerState extends State<Player> {
@@ -21,9 +29,12 @@ class _PlayerState extends State<Player> {
   Function changeSongs;
   Function changeRecorder;
   Function changePlayer;
+  Function changeUserPage;
+
   Future<void> _initializeVideoPlayerFuture;
 
-  _PlayerState(this.filePathToPlay, this.changeSongs,  this.changeRecorder,  this.changePlayer);
+  _PlayerState(this.filePathToPlay, this.changeSongs, this.changeRecorder,
+      this.changePlayer, this.changeUserPage);
 
   @override
   void initState() {
@@ -55,68 +66,71 @@ class _PlayerState extends State<Player> {
                     child: VideoPlayer(_controller),
                   ),
                   Container(
-      color: Colors.grey[800],
-
-      child: Column(
-        children: [
-          Container(
-            color: Colors.grey[500],
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-            Container(
-              alignment: Alignment.center,
-              height: MediaQuery.of(context).size.height * (7 / 100),
-              child: Text("Points")
-            )
-          ],),),
-          Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-
-          children: <Widget>[
-            Container( 
-              height: MediaQuery.of(context).size.height * (10 / 100),
-              child:InkWell(
-                onTap: () {
-                  changePlayer(false);
-                  changeRecorder(true);
-                },
-                child: Icon(Icons.arrow_back_ios)), 
-            ),
-            Container(
-              height: 60,
-                    child: InkWell(
-                      onTap: () {
-                        setState(() {
-                          // If the video is playing, pause it.
-                          if (_controller.value.isPlaying) {
-                            _controller.pause();
-                          } else {
-                            // If the video is paused, play it.
-                            _controller.play();
-                          }
-                        });
-                      },
-                      // Display the correct icon depending on the state of the player.
-                      child: Icon(
-                        _controller.value.isPlaying
-                            ? Icons.pause
-                            : Icons.play_arrow,
+                    color: Colors.grey[800],
+                    child: Column(children: [
+                      Container(
+                        color: Colors.grey[500],
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Container(
+                                alignment: Alignment.center,
+                                height: MediaQuery.of(context).size.height *
+                                    (7 / 100),
+                                child: Text("Points"))
+                          ],
+                        ),
                       ),
-                    ),
-                  ),
-            Container(
-              height: 60,
-              child: InkWell(
-              onTap: () {
-                changePlayer(false);
-                changeSongs(true);
-              },
-              child: Icon(Icons.home,)
-            ), 
-            ),
-          ])]),
-    )]);
+                      Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: <Widget>[
+                            Container(
+                              height: MediaQuery.of(context).size.height *
+                                  (10 / 100),
+                              child: InkWell(
+                                  onTap: () {
+                                    changePlayer(false);
+                                    changeRecorder(true);
+                                  },
+                                  child: Icon(Icons.arrow_back_ios)),
+                            ),
+                            Container(
+                              height: 60,
+                              child: InkWell(
+                                onTap: () {
+                                  setState(() {
+                                    // If the video is playing, pause it.
+                                    if (_controller.value.isPlaying) {
+                                      _controller.pause();
+                                    } else {
+                                      // If the video is paused, play it.
+                                      _controller.play();
+                                    }
+                                  });
+                                },
+                                // Display the correct icon depending on the state of the player.
+                                child: Icon(
+                                  _controller.value.isPlaying
+                                      ? Icons.pause
+                                      : Icons.play_arrow,
+                                ),
+                              ),
+                            ),
+                            Container(
+                              height: 60,
+                              child: InkWell(
+                                  onTap: () {
+                                    changePlayer(false);
+                                    changeSongs(true);
+                                  },
+                                  child: Icon(
+                                    Icons.home,
+                                  )),
+                            ),
+                          ])
+                    ]),
+                  )
+                ]);
               } else {
                 return Center(child: CircularProgressIndicator());
               }

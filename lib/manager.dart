@@ -11,6 +11,7 @@ import './recorder_control.dart';
 import './animation.dart';
 import './player.dart';
 import './recorder.dart';
+import './user_page.dart';
 
 class Manager extends StatefulWidget {
   final String startingMenu;
@@ -41,6 +42,7 @@ class _Manager extends State<Manager> {
   bool _isSongs = false;
   bool _isRecorder = false;
   bool _isPlayer = false;
+  bool _isUserPage = false;
   String _selectedCategory = "Hip Hop";
   List<int> _decibels = [];
 
@@ -102,6 +104,12 @@ class _Manager extends State<Manager> {
     });
   }
 
+  void _changeUserPage(bool isUserPage) {
+    setState(() {
+      _isUserPage = isUserPage;
+    });
+  }
+
   void _setSelectedSong(ModelSong song) {
     setState(() {
       _selectedSong = song;
@@ -113,6 +121,7 @@ class _Manager extends State<Manager> {
       _selectedCategory = category;
       _changeCategory(false);
       _changeSongs(true);
+      _changeUserPage(false);
     });
   }
 
@@ -159,9 +168,10 @@ class _Manager extends State<Manager> {
         Visibility(
           visible: _isSongs,
           child: Column(children: [
-            SongRow(_setCategory, _changeSongs, _changeCategory),
-            SongAlbum(_changeSongs, _changeRecorder, _allSongs, _setSelectedSong,
-                _selectedCategory),
+            SongRow(
+                _setCategory, _changeSongs, _changeCategory, _changeUserPage),
+            SongAlbum(_changeSongs, _changeRecorder, _allSongs,
+                _setSelectedSong, _selectedCategory),
           ]),
         ),
         Visibility(
@@ -203,10 +213,15 @@ class _Manager extends State<Manager> {
                   filePathToPlay: filePathToPlay,
                   changeSongs: _changeSongs,
                   changeRecorder: _changeRecorder,
-                  changePlayer: _changePlayer),
+                  changePlayer: _changePlayer,
+                  changeUserPage: _changeUserPage),
             ],
           ),
         ),
+        Visibility(
+          visible: _isUserPage,
+          child: UserPage(),
+        )
       ],
     );
   }
