@@ -65,7 +65,7 @@ class _Feed extends State<Feed> {
             downloadURL: dynamicList[i]["downloadURL"],
             length: dynamicList[i]["length"],
             category: dynamicList[i]["category"],
-            image: dynamicList[i]["image"],
+            imageURL: dynamicList[i]["imageURL"],
             score: dynamicList[i]["score"],
             isFavorite: dynamicList[i]["isFavorite"]));
       }
@@ -131,77 +131,74 @@ class _Feed extends State<Feed> {
             margin: EdgeInsets.only(top: 8),
             color: Colors.grey[800],
             child: ListView(children: <Widget>[
+              Container(),
               Container(
                 child: Column(
-                  children: allVideos
-                      .where((video) {
-                        if (isFilterByUsername == true) {
-                          return video.category == username;
-                        } else {
-                          return true;
-                        }
-                      })
-                      .map((element) {
-                        return Container(
-                            color: Colors.black38,
-                            child: InkWell(
-                                onTap: () {
-                                  setFilePathToPlay(element.downloadURL);
-                                  changePlayer(true);
-                                  changeFeed(false);
-                                },
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: <Widget>[
-                                    Container(
-                                      height: 350,
-                                      width:
-                                          MediaQuery.of(context).size.width / 1,
-                                      child: Container(
-                                          alignment: Alignment.bottomRight,
-                                          child: Text(element.score.toString(),
-                                              style: TextStyle(
-                                                fontSize: 10,
-                                                fontWeight: FontWeight.bold,
-                                                color: Colors.white,
-                                                backgroundColor: Colors.black
-                                                    .withOpacity(0.5),
-                                              ))),
-                                      margin: EdgeInsets.symmetric(
-                                        vertical: 10,
-                                        horizontal: 15,
+                  children: allVideos.where((video) {
+                    if (isFilterByUsername == true) {
+                      return video.category == username;
+                    } else {
+                      return true;
+                    }
+                  }).map((element) {
+                    return Container(
+                        color: Colors.black38,
+                        child: InkWell(
+                            onTap: () {
+                              setFilePathToPlay(element.downloadURL);
+                              changePlayer(true);
+                              changeFeed(false);
+                            },
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                Container(
+                                    padding: EdgeInsets.only(top: 10),
+                                    height: 30,
+                                    child: Text(element.category)),
+                                Container(
+                                  height:
+                                      MediaQuery.of(context).size.height / 2,
+                                  width: MediaQuery.of(context).size.width / 1,
+                                  child: Container(
+                                      alignment: Alignment.bottomRight,
+                                      child: Text(element.score.toString(),
+                                          style: TextStyle(
+                                            fontSize: 10,
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.white,
+                                            backgroundColor:
+                                                Colors.black.withOpacity(0.5),
+                                          ))),
+                                  margin: EdgeInsets.symmetric(
                                       ),
-                                      decoration: BoxDecoration(
-                                        border: Border.all(
-                                          color: Colors.white54,
-                                          width: 1,
-                                        ),
-                                        image: DecorationImage(
-                                          image: new AssetImage(
-                                              element.image.toString()),
-                                          fit: BoxFit.fill,
-                                        ),
-                                      ),
+                                  decoration: BoxDecoration(
+                                    border: Border.all(
+                                      color: Colors.grey[800],
                                     ),
-                                    Container(
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: <Widget>[
-                                          Text(element.title,
-                                              style: TextStyle(
-                                                  fontSize: 15,
-                                                  fontWeight: FontWeight.bold)),
-                                          Text(element.artist,
-                                              style: TextStyle(
-                                                  color: Colors.grey)),
-                                        ],
-                                      ),
+                                    image: DecorationImage(
+                                      image: NetworkImage(element.imageURL),
+                                      fit: BoxFit.fill,
                                     ),
-                                  ],
-                                )));
-                      })
-                      .toList(),
+                                  ),
+                                ),
+                                Container(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: <Widget>[
+                                      Text(element.title,
+                                          style: TextStyle(
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.bold)),
+                                      Text(element.artist,
+                                          style: TextStyle(color: Colors.grey)),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            )));
+                  }).toList(),
                 ),
               ),
             ]),

@@ -12,11 +12,9 @@ class Login extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
         height: MediaQuery.of(context).size.height,
-        child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+        child: ListView(
             children: <Widget>[
               Container(
-                // padding: EdgeInsets.only(bottom: 40),
                 child: Card(
                   elevation: 5,
                   child: Container(
