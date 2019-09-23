@@ -54,7 +54,7 @@ class _Feed extends State<Feed> {
 
   Future<void> refresh() async {
     const url = 'https://flutterkaraoke.firebaseio.com/videos.json';
-    http.get(url).then((response) {
+    await http.get(url).then((response) {
       Map<String, dynamic> mappedBody = json.decode(response.body);
       List<dynamic> dynamicList = mappedBody.values.toList();
       List<ModelSong> modelVideoList = [];
@@ -83,8 +83,8 @@ class _Feed extends State<Feed> {
 
   @override
   void initState() {
-    refresh();
     super.initState();
+    refresh();
   }
 
   @override
@@ -131,136 +131,77 @@ class _Feed extends State<Feed> {
             margin: EdgeInsets.only(top: 8),
             color: Colors.grey[800],
             child: ListView(children: <Widget>[
-              Visibility(
-                visible: isFilterByUsername == false,
+              Container(
                 child: Column(
-                  children: allVideos.map((element) {
-                    return Container(
-                        color: Colors.black38,
-                        child: InkWell(
-                            onTap: () {
-                              setFilePathToPlay(element.downloadURL);
-                              changePlayer(true);
-                              changeFeed(false);
-                            },
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                Container(
-                                  height: 350,
-                                  width: MediaQuery.of(context).size.width / 1,
-                                  child: Container(
-                                      alignment: Alignment.bottomRight,
-                                      child: Text(element.score.toString(),
-                                          style: TextStyle(
-                                            fontSize: 10,
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.white,
-                                            backgroundColor:
-                                                Colors.black.withOpacity(0.5),
-                                          ))),
-                                  margin: EdgeInsets.symmetric(
-                                    vertical: 10,
-                                    horizontal: 15,
-                                  ),
-                                  decoration: BoxDecoration(
-                                    border: Border.all(
-                                      color: Colors.white54,
-                                      width: 1,
-                                    ),
-                                    image: DecorationImage(
-                                      image: new AssetImage(
-                                          element.image.toString()),
-                                      fit: BoxFit.fill,
-                                    ),
-                                  ),
-                                ),
-                                Container(
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: <Widget>[
-                                      Text(element.title,
-                                          style: TextStyle(
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.bold)),
-                                      Text(element.artist,
-                                          style: TextStyle(color: Colors.grey)),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            )));
-                  }).toList(),
-                ),
-              ),
-              Visibility(
-                visible: isFilterByUsername,
-                child: Container(
-                  child: Column(
-                    children: allVideos
-                        .where((video) => video.category == username)
-                        .map((element) {
-                      return Container(
-                          color: Colors.black38,
-                          child: InkWell(
-                              onTap: () {
-                                setFilePathToPlay(element.downloadURL);
-                                changePlayer(true);
-                                changeFeed(false);
-                              },
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  Container(
-                                    height: 350,
-                                    width:
-                                        MediaQuery.of(context).size.width / 1,
-                                    child: Container(
-                                        alignment: Alignment.bottomRight,
-                                        child: Text(element.score.toString(),
-                                            style: TextStyle(
-                                              fontSize: 10,
-                                              fontWeight: FontWeight.bold,
-                                              color: Colors.white,
-                                              backgroundColor:
-                                                  Colors.black.withOpacity(0.5),
-                                            ))),
-                                    margin: EdgeInsets.symmetric(
-                                      vertical: 10,
-                                      horizontal: 15,
-                                    ),
-                                    decoration: BoxDecoration(
-                                      border: Border.all(
-                                        color: Colors.white54,
-                                        width: 1,
+                  children: allVideos
+                      .where((video) {
+                        if (isFilterByUsername == true) {
+                          return video.category == username;
+                        } else {
+                          return true;
+                        }
+                      })
+                      .map((element) {
+                        return Container(
+                            color: Colors.black38,
+                            child: InkWell(
+                                onTap: () {
+                                  setFilePathToPlay(element.downloadURL);
+                                  changePlayer(true);
+                                  changeFeed(false);
+                                },
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    Container(
+                                      height: 350,
+                                      width:
+                                          MediaQuery.of(context).size.width / 1,
+                                      child: Container(
+                                          alignment: Alignment.bottomRight,
+                                          child: Text(element.score.toString(),
+                                              style: TextStyle(
+                                                fontSize: 10,
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.white,
+                                                backgroundColor: Colors.black
+                                                    .withOpacity(0.5),
+                                              ))),
+                                      margin: EdgeInsets.symmetric(
+                                        vertical: 10,
+                                        horizontal: 15,
                                       ),
-                                      image: DecorationImage(
-                                        image: new AssetImage(
-                                            element.image.toString()),
-                                        fit: BoxFit.fill,
+                                      decoration: BoxDecoration(
+                                        border: Border.all(
+                                          color: Colors.white54,
+                                          width: 1,
+                                        ),
+                                        image: DecorationImage(
+                                          image: new AssetImage(
+                                              element.image.toString()),
+                                          fit: BoxFit.fill,
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                  Container(
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: <Widget>[
-                                        Text(element.title,
-                                            style: TextStyle(
-                                                fontSize: 15,
-                                                fontWeight: FontWeight.bold)),
-                                        Text(element.artist,
-                                            style:
-                                                TextStyle(color: Colors.grey)),
-                                      ],
+                                    Container(
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: <Widget>[
+                                          Text(element.title,
+                                              style: TextStyle(
+                                                  fontSize: 15,
+                                                  fontWeight: FontWeight.bold)),
+                                          Text(element.artist,
+                                              style: TextStyle(
+                                                  color: Colors.grey)),
+                                        ],
+                                      ),
                                     ),
-                                  ),
-                                ],
-                              )));
-                    }).toList(),
-                  ),
+                                  ],
+                                )));
+                      })
+                      .toList(),
                 ),
               ),
             ]),
