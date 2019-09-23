@@ -91,7 +91,7 @@ class _Manager extends State<Manager> {
       Map<String, dynamic> mappedBody = json.decode(response.body);
       List<dynamic> dynamicList = mappedBody.values.toList();
       List<ModelSong> modelVideoList = [];
-      for (int i = 0; i < dynamicList.length-1; i++) {
+      for (int i = 0; i < dynamicList.length - 1; i++) {
         modelVideoList.add(ModelSong(
             title: dynamicList[i]["title"],
             artist: dynamicList[i]["artist"],
@@ -207,13 +207,8 @@ class _Manager extends State<Manager> {
         Visibility(
           visible: _isFeed,
           child: Column(children: [
-<<<<<<< HEAD
-            Feed(_allVideos, _changeCategory, _setFeed, _setFilePathToPlay,
-                _changePlayer, _getAllVideos),
-=======
             Feed(_allVideos, _changeCategory, _changeFeed, _setFilePathToPlay,
                 _changePlayer, _getAllVideos, _changeSongs),
->>>>>>> 1dde1f4bc2b19cab925620bece238861fd67130a
           ]),
         ),
         Visibility(
@@ -269,10 +264,7 @@ class _Manager extends State<Manager> {
                 changeSongs: _changeSongs,
                 changeRecorder: _changeRecorder,
                 changePlayer: _changePlayer,
-<<<<<<< HEAD
-=======
                 changeFeed: _changeFeed,
->>>>>>> 1dde1f4bc2b19cab925620bece238861fd67130a
               ),
             ],
           ),
