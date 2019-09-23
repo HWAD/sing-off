@@ -12,8 +12,8 @@ class Login extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
         height: MediaQuery.of(context).size.height,
-        child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+        child: ListView(
+            // mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Container(
                 // padding: EdgeInsets.only(bottom: 40),

@@ -32,7 +32,7 @@ class _Manager extends State<Manager> {
       title: "none",
       artist: "none",
       downloadURL: "none",
-      image: "none",
+      imageURL: "none",
       lyrics: "[00:00:00]Lyrics",
       score: 0,
       isFavorite: false);
@@ -74,7 +74,6 @@ class _Manager extends State<Manager> {
             imageURL: dynamicList[i]["imageURL"],
             length: dynamicList[i]["length"],
             category: dynamicList[i]["category"],
-            image: dynamicList[i]["image"],
             score: dynamicList[i]["score"],
             lyrics: dynamicList[i]["lyrics"],
             isFavorite: dynamicList[i]["isFavorite"]));
@@ -97,9 +96,9 @@ class _Manager extends State<Manager> {
             title: dynamicList[i]["title"],
             artist: dynamicList[i]["artist"],
             downloadURL: dynamicList[i]["downloadURL"],
+            imageURL: dynamicList[i]["imageURL"],
             length: dynamicList[i]["length"],
             category: dynamicList[i]["category"],
-            image: dynamicList[i]["image"],
             score: dynamicList[i]["score"],
             isFavorite: dynamicList[i]["isFavorite"]));
       }
@@ -221,7 +220,8 @@ class _Manager extends State<Manager> {
         Visibility(
           visible: _isSongs,
           child: Column(children: [
-            SongRow(_setCategory, _changeSongs, _changeCategory, _changeFeed, _changeRecorder, _setSelectedSong, _allSongs),
+            SongRow(_setCategory, _changeSongs, _changeCategory, _changeFeed,
+                _changeRecorder, _setSelectedSong, _allSongs),
             SongAlbum(_changeSongs, _changeRecorder, _allSongs,
                 _setSelectedSong, _selectedCategory),
           ]),
