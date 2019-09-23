@@ -18,12 +18,18 @@ class SongAlbum extends StatelessWidget {
       height: MediaQuery.of(context).size.height / 1.3,
       margin: EdgeInsets.only(top: 8),
       color: Colors.grey[800],
-      child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
+      child: ListView(
           children: <Widget>[
             Column(
               children: allSongs
-                  .where((song) => song.category == selectedCategory)
+                  .where((song){
+                    if(selectedCategory == "All") {
+                      return true;
+                    }
+                    else {
+                     return song.category == selectedCategory;
+                    }
+                     })
                   .map((element) {
                 return Container(
                     color: Colors.black38,
