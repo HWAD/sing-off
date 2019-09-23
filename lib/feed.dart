@@ -171,12 +171,10 @@ class _Feed extends State<Feed> {
                                                 Colors.black.withOpacity(0.5),
                                           ))),
                                   margin: EdgeInsets.symmetric(
-                                      // vertical: 10,
                                       ),
                                   decoration: BoxDecoration(
                                     border: Border.all(
                                       color: Colors.grey[800],
-                                      // width: 1,
                                     ),
                                     image: DecorationImage(
                                       image: NetworkImage(element.imageURL),
