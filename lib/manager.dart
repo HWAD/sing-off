@@ -8,7 +8,6 @@ import './songs_search.dart';
 import './songs_album.dart';
 import './songs_row.dart';
 import './recorder_control.dart';
-import './animation.dart';
 import './player.dart';
 import './recorder.dart';
 import './feed.dart';
@@ -47,6 +46,7 @@ class _Manager extends State<Manager> {
   bool _isLogin = false;
   String _selectedCategory = "Hip Hop";
   List<int> _decibels = [];
+  String _username = "";
 
   String filePathToPlay;
 
@@ -85,12 +85,13 @@ class _Manager extends State<Manager> {
   }
 
   Future<void> _getAllVideos() async {
+    print("ingetallvideos");
     const url = 'https://flutterkaraoke.firebaseio.com/videos.json';
     http.get(url).then((response) {
       Map<String, dynamic> mappedBody = json.decode(response.body);
       List<dynamic> dynamicList = mappedBody.values.toList();
       List<ModelSong> modelVideoList = [];
-      for (int i = 0; i < dynamicList.length; i++) {
+      for (int i = 0; i < dynamicList.length-1; i++) {
         modelVideoList.add(ModelSong(
             title: dynamicList[i]["title"],
             artist: dynamicList[i]["artist"],
@@ -104,6 +105,12 @@ class _Manager extends State<Manager> {
       setState(() {
         _allVideos = modelVideoList;
       });
+    });
+  }
+
+  void _setUsername(String username) {
+    setState(() {
+      _username = username;
     });
   }
 
@@ -146,7 +153,6 @@ class _Manager extends State<Manager> {
   void _setCategory(String category) {
     setState(() {
       _selectedCategory = category;
-      _changeCategory(false);
       _changeSongs(true);
       // _changeUserPage(false);
     });
@@ -176,7 +182,7 @@ class _Manager extends State<Manager> {
     });
   }
 
-  void _setFeed(bool isFeed) {
+  void _changeFeed(bool isFeed) {
     setState(() {
       _isFeed = isFeed;
     });
@@ -185,7 +191,6 @@ class _Manager extends State<Manager> {
   void _setLogin(bool isLogin) {
     setState(() {
       _isLogin = isLogin;
-      _setFeed(true);
     });
   }
 
@@ -196,26 +201,31 @@ class _Manager extends State<Manager> {
         Visibility(
           visible: _isLogin,
           child: Column(children: [
-            Login(_setLogin, _setFeed),
+            Login(_setLogin, _changeFeed, _setUsername),
           ]),
         ),
         Visibility(
           visible: _isFeed,
           child: Column(children: [
+<<<<<<< HEAD
             Feed(_allVideos, _changeCategory, _setFeed, _setFilePathToPlay,
                 _changePlayer, _getAllVideos),
+=======
+            Feed(_allVideos, _changeCategory, _changeFeed, _setFilePathToPlay,
+                _changePlayer, _getAllVideos, _changeSongs),
+>>>>>>> 1dde1f4bc2b19cab925620bece238861fd67130a
           ]),
         ),
         Visibility(
           visible: _isCategory,
           child: Column(children: [
-            SongSearch(_setCategory),
+            SongSearch(_setCategory, _changeCategory, _changeFeed),
           ]),
         ),
         Visibility(
           visible: _isSongs,
           child: Column(children: [
-            SongRow(_setCategory, _changeSongs, _changeCategory),
+            SongRow(_setCategory, _changeSongs, _changeCategory, _changeFeed),
             SongAlbum(_changeSongs, _changeRecorder, _allSongs,
                 _setSelectedSong, _selectedCategory),
           ]),
@@ -229,6 +239,7 @@ class _Manager extends State<Manager> {
                   _changeRecorder,
                   _changePlayer,
                   _changeSongs,
+                  _changeFeed,
                 ),
               ),
               Recorder(
@@ -258,6 +269,10 @@ class _Manager extends State<Manager> {
                 changeSongs: _changeSongs,
                 changeRecorder: _changeRecorder,
                 changePlayer: _changePlayer,
+<<<<<<< HEAD
+=======
+                changeFeed: _changeFeed,
+>>>>>>> 1dde1f4bc2b19cab925620bece238861fd67130a
               ),
             ],
           ),

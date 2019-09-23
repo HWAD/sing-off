@@ -130,6 +130,9 @@ class _Recorder extends State<Recorder> with WidgetsBindingObserver {
   @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
+    flutterSound.stopRecorder();
+    // exitAudio();
+    exitVideoRecording();
     super.dispose();
   }
 
@@ -151,18 +154,6 @@ class _Recorder extends State<Recorder> with WidgetsBindingObserver {
   Widget build(BuildContext context) {
     return Container(
         height: MediaQuery.of(context).size.height * (88 / 100),
-        child: GestureDetector(
-          onPanUpdate: (details) {
-            // if (details.delta.dx > 50) {
-            //   changeRecorder(false);
-            //   changePlayer(true);
-            // }
-            // if ((-details.delta.dx) < -100) {
-            //   changePlayer(false);
-            //   changeSongs(true);
-            //   changeRecorder(false);
-            // }
-          },
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
@@ -176,8 +167,9 @@ class _Recorder extends State<Recorder> with WidgetsBindingObserver {
                         Container(
                           color: Colors.grey[600].withOpacity(0.7),
                           child: Container(
+                            height: MediaQuery.of(context).size.height * (10 / 100),
                             width: double.infinity,
-                            padding: EdgeInsets.only(top: 5),
+                            padding: EdgeInsets.only(top:MediaQuery.of(context).size.height * (3 / 100)),
                             child: RichText(
                               textAlign: TextAlign.center,
                               text: TextSpan(
@@ -192,7 +184,7 @@ class _Recorder extends State<Recorder> with WidgetsBindingObserver {
                                         fontWeight: FontWeight.bold,
                                         fontSize: 20,
                                         foreground: Paint()
-                                          ..style = PaintingStyle.stroke
+                                          ..style = PaintingStyle.fill
                                           ..strokeWidth = 1
                                           ..color = Colors.red[700],
                                       )),
@@ -235,7 +227,7 @@ class _Recorder extends State<Recorder> with WidgetsBindingObserver {
               ),
             ],
           ),
-        ));
+        );
   }
 
   /// Display the preview from the camera (or a message if the preview is not available).
@@ -339,8 +331,8 @@ class _Recorder extends State<Recorder> with WidgetsBindingObserver {
       return accumuLines;
     });
     try {
-      _noiseSubscription =
-          new Noise(500).noiseStream.listen((e) => setDecibels(e.decibel));
+      // _noiseSubscription =
+      //     new Noise(500).noiseStream.listen((e) => setDecibels(e.decibel));
       // await flutterSound.startRecorder('sdcard/recorded.m4a',
       //     bitRate: 256000,
       //     sampleRate: 44100,
@@ -396,10 +388,19 @@ class _Recorder extends State<Recorder> with WidgetsBindingObserver {
     }
   }
 
+  Future exitAudio() async {
+    try {
+      // await _noiseSubscription.cancel();
+      await flutterSound.stopPlayer();
+      await _playerSubscription.cancel();
+    } catch (err) {
+      print("Stop Error! $err");
+    }
+  }
+
   Future stopAudio() async {
     try {
-      await _noiseSubscription.cancel();
-      // await flutterSound.stopRecorder();
+      // await _noiseSubscription.cancel();
       await flutterSound.stopPlayer();
       await _playerSubscription.cancel();
       await uploadAudio();
@@ -411,7 +412,9 @@ class _Recorder extends State<Recorder> with WidgetsBindingObserver {
 //Database = add song
   void addVideo(Map<String, dynamic> upload) {
     const url = 'https://flutterkaraoke.firebaseio.com/videos.json';
-    http.post(url, body: json.encode(upload)).then((response) {});
+    http.post(url, body: json.encode(upload)).then((response) {
+      print(json.decode(response.body));
+    });
   }
 
 //Storage & Database Upload
@@ -434,7 +437,7 @@ class _Recorder extends State<Recorder> with WidgetsBindingObserver {
   }
 
   StreamSubscription<PlayStatus> _playerSubscription;
-  StreamSubscription<NoiseEvent> _noiseSubscription;
+  // StreamSubscription<NoiseEvent> _noiseSubscription;
   final StorageReference storageReference = FirebaseStorage().ref();
 
   Future<String> videoUpload(String path) async {
@@ -500,6 +503,20 @@ class _Recorder extends State<Recorder> with WidgetsBindingObserver {
       return null;
     }
     return filePath;
+  }
+
+  Future<void> exitVideoRecording() async {
+    exitAudio();
+
+    if (!controller.value.isRecordingVideo) {
+      return null;
+    }
+    try {
+      await controller.stopVideoRecording();
+    } on CameraException catch (e) {
+      _showCameraException(e);
+      return null;
+    }
   }
 
   Future<void> stopVideoRecording() async {
