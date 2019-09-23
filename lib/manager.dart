@@ -201,7 +201,7 @@ class _Manager extends State<Manager> {
           visible: _isFeed,
           child: Column(children: [
             Feed(_allVideos, _changeCategory, _changeFeed, _setFilePathToPlay,
-                _changePlayer, _getAllVideos, _changeSongs),
+                _changePlayer, _getAllVideos, _changeSongs, _username),
           ]),
         ),
         Visibility(
@@ -241,6 +241,7 @@ class _Manager extends State<Manager> {
                 changeRecorder: _changeRecorder,
                 changePlayer: _changePlayer,
                 changeSongs: _changeSongs,
+                username: _username,
               ),
 
               /// ANIMATION. FOR NOW IS DISABLED. TO TOGGLE IN ONLY IF PITCH IS AVAILABLE.

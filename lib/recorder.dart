@@ -25,6 +25,7 @@ class Recorder extends StatefulWidget {
   final Function changeRecorder;
   final Function changePlayer;
   final Function changeSongs;
+  final String username;
 
   Recorder({
     Key key,
@@ -39,6 +40,7 @@ class Recorder extends StatefulWidget {
     @required this.changeRecorder,
     @required this.changePlayer,
     @required this.changeSongs,
+    @required this.username,
   }) : super(key: key);
 
   @override
@@ -54,7 +56,8 @@ class Recorder extends StatefulWidget {
         setDecibels,
         changeRecorder,
         changePlayer,
-        changeSongs);
+        changeSongs,
+        username);
   }
 }
 
@@ -83,6 +86,7 @@ class _Recorder extends State<Recorder> with WidgetsBindingObserver {
   Function changePlayer;
   Function changeSongs;
   String domesticLyric = '';
+  String username;
 
   _Recorder(
     this.setFilePathToPlay,
@@ -96,6 +100,7 @@ class _Recorder extends State<Recorder> with WidgetsBindingObserver {
     this.changeRecorder,
     this.changePlayer,
     this.changeSongs,
+    this.username,
   );
 
   @override
@@ -153,81 +158,82 @@ class _Recorder extends State<Recorder> with WidgetsBindingObserver {
   @override
   Widget build(BuildContext context) {
     return Container(
-        height: MediaQuery.of(context).size.height * (88 / 100),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              Expanded(
+      height: MediaQuery.of(context).size.height * (88 / 100),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          Expanded(
+            child: Container(
+              child: Padding(
+                padding: const EdgeInsets.all(1.0),
                 child: Container(
-                  child: Padding(
-                    padding: const EdgeInsets.all(1.0),
-                    child: Container(
-                      child: Stack(children: [
-                        _cameraPreviewWidget(),
-                        Container(
-                          color: Colors.grey[600].withOpacity(0.7),
-                          child: Container(
-                            height: MediaQuery.of(context).size.height * (10 / 100),
-                            width: double.infinity,
-                            padding: EdgeInsets.only(top:MediaQuery.of(context).size.height * (3 / 100)),
-                            child: RichText(
-                              textAlign: TextAlign.center,
-                              text: TextSpan(
-                                style: DefaultTextStyle.of(context).style,
-                                children: <TextSpan>[
-                                  TextSpan(
-                                      text: highlightDurations.length >= 1
-                                          ? domesticLyric.substring(
-                                              0, highlightDurations.length - 1)
-                                          : "",
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 20,
-                                        foreground: Paint()
-                                          ..style = PaintingStyle.fill
-                                          ..strokeWidth = 1
-                                          ..color = Colors.red[700],
-                                      )),
-                                  TextSpan(
-                                    text: highlightDurations.length >= 1
-                                        ? domesticLyric.substring(
-                                            highlightDurations.length - 1)
-                                        : domesticLyric,
-                                    style: TextStyle(fontSize: 20),
-                                  ),
-                                ],
+                  child: Stack(children: [
+                    _cameraPreviewWidget(),
+                    Container(
+                      color: Colors.grey[600].withOpacity(0.7),
+                      child: Container(
+                        height: MediaQuery.of(context).size.height * (10 / 100),
+                        width: double.infinity,
+                        padding: EdgeInsets.only(
+                            top:
+                                MediaQuery.of(context).size.height * (3 / 100)),
+                        child: RichText(
+                          textAlign: TextAlign.center,
+                          text: TextSpan(
+                            style: DefaultTextStyle.of(context).style,
+                            children: <TextSpan>[
+                              TextSpan(
+                                  text: highlightDurations.length >= 1
+                                      ? domesticLyric.substring(
+                                          0, highlightDurations.length - 1)
+                                      : "",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 20,
+                                    foreground: Paint()
+                                      ..style = PaintingStyle.fill
+                                      ..strokeWidth = 1
+                                      ..color = Colors.red[700],
+                                  )),
+                              TextSpan(
+                                text: highlightDurations.length >= 1
+                                    ? domesticLyric.substring(
+                                        highlightDurations.length - 1)
+                                    : domesticLyric,
+                                style: TextStyle(fontSize: 20),
                               ),
-                            ),
+                            ],
                           ),
                         ),
-                      ]),
+                      ),
                     ),
-                  ),
-                  decoration: BoxDecoration(
-                    color: Colors.black,
-                    border: Border.all(
-                      color: controller != null &&
-                              controller.value.isRecordingVideo
-                          ? Colors.redAccent
-                          : Colors.grey,
-                      width: 3.0,
-                    ),
-                  ),
+                  ]),
                 ),
               ),
-              _captureControlRowWidget(),
-              Padding(
-                padding: const EdgeInsets.all(5.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  // children: <Widget>[
-                  //   Center(child: Text("For Visual", textAlign: TextAlign.center))
-                  // ],
+              decoration: BoxDecoration(
+                color: Colors.black,
+                border: Border.all(
+                  color: controller != null && controller.value.isRecordingVideo
+                      ? Colors.redAccent
+                      : Colors.grey,
+                  width: 3.0,
                 ),
               ),
-            ],
+            ),
           ),
-        );
+          _captureControlRowWidget(),
+          Padding(
+            padding: const EdgeInsets.all(5.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              // children: <Widget>[
+              //   Center(child: Text("For Visual", textAlign: TextAlign.center))
+              // ],
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
   /// Display the preview from the camera (or a message if the preview is not available).
@@ -426,7 +432,7 @@ class _Recorder extends State<Recorder> with WidgetsBindingObserver {
       title: selectedSong.title,
       artist: selectedSong.artist,
       downloadURL: url,
-      category: 'Video',
+      category: username,
       image: 'assets/steppico.jpeg',
       score: 100,
       isFavorite: false,
@@ -461,8 +467,7 @@ class _Recorder extends State<Recorder> with WidgetsBindingObserver {
   void onStopButtonPressed() {
     stopAudio();
     stopVideoRecording().then((_) {
-      if (mounted) setState(() {
-      });
+      if (mounted) setState(() {});
     });
   }
 
@@ -528,7 +533,7 @@ class _Recorder extends State<Recorder> with WidgetsBindingObserver {
       await controller.stopVideoRecording();
       _megaUpload(filePathExtractor);
       changeRecorder(false);
-      changePlayer(true); 
+      changePlayer(true);
     } on CameraException catch (e) {
       _showCameraException(e);
       return null;
