@@ -46,6 +46,7 @@ class _Manager extends State<Manager> {
   bool _isLogin = false;
   String _selectedCategory = "Hip Hop";
   List<int> _decibels = [];
+  String _username = "";
 
   String filePathToPlay;
 
@@ -104,6 +105,12 @@ class _Manager extends State<Manager> {
       setState(() {
         _allVideos = modelVideoList;
       });
+    });
+  }
+
+  void _setUsername(String username) {
+    setState(() {
+      _username = username;
     });
   }
 
@@ -187,7 +194,7 @@ class _Manager extends State<Manager> {
         Visibility(
           visible: _isLogin,
           child: Column(children: [
-            Login(_setLogin, _changeFeed),
+            Login(_setLogin, _changeFeed, _setUsername),
           ]),
         ),
         Visibility(

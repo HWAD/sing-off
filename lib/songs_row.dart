@@ -61,6 +61,41 @@ class SongRow extends StatelessWidget {
                         left: MediaQuery.of(context).size.width / 60,
                         right: MediaQuery.of(context).size.width / 80),
                     child: Ink.image(
+                      image: AssetImage("assets/all.jpeg"),
+                      fit: BoxFit.fill,
+                      child: InkWell(
+                        onTap: () {
+                          setCategory("All");
+                        },
+                        child: Center(
+                          child: Text("All",
+                              style: TextStyle(fontSize: 18, shadows: [
+                                Shadow(
+                                    // bottomLeft
+                                    offset: Offset(-1.5, -1.5),
+                                    color: Colors.black),
+                                Shadow(
+                                    // bottomRight
+                                    offset: Offset(1.5, -1.5),
+                                    color: Colors.black),
+                                Shadow(
+                                    // topRight
+                                    offset: Offset(1.5, 1.5),
+                                    color: Colors.black),
+                                Shadow(
+                                    // topLeft
+                                    offset: Offset(-1.5, 1.5),
+                                    color: Colors.black),
+                              ])),
+                        ),
+                      ),
+                    )),
+                Container(
+                    width: MediaQuery.of(context).size.width / 4,
+                    margin: EdgeInsets.only(
+                        left: MediaQuery.of(context).size.width / 60,
+                        right: MediaQuery.of(context).size.width / 80),
+                    child: Ink.image(
                       image: AssetImage("assets/christmas.jpeg"),
                       fit: BoxFit.fill,
                       child: InkWell(
