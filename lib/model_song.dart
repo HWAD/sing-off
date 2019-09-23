@@ -2,6 +2,7 @@ class ModelSong {
   String title;
   String artist;
   String downloadURL;
+  String imageURL;
   String length;
   String image;
   String lyrics;
@@ -12,6 +13,7 @@ class ModelSong {
     this.title,
     this.artist,
     this.downloadURL,
+    this.imageURL,
     this.length,
     this.image,
     this.lyrics,
