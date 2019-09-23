@@ -20,8 +20,6 @@ class Recorder extends StatefulWidget {
   final Function setCurrentLyric;
   // final List<Duration> highlightDurations;
   // final Function setHighlightDurations;
-  final String karaokeButton;
-  final Function setKaraokeButton;
   String currentLyric;
   final Function setDecibels;
   final Function changeRecorder;
@@ -37,8 +35,6 @@ class Recorder extends StatefulWidget {
     @required this.setCurrentLyric,
     // @required this.highlightDurations,
     // @required this.setHighlightDurations,
-    @required this.karaokeButton,
-    @required this.setKaraokeButton,
     @required this.setDecibels,
     @required this.changeRecorder,
     @required this.changePlayer,
@@ -55,8 +51,6 @@ class Recorder extends StatefulWidget {
         setCurrentLyric,
         // highlightDurations,
         // setHighlightDurations,
-        karaokeButton,
-        setKaraokeButton,
         setDecibels,
         changeRecorder,
         changePlayer,
@@ -74,6 +68,7 @@ class _Recorder extends State<Recorder> with WidgetsBindingObserver {
   VideoPlayerController videoController;
   VoidCallback videoPlayerListener;
   bool enableAudio = true;
+  bool letsBeginColor = true;
   String filePathExtractor;
   List<CameraDescription> cameras;
   Function setFilePathToPlay;
@@ -83,14 +78,10 @@ class _Recorder extends State<Recorder> with WidgetsBindingObserver {
   Function setCurrentLyric;
   List<Duration> highlightDurations = new List<Duration>();
   // Function setHighlightDurations;
-  String karaokeButton;
-  Function setKaraokeButton;
   Function setDecibels;
   Function changeRecorder;
   Function changePlayer;
   Function changeSongs;
-  
-
   String domesticLyric = '';
 
   _Recorder(
@@ -101,8 +92,6 @@ class _Recorder extends State<Recorder> with WidgetsBindingObserver {
     this.setCurrentLyric,
     // this.highlightDurations,
     // this.setHighlightDurations,
-    this.karaokeButton,
-    this.setKaraokeButton,
     this.setDecibels,
     this.changeRecorder,
     this.changePlayer,
@@ -161,18 +150,18 @@ class _Recorder extends State<Recorder> with WidgetsBindingObserver {
   @override
   Widget build(BuildContext context) {
     return Container(
-        height: MediaQuery.of(context).size.height * (90 / 100),
+        height: MediaQuery.of(context).size.height * (88 / 100),
         child: GestureDetector(
           onPanUpdate: (details) {
-            if (5 > details.delta.dx) {
-              changeRecorder(false);
-              changePlayer(true);
-            }
-            if (details.delta.dx > 4) {
-              changePlayer(false);
-              changeSongs(true);
-              changeRecorder(false);
-            }
+            // if (details.delta.dx > 50) {
+            //   changeRecorder(false);
+            //   changePlayer(true);
+            // }
+            // if ((-details.delta.dx) < -100) {
+            //   changePlayer(false);
+            //   changeSongs(true);
+            //   changeRecorder(false);
+            // }
           },
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -203,7 +192,7 @@ class _Recorder extends State<Recorder> with WidgetsBindingObserver {
                                         fontWeight: FontWeight.bold,
                                         fontSize: 20,
                                         foreground: Paint()
-                                          ..style = PaintingStyle.stroke
+                                          ..style = PaintingStyle.fill
                                           ..strokeWidth = 1
                                           ..color = Colors.red[700],
                                       )),
@@ -274,15 +263,25 @@ class _Recorder extends State<Recorder> with WidgetsBindingObserver {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       mainAxisSize: MainAxisSize.max,
       children: <Widget>[
-        IconButton(
-          icon: const Icon(Icons.videocam),
-          color: Colors.blue,
-          onPressed: controller != null &&
+        // IconButton(
+        //   icon: const Icon(Icons.videocam),
+        //   color: Colors.blue,
+        InkWell(
+            child: Text("Let's Begin",
+                style: TextStyle(
+                  color: letsBeginColor ? Colors.orange : Colors.grey,
+                  fontSize: 20,
+                )),
+            onTap: () {
+              if (controller != null &&
                   controller.value.isInitialized &&
-                  !controller.value.isRecordingVideo
-              ? onVideoRecordButtonPressed
-              : null,
-        ),
+                  !controller.value.isRecordingVideo) {
+                letsBeginColor = !letsBeginColor;
+                onVideoRecordButtonPressed();
+              } else {
+                return null;
+              }
+            }),
         IconButton(
           icon: const Icon(Icons.stop),
           color: Colors.red,
@@ -346,8 +345,6 @@ class _Recorder extends State<Recorder> with WidgetsBindingObserver {
       //     bitRate: 256000,
       //     sampleRate: 44100,
       //     androidEncoder: AndroidEncoder.AAC);
-      // print("lyrics? ${selectedSong.lyrics}");
-      print("lyrics? ${selectedSong.lyrics}");
       await flutterSound.startPlayer(selectedSong.downloadURL);
       DateTime lyricStartTime = DateFormat('mm:ss.SS', 'en_US')
           .parseUTC(mappedLyrics.keys.first.padRight(9, "0"));
@@ -391,8 +388,6 @@ class _Recorder extends State<Recorder> with WidgetsBindingObserver {
                 lyricStartTime.difference(highlightStartTime) ~/
                     highlightLine.length);
             setHighlightDurations(highlightDurations);
-            print("Check!!!");
-            print(highlightDurations);
           }
         }
       });
@@ -416,7 +411,9 @@ class _Recorder extends State<Recorder> with WidgetsBindingObserver {
 //Database = add song
   void addVideo(Map<String, dynamic> upload) {
     const url = 'https://flutterkaraoke.firebaseio.com/videos.json';
-    http.post(url, body: json.encode(upload)).then((response) {});
+    http.post(url, body: json.encode(upload)).then((response) {
+      print(json.decode(response.body));
+    });
   }
 
 //Storage & Database Upload
@@ -425,8 +422,8 @@ class _Recorder extends State<Recorder> with WidgetsBindingObserver {
     String url = await videoUpload(path);
 
     ModelSong uploadObject = ModelSong(
-      title: "Ryohei's Awesome Video",
-      artist: "Ryohei",
+      title: selectedSong.title,
+      artist: selectedSong.artist,
       downloadURL: url,
       category: 'Video',
       image: 'assets/steppico.jpeg',
@@ -445,7 +442,6 @@ class _Recorder extends State<Recorder> with WidgetsBindingObserver {
   Future<String> videoUpload(String path) async {
     File videoFile = File(path);
     setFilePathToPlay(path);
-
     List storagePath = path.split('/');
     StorageUploadTask ref = storageReference
         .child("videoFiles/" + storagePath[storagePath.length - 1])
@@ -457,7 +453,6 @@ class _Recorder extends State<Recorder> with WidgetsBindingObserver {
   void onVideoRecordButtonPressed() {
     startVideoRecording().then((String filePath) {
       if (mounted) setState(() {});
-      // if (filePath != null) showInSnackBar('Saving video to $filePath');
       filePathExtractor = filePath;
     });
   }
@@ -465,28 +460,25 @@ class _Recorder extends State<Recorder> with WidgetsBindingObserver {
   void onStopButtonPressed() {
     stopAudio();
     stopVideoRecording().then((_) {
-      if (mounted) setState(() {});
-      // showInSnackBar('Video recorded to: $videoPath');
+      if (mounted) setState(() {
+      });
     });
   }
 
   void onPauseButtonPressed() {
     pauseVideoRecording().then((_) {
       if (mounted) setState(() {});
-      // showInSnackBar('Video recording paused');
     });
   }
 
   void onResumeButtonPressed() {
     resumeVideoRecording().then((_) {
       if (mounted) setState(() {});
-      // showInSnackBar('Video recording resumed');
     });
   }
 
   Future<String> startVideoRecording() async {
     if (!controller.value.isInitialized) {
-      // showInSnackBar('Error: select a camera first.');
       return null;
     }
 
@@ -520,6 +512,8 @@ class _Recorder extends State<Recorder> with WidgetsBindingObserver {
     try {
       await controller.stopVideoRecording();
       _megaUpload(filePathExtractor);
+      changeRecorder(false);
+      changePlayer(true); 
     } on CameraException catch (e) {
       _showCameraException(e);
       return null;
@@ -579,7 +573,6 @@ class _Recorder extends State<Recorder> with WidgetsBindingObserver {
 
   void _showCameraException(CameraException e) {
     logError(e.code, e.description);
-    // showInSnackBar('Error: ${e.code}\n${e.description}');
   }
 
   Future<String> uploadAudio(

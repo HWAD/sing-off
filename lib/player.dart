@@ -7,12 +7,20 @@ class Player extends StatefulWidget {
   final Function changeSongs;
   final Function changeRecorder;
   final Function changePlayer;
+  final Function changeFeed;
 
-  Player({Key key, @required this.filePathToPlay, @required this.changeSongs, @required this.changeRecorder, @required this.changePlayer}) : super(key: key);
+  Player({
+    Key key,
+    @required this.filePathToPlay,
+    @required this.changeSongs,
+    @required this.changeRecorder,
+    @required this.changePlayer,
+    @required this.changeFeed,
+  }) : super(key: key);
 
   @override
-  _PlayerState createState() =>
-      _PlayerState(filePathToPlay, changeSongs, changeRecorder, changePlayer);
+  _PlayerState createState() => _PlayerState(
+      filePathToPlay, changeSongs, changeRecorder, changePlayer, changeFeed);
 }
 
 class _PlayerState extends State<Player> {
@@ -21,9 +29,11 @@ class _PlayerState extends State<Player> {
   Function changeSongs;
   Function changeRecorder;
   Function changePlayer;
+  Function changeFeed;
   Future<void> _initializeVideoPlayerFuture;
 
-  _PlayerState(this.filePathToPlay, this.changeSongs,  this.changeRecorder,  this.changePlayer);
+  _PlayerState(this.filePathToPlay, this.changeSongs, this.changeRecorder,
+      this.changePlayer, this.changeFeed);
 
   @override
   void initState() {
@@ -42,49 +52,64 @@ class _PlayerState extends State<Player> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.height * (93 / 100),
       child: Column(
+        mainAxisSize: MainAxisSize.max,
         children: <Widget>[
+          Container(
+            color: Colors.black,
+            height: MediaQuery.of(context).size.height * (7 / 100),
+            child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Center(
+                    child: InkWell(
+                        onTap: () {
+                          changePlayer(false);
+                          changeFeed(true);
+                        },
+                        child: Icon(
+                          Icons.home,
+                        )),
+                  ),
+                  Center(child: Text('Sing-Off')),
+                  Center(
+                    child: InkWell(
+                        onTap: () {
+                          changePlayer(false);
+                          changeSongs(true);
+                        },
+                        child: Icon(Icons.music_video)),
+                  ),
+                ]),
+          ),
           FutureBuilder(
             future: _initializeVideoPlayerFuture,
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.done) {
                 return Column(children: <Widget>[
                   Container(
-                    height: MediaQuery.of(context).size.height * (75 / 100),
+                    height: MediaQuery.of(context).size.height * (80 / 100),
                     child: VideoPlayer(_controller),
-                  ),
+                  )
+                ]);
+              } else {
+                return Column(children: <Widget>[
                   Container(
-      color: Colors.grey[800],
-
-      child: Column(
-        children: [
+                      height: MediaQuery.of(context).size.height * (80 / 100),
+                      child: Center(child: CircularProgressIndicator()))
+                ]);
+              }
+            },
+          ),
           Container(
-            color: Colors.grey[500],
+            color: Colors.grey[400].withOpacity(0.9),
+            height: MediaQuery.of(context).size.height * (7 / 100),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-            Container(
-              alignment: Alignment.center,
-              height: MediaQuery.of(context).size.height * (7 / 100),
-              child: Text("Points")
-            )
-          ],),),
-          Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-
-          children: <Widget>[
-            Container( 
-              height: MediaQuery.of(context).size.height * (10 / 100),
-              child:InkWell(
-                onTap: () {
-                  changePlayer(false);
-                  changeRecorder(true);
-                },
-                child: Icon(Icons.arrow_back_ios)), 
-            ),
-            Container(
-              height: 60,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Center(
                     child: InkWell(
                       onTap: () {
                         setState(() {
@@ -105,25 +130,9 @@ class _PlayerState extends State<Player> {
                       ),
                     ),
                   ),
-            Container(
-              height: 60,
-              child: InkWell(
-              onTap: () {
-                changePlayer(false);
-                changeSongs(true);
-              },
-              child: Icon(Icons.home,)
-            ), 
-            ),
-          ])]),
-    )]);
-              } else {
-                return Center(child: CircularProgressIndicator());
-              }
-            },
+                ]),
           ),
         ],
-        // This trailing comma makes auto-formatting nicer for build methods.
       ),
     );
   }
