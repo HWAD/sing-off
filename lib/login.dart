@@ -8,9 +8,15 @@ class Login extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(child: Center(child: InkWell(onTap: () {
-      setLogin(false);
-    },
-    child: Text("Login"))));
+    return Container(
+      child: Center(
+        child: InkWell(
+          onTap: () {
+            setLogin(false);
+          },
+          child: Text("Login"),
+        ),
+      ),
+    );
   }
 }
