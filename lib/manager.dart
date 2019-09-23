@@ -91,7 +91,7 @@ class _Manager extends State<Manager> {
       Map<String, dynamic> mappedBody = json.decode(response.body);
       List<dynamic> dynamicList = mappedBody.values.toList();
       List<ModelSong> modelVideoList = [];
-      for (int i = 0; i < dynamicList.length-1; i++) {
+      for (int i = 0; i < dynamicList.length - 1; i++) {
         modelVideoList.add(ModelSong(
             title: dynamicList[i]["title"],
             artist: dynamicList[i]["artist"],
@@ -138,6 +138,12 @@ class _Manager extends State<Manager> {
     });
   }
 
+  // void _changeUserPage(bool isUserPage) {
+  //   setState(() {
+  //     _isUserPage = isUserPage;
+  //   });
+  // }
+
   void _setSelectedSong(ModelSong song) {
     setState(() {
       _selectedSong = song;
@@ -148,6 +154,7 @@ class _Manager extends State<Manager> {
     setState(() {
       _selectedCategory = category;
       _changeSongs(true);
+      // _changeUserPage(false);
     });
   }
 
