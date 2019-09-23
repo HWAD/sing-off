@@ -10,7 +10,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:539303725317:android:b7f79d1a56d9c5fec1cf6c",
         "android_client_info": {
-          "package_name": "com.example.flutterkaraoke"
+          "package_name": "com.singoff"
         }
       },
       "oauth_client": [
@@ -35,7 +35,7 @@
               "client_id": "539303725317-0h2mru0sp5dgbde365cdnsjbge0nql61.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.example.flutterkaraoke"
+                "bundle_id": "com.singoff"
               }
             }
           ]

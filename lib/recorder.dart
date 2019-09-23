@@ -136,7 +136,6 @@ class _Recorder extends State<Recorder> with WidgetsBindingObserver {
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
     flutterSound.stopRecorder();
-    // exitAudio();
     exitVideoRecording();
     super.dispose();
   }
@@ -261,9 +260,6 @@ class _Recorder extends State<Recorder> with WidgetsBindingObserver {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       mainAxisSize: MainAxisSize.max,
       children: <Widget>[
-        // IconButton(
-        //   icon: const Icon(Icons.videocam),
-        //   color: Colors.blue,
         InkWell(
             child: Text("Let's Begin",
                 style: TextStyle(
@@ -295,9 +291,9 @@ class _Recorder extends State<Recorder> with WidgetsBindingObserver {
 
   String timestamp() => DateTime.now().millisecondsSinceEpoch.toString();
 
-  void showInSnackBar(String message) {
-    // _scaffoldKey.currentState.showSnackBar(SnackBar(content: Text(message)));
-  }
+  // void showInSnackBar(String message) {
+  //   // _scaffoldKey.currentState.showSnackBar(SnackBar(content: Text(message)));
+  // }
 
   void onNewCameraSelected(CameraDescription cameraDescription) async {
     if (controller != null) {
@@ -337,12 +333,6 @@ class _Recorder extends State<Recorder> with WidgetsBindingObserver {
       return accumuLines;
     });
     try {
-      // _noiseSubscription =
-      //     new Noise(500).noiseStream.listen((e) => setDecibels(e.decibel));
-      // await flutterSound.startRecorder('sdcard/recorded.m4a',
-      //     bitRate: 256000,
-      //     sampleRate: 44100,
-      //     androidEncoder: AndroidEncoder.AAC);
       await flutterSound.startPlayer(selectedSong.downloadURL);
       DateTime lyricStartTime = DateFormat('mm:ss.SS', 'en_US')
           .parseUTC(mappedLyrics.keys.first.padRight(9, "0"));
@@ -396,7 +386,6 @@ class _Recorder extends State<Recorder> with WidgetsBindingObserver {
 
   Future exitAudio() async {
     try {
-      // await _noiseSubscription.cancel();
       await flutterSound.stopPlayer();
       await _playerSubscription.cancel();
     } catch (err) {
@@ -406,7 +395,6 @@ class _Recorder extends State<Recorder> with WidgetsBindingObserver {
 
   Future stopAudio() async {
     try {
-      // await _noiseSubscription.cancel();
       await flutterSound.stopPlayer();
       await _playerSubscription.cancel();
       await uploadAudio();
@@ -425,7 +413,6 @@ class _Recorder extends State<Recorder> with WidgetsBindingObserver {
 
 //Storage & Database Upload
   void _megaUpload(path) async {
-    //wait for download url
     String url = await videoUpload(path);
 
     ModelSong uploadObject = ModelSong(
@@ -443,7 +430,6 @@ class _Recorder extends State<Recorder> with WidgetsBindingObserver {
   }
 
   StreamSubscription<PlayStatus> _playerSubscription;
-  // StreamSubscription<NoiseEvent> _noiseSubscription;
   final StorageReference storageReference = FirebaseStorage().ref();
 
   Future<String> videoUpload(String path) async {
@@ -491,7 +477,6 @@ class _Recorder extends State<Recorder> with WidgetsBindingObserver {
     final String dirPath = 'sdcard';
     await Directory(dirPath).create(recursive: true);
     final String filePath = '$dirPath/${timestamp()}.mp4';
-    print('filePath: $filePath');
     setFilePathToPlay(filePath);
 
     if (controller.value.isRecordingVideo) {
@@ -608,20 +593,20 @@ class _Recorder extends State<Recorder> with WidgetsBindingObserver {
     return location;
   }
 
-  Future<String> _uploadAudio([String audioFileName]) async {
-    if (audioFileName == null) {
-      audioFileName = "RyoheiRecorded2.m4a";
-    }
+  // Future<String> _uploadAudio([String audioFileName]) async {
+  //   if (audioFileName == null) {
+  //     audioFileName = "RyoheiRecorded2.m4a";
+  //   }
 
-    File audioFile = File("sdcard/recorded.m4a");
+  //   File audioFile = File("sdcard/recorded.m4a");
 
-    StorageUploadTask ref = storageReference
-        .child("audioFiles/" + audioFileName)
-        .putFile(audioFile);
-    String location = await (await ref.onComplete).ref.getDownloadURL();
-    print(location.toString());
-    return location;
-  }
+  //   StorageUploadTask ref = storageReference
+  //       .child("audioFiles/" + audioFileName)
+  //       .putFile(audioFile);
+  //   String location = await (await ref.onComplete).ref.getDownloadURL();
+  //   print(location.toString());
+  //   return location;
+  // }
 
   Future<List> fetchCameras() async {
     try {

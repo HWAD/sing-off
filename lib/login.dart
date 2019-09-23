@@ -15,52 +15,52 @@ class Login extends StatelessWidget {
         child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-          Container(
-            // padding: EdgeInsets.only(bottom: 40),
-            child: Card(
-              elevation: 5,
-              child: Container(
-                padding: EdgeInsets.all(10),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: <Widget>[
-                    TextField(
-                      decoration: InputDecoration(
-                        labelText: 'Username',
-                        fillColor: Colors.white,
-                      ),
-                      onChanged: (val) {
-                        usernameInput = val;
-                      },
+              Container(
+                // padding: EdgeInsets.only(bottom: 40),
+                child: Card(
+                  elevation: 5,
+                  child: Container(
+                    padding: EdgeInsets.all(10),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: <Widget>[
+                        TextField(
+                          decoration: InputDecoration(
+                            labelText: 'Username',
+                            fillColor: Colors.white,
+                          ),
+                          onChanged: (val) {
+                            usernameInput = val;
+                          },
+                        ),
+                        FlatButton(
+                          child: Text('Login'),
+                          textColor: Colors.white,
+                          onPressed: () {
+                            setUsername(usernameInput);
+                            setLogin(false);
+                            changeFeed(true);
+                          },
+                        ),
+                      ],
                     ),
-                    FlatButton(
-                      child: Text('Login'),
-                      textColor: Colors.white,
-                      onPressed: () {
-                        setUsername(usernameInput);
-                        setLogin(false);
-                        changeFeed(true);
-                      },
-                    ),
-                  ],
+                  ),
                 ),
               ),
-            ),
-          ),
-          // Container(
-          //   height: MediaQuery.of(context).size.height *.5,
-          //   decoration: BoxDecoration(
-          //                       border: Border.all(
-          //                         color: Colors.white54,
-          //                         width: 1,
-          //                       ),
-          //                       image: DecorationImage(
-          //                         image:
-          //                             new AssetImage("assets/steppico.jpeg"),
-          //                         fit: BoxFit.fill,
-          //                       ),
-          //                     ),
-          // )
-        ]));
+              // Container(
+              //   height: MediaQuery.of(context).size.height *.5,
+              //   decoration: BoxDecoration(
+              //                       border: Border.all(
+              //                         color: Colors.white54,
+              //                         width: 1,
+              //                       ),
+              //                       image: DecorationImage(
+              //                         image:
+              //                             new AssetImage("assets/steppico.jpeg"),
+              //                         fit: BoxFit.fill,
+              //                       ),
+              //                     ),
+              // )
+            ]));
   }
 }
