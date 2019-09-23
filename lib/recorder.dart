@@ -130,6 +130,8 @@ class _Recorder extends State<Recorder> with WidgetsBindingObserver {
   @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
+    flutterSound.stopRecorder();
+    exitAudio();
     super.dispose();
   }
 
@@ -151,18 +153,6 @@ class _Recorder extends State<Recorder> with WidgetsBindingObserver {
   Widget build(BuildContext context) {
     return Container(
         height: MediaQuery.of(context).size.height * (88 / 100),
-        child: GestureDetector(
-          onPanUpdate: (details) {
-            // if (details.delta.dx > 50) {
-            //   changeRecorder(false);
-            //   changePlayer(true);
-            // }
-            // if ((-details.delta.dx) < -100) {
-            //   changePlayer(false);
-            //   changeSongs(true);
-            //   changeRecorder(false);
-            // }
-          },
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
@@ -176,8 +166,9 @@ class _Recorder extends State<Recorder> with WidgetsBindingObserver {
                         Container(
                           color: Colors.grey[600].withOpacity(0.7),
                           child: Container(
+                            height: MediaQuery.of(context).size.height * (10 / 100),
                             width: double.infinity,
-                            padding: EdgeInsets.only(top: 5),
+                            padding: EdgeInsets.only(top:MediaQuery.of(context).size.height * (3 / 100)),
                             child: RichText(
                               textAlign: TextAlign.center,
                               text: TextSpan(
@@ -235,7 +226,7 @@ class _Recorder extends State<Recorder> with WidgetsBindingObserver {
               ),
             ],
           ),
-        ));
+        );
   }
 
   /// Display the preview from the camera (or a message if the preview is not available).
@@ -396,10 +387,19 @@ class _Recorder extends State<Recorder> with WidgetsBindingObserver {
     }
   }
 
+  Future exitAudio() async {
+    try {
+      await _noiseSubscription.cancel();
+      await flutterSound.stopPlayer();
+      await _playerSubscription.cancel();
+    } catch (err) {
+      print("Stop Error! $err");
+    }
+  }
+
   Future stopAudio() async {
     try {
       await _noiseSubscription.cancel();
-      // await flutterSound.stopRecorder();
       await flutterSound.stopPlayer();
       await _playerSubscription.cancel();
       await uploadAudio();
@@ -502,6 +502,22 @@ class _Recorder extends State<Recorder> with WidgetsBindingObserver {
       return null;
     }
     return filePath;
+  }
+
+  Future<void> exitVideoRecording() async {
+    exitAudio();
+
+    if (!controller.value.isRecordingVideo) {
+      return null;
+    }
+    try {
+      await controller.stopVideoRecording();
+    } on CameraException catch (e) {
+      _showCameraException(e);
+      return null;
+    }
+
+    await _startVideoPlayer();
   }
 
   Future<void> stopVideoRecording() async {

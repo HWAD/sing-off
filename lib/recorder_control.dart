@@ -6,6 +6,7 @@ class RecorderControl extends StatelessWidget {
   final Function changeSongs;
   final Function changeFeed;
 
+
   RecorderControl(this.changeRecorder, this.changePlayer, this.changeSongs, this.changeFeed);
 
   @override
