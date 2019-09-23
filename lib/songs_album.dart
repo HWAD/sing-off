@@ -67,7 +67,7 @@ class SongAlbum extends StatelessWidget {
                                 ),
                                 image: DecorationImage(
                                   image:
-                                      new AssetImage(element.image.toString()),
+                                      NetworkImage(element.imageURL),
                                   fit: BoxFit.fill,
                                 ),
                               ),
