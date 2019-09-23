@@ -213,7 +213,7 @@ class _Manager extends State<Manager> {
         Visibility(
           visible: _isSongs,
           child: Column(children: [
-            SongRow(_setCategory, _changeSongs, _changeCategory, _changeFeed),
+            SongRow(_setCategory, _changeSongs, _changeCategory, _changeFeed, _changeRecorder, _setSelectedSong, _allSongs),
             SongAlbum(_changeSongs, _changeRecorder, _allSongs,
                 _setSelectedSong, _selectedCategory),
           ]),

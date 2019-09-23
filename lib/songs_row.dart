@@ -1,12 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:flutterkaraoke/model_song.dart';
 
 class SongRow extends StatelessWidget {
   final Function setCategory;
   final Function changeSongs;
   final Function changeCategory;
   final Function changeFeed;
-
-  SongRow(this.setCategory, this.changeSongs, this.changeCategory, this.changeFeed);
+  final Function changeRecorder;
+  final Function setSelectedSong;
+  final List<ModelSong> allSongs;
+  SongRow(
+      this.setCategory,
+      this.changeSongs,
+      this.changeCategory,
+      this.changeFeed,
+      this.changeRecorder,
+      this.setSelectedSong,
+      this.allSongs);
 
   @override
   Widget build(BuildContext context) {
@@ -38,9 +48,9 @@ class SongRow extends StatelessWidget {
                   Container(
                     child: InkWell(
                         onTap: () {
-                          // changeFeed(true);
-                          // changeSongs(false);
-                          //perhaps pick a random happy song
+                          changeSongs(false);
+                          changeRecorder(true);
+                          setSelectedSong(allSongs[0]);
                         },
                         child: Icon(
                           Icons.mood,
