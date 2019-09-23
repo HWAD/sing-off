@@ -131,7 +131,8 @@ class _Recorder extends State<Recorder> with WidgetsBindingObserver {
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
     flutterSound.stopRecorder();
-    exitAudio();
+    // exitAudio();
+    exitVideoRecording();
     super.dispose();
   }
 
@@ -330,8 +331,8 @@ class _Recorder extends State<Recorder> with WidgetsBindingObserver {
       return accumuLines;
     });
     try {
-      _noiseSubscription =
-          new Noise(500).noiseStream.listen((e) => setDecibels(e.decibel));
+      // _noiseSubscription =
+      //     new Noise(500).noiseStream.listen((e) => setDecibels(e.decibel));
       // await flutterSound.startRecorder('sdcard/recorded.m4a',
       //     bitRate: 256000,
       //     sampleRate: 44100,
@@ -389,7 +390,7 @@ class _Recorder extends State<Recorder> with WidgetsBindingObserver {
 
   Future exitAudio() async {
     try {
-      await _noiseSubscription.cancel();
+      // await _noiseSubscription.cancel();
       await flutterSound.stopPlayer();
       await _playerSubscription.cancel();
     } catch (err) {
@@ -399,7 +400,7 @@ class _Recorder extends State<Recorder> with WidgetsBindingObserver {
 
   Future stopAudio() async {
     try {
-      await _noiseSubscription.cancel();
+      // await _noiseSubscription.cancel();
       await flutterSound.stopPlayer();
       await _playerSubscription.cancel();
       await uploadAudio();
@@ -436,7 +437,7 @@ class _Recorder extends State<Recorder> with WidgetsBindingObserver {
   }
 
   StreamSubscription<PlayStatus> _playerSubscription;
-  StreamSubscription<NoiseEvent> _noiseSubscription;
+  // StreamSubscription<NoiseEvent> _noiseSubscription;
   final StorageReference storageReference = FirebaseStorage().ref();
 
   Future<String> videoUpload(String path) async {
@@ -516,8 +517,6 @@ class _Recorder extends State<Recorder> with WidgetsBindingObserver {
       _showCameraException(e);
       return null;
     }
-
-    await _startVideoPlayer();
   }
 
   Future<void> stopVideoRecording() async {
