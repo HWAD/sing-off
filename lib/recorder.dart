@@ -25,6 +25,7 @@ class Recorder extends StatefulWidget {
   final Function changeRecorder;
   final Function changePlayer;
   final Function changeSongs;
+  final String username;
 
   Recorder({
     Key key,
@@ -39,6 +40,7 @@ class Recorder extends StatefulWidget {
     @required this.changeRecorder,
     @required this.changePlayer,
     @required this.changeSongs,
+    @required this.username,
   }) : super(key: key);
 
   @override
@@ -54,7 +56,8 @@ class Recorder extends StatefulWidget {
         setDecibels,
         changeRecorder,
         changePlayer,
-        changeSongs);
+        changeSongs,
+        username);
   }
 }
 
@@ -83,6 +86,7 @@ class _Recorder extends State<Recorder> with WidgetsBindingObserver {
   Function changePlayer;
   Function changeSongs;
   String domesticLyric = '';
+  String username;
 
   _Recorder(
     this.setFilePathToPlay,
@@ -96,6 +100,7 @@ class _Recorder extends State<Recorder> with WidgetsBindingObserver {
     this.changeRecorder,
     this.changePlayer,
     this.changeSongs,
+    this.username,
   );
 
   @override
@@ -131,7 +136,6 @@ class _Recorder extends State<Recorder> with WidgetsBindingObserver {
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
     flutterSound.stopRecorder();
-    // exitAudio();
     exitVideoRecording();
     super.dispose();
   }
@@ -153,81 +157,82 @@ class _Recorder extends State<Recorder> with WidgetsBindingObserver {
   @override
   Widget build(BuildContext context) {
     return Container(
-        height: MediaQuery.of(context).size.height * (88 / 100),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              Expanded(
+      height: MediaQuery.of(context).size.height * (88 / 100),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          Expanded(
+            child: Container(
+              child: Padding(
+                padding: const EdgeInsets.all(1.0),
                 child: Container(
-                  child: Padding(
-                    padding: const EdgeInsets.all(1.0),
-                    child: Container(
-                      child: Stack(children: [
-                        _cameraPreviewWidget(),
-                        Container(
-                          color: Colors.grey[600].withOpacity(0.7),
-                          child: Container(
-                            height: MediaQuery.of(context).size.height * (10 / 100),
-                            width: double.infinity,
-                            padding: EdgeInsets.only(top:MediaQuery.of(context).size.height * (3 / 100)),
-                            child: RichText(
-                              textAlign: TextAlign.center,
-                              text: TextSpan(
-                                style: DefaultTextStyle.of(context).style,
-                                children: <TextSpan>[
-                                  TextSpan(
-                                      text: highlightDurations.length >= 1
-                                          ? domesticLyric.substring(
-                                              0, highlightDurations.length - 1)
-                                          : "",
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 20,
-                                        foreground: Paint()
-                                          ..style = PaintingStyle.fill
-                                          ..strokeWidth = 1
-                                          ..color = Colors.red[700],
-                                      )),
-                                  TextSpan(
-                                    text: highlightDurations.length >= 1
-                                        ? domesticLyric.substring(
-                                            highlightDurations.length - 1)
-                                        : domesticLyric,
-                                    style: TextStyle(fontSize: 20),
-                                  ),
-                                ],
+                  child: Stack(children: [
+                    _cameraPreviewWidget(),
+                    Container(
+                      color: Colors.grey[600].withOpacity(0.7),
+                      child: Container(
+                        height: MediaQuery.of(context).size.height * (10 / 100),
+                        width: double.infinity,
+                        padding: EdgeInsets.only(
+                            top:
+                                MediaQuery.of(context).size.height * (3 / 100)),
+                        child: RichText(
+                          textAlign: TextAlign.center,
+                          text: TextSpan(
+                            style: DefaultTextStyle.of(context).style,
+                            children: <TextSpan>[
+                              TextSpan(
+                                  text: highlightDurations.length >= 1
+                                      ? domesticLyric.substring(
+                                          0, highlightDurations.length - 1)
+                                      : "",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 20,
+                                    foreground: Paint()
+                                      ..style = PaintingStyle.fill
+                                      ..strokeWidth = 1
+                                      ..color = Colors.red[700],
+                                  )),
+                              TextSpan(
+                                text: highlightDurations.length >= 1
+                                    ? domesticLyric.substring(
+                                        highlightDurations.length - 1)
+                                    : domesticLyric,
+                                style: TextStyle(fontSize: 20),
                               ),
-                            ),
+                            ],
                           ),
                         ),
-                      ]),
+                      ),
                     ),
-                  ),
-                  decoration: BoxDecoration(
-                    color: Colors.black,
-                    border: Border.all(
-                      color: controller != null &&
-                              controller.value.isRecordingVideo
-                          ? Colors.redAccent
-                          : Colors.grey,
-                      width: 3.0,
-                    ),
-                  ),
+                  ]),
                 ),
               ),
-              _captureControlRowWidget(),
-              Padding(
-                padding: const EdgeInsets.all(5.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  // children: <Widget>[
-                  //   Center(child: Text("For Visual", textAlign: TextAlign.center))
-                  // ],
+              decoration: BoxDecoration(
+                color: Colors.black,
+                border: Border.all(
+                  color: controller != null && controller.value.isRecordingVideo
+                      ? Colors.redAccent
+                      : Colors.grey,
+                  width: 3.0,
                 ),
               ),
-            ],
+            ),
           ),
-        );
+          _captureControlRowWidget(),
+          Padding(
+            padding: const EdgeInsets.all(5.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              // children: <Widget>[
+              //   Center(child: Text("For Visual", textAlign: TextAlign.center))
+              // ],
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
   /// Display the preview from the camera (or a message if the preview is not available).
@@ -255,9 +260,6 @@ class _Recorder extends State<Recorder> with WidgetsBindingObserver {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       mainAxisSize: MainAxisSize.max,
       children: <Widget>[
-        // IconButton(
-        //   icon: const Icon(Icons.videocam),
-        //   color: Colors.blue,
         InkWell(
             child: Text("Let's Begin",
                 style: TextStyle(
@@ -289,9 +291,9 @@ class _Recorder extends State<Recorder> with WidgetsBindingObserver {
 
   String timestamp() => DateTime.now().millisecondsSinceEpoch.toString();
 
-  void showInSnackBar(String message) {
-    // _scaffoldKey.currentState.showSnackBar(SnackBar(content: Text(message)));
-  }
+  // void showInSnackBar(String message) {
+  //   // _scaffoldKey.currentState.showSnackBar(SnackBar(content: Text(message)));
+  // }
 
   void onNewCameraSelected(CameraDescription cameraDescription) async {
     if (controller != null) {
@@ -331,12 +333,6 @@ class _Recorder extends State<Recorder> with WidgetsBindingObserver {
       return accumuLines;
     });
     try {
-      // _noiseSubscription =
-      //     new Noise(500).noiseStream.listen((e) => setDecibels(e.decibel));
-      // await flutterSound.startRecorder('sdcard/recorded.m4a',
-      //     bitRate: 256000,
-      //     sampleRate: 44100,
-      //     androidEncoder: AndroidEncoder.AAC);
       await flutterSound.startPlayer(selectedSong.downloadURL);
       DateTime lyricStartTime = DateFormat('mm:ss.SS', 'en_US')
           .parseUTC(mappedLyrics.keys.first.padRight(9, "0"));
@@ -390,7 +386,6 @@ class _Recorder extends State<Recorder> with WidgetsBindingObserver {
 
   Future exitAudio() async {
     try {
-      // await _noiseSubscription.cancel();
       await flutterSound.stopPlayer();
       await _playerSubscription.cancel();
     } catch (err) {
@@ -400,7 +395,6 @@ class _Recorder extends State<Recorder> with WidgetsBindingObserver {
 
   Future stopAudio() async {
     try {
-      // await _noiseSubscription.cancel();
       await flutterSound.stopPlayer();
       await _playerSubscription.cancel();
       await uploadAudio();
@@ -419,14 +413,13 @@ class _Recorder extends State<Recorder> with WidgetsBindingObserver {
 
 //Storage & Database Upload
   void _megaUpload(path) async {
-    //wait for download url
     String url = await videoUpload(path);
 
     ModelSong uploadObject = ModelSong(
       title: selectedSong.title,
       artist: selectedSong.artist,
       downloadURL: url,
-      category: 'Video',
+      category: username,
       image: 'assets/steppico.jpeg',
       score: 100,
       isFavorite: false,
@@ -437,7 +430,6 @@ class _Recorder extends State<Recorder> with WidgetsBindingObserver {
   }
 
   StreamSubscription<PlayStatus> _playerSubscription;
-  // StreamSubscription<NoiseEvent> _noiseSubscription;
   final StorageReference storageReference = FirebaseStorage().ref();
 
   Future<String> videoUpload(String path) async {
@@ -461,8 +453,7 @@ class _Recorder extends State<Recorder> with WidgetsBindingObserver {
   void onStopButtonPressed() {
     stopAudio();
     stopVideoRecording().then((_) {
-      if (mounted) setState(() {
-      });
+      if (mounted) setState(() {});
     });
   }
 
@@ -486,7 +477,6 @@ class _Recorder extends State<Recorder> with WidgetsBindingObserver {
     final String dirPath = 'sdcard';
     await Directory(dirPath).create(recursive: true);
     final String filePath = '$dirPath/${timestamp()}.mp4';
-    print('filePath: $filePath');
     setFilePathToPlay(filePath);
 
     if (controller.value.isRecordingVideo) {
@@ -528,7 +518,7 @@ class _Recorder extends State<Recorder> with WidgetsBindingObserver {
       await controller.stopVideoRecording();
       _megaUpload(filePathExtractor);
       changeRecorder(false);
-      changePlayer(true); 
+      changePlayer(true);
     } on CameraException catch (e) {
       _showCameraException(e);
       return null;
@@ -603,20 +593,20 @@ class _Recorder extends State<Recorder> with WidgetsBindingObserver {
     return location;
   }
 
-  Future<String> _uploadAudio([String audioFileName]) async {
-    if (audioFileName == null) {
-      audioFileName = "RyoheiRecorded2.m4a";
-    }
+  // Future<String> _uploadAudio([String audioFileName]) async {
+  //   if (audioFileName == null) {
+  //     audioFileName = "RyoheiRecorded2.m4a";
+  //   }
 
-    File audioFile = File("sdcard/recorded.m4a");
+  //   File audioFile = File("sdcard/recorded.m4a");
 
-    StorageUploadTask ref = storageReference
-        .child("audioFiles/" + audioFileName)
-        .putFile(audioFile);
-    String location = await (await ref.onComplete).ref.getDownloadURL();
-    print(location.toString());
-    return location;
-  }
+  //   StorageUploadTask ref = storageReference
+  //       .child("audioFiles/" + audioFileName)
+  //       .putFile(audioFile);
+  //   String location = await (await ref.onComplete).ref.getDownloadURL();
+  //   print(location.toString());
+  //   return location;
+  // }
 
   Future<List> fetchCameras() async {
     try {

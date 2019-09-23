@@ -71,6 +71,7 @@ class _Manager extends State<Manager> {
             title: dynamicList[i]["title"],
             artist: dynamicList[i]["artist"],
             downloadURL: dynamicList[i]["downloadURL"],
+            imageURL: dynamicList[i]["imageURL"],
             length: dynamicList[i]["length"],
             category: dynamicList[i]["category"],
             image: dynamicList[i]["image"],
@@ -208,7 +209,7 @@ class _Manager extends State<Manager> {
           visible: _isFeed,
           child: Column(children: [
             Feed(_allVideos, _changeCategory, _changeFeed, _setFilePathToPlay,
-                _changePlayer, _getAllVideos, _changeSongs),
+                _changePlayer, _getAllVideos, _changeSongs, _username),
           ]),
         ),
         Visibility(
@@ -220,7 +221,7 @@ class _Manager extends State<Manager> {
         Visibility(
           visible: _isSongs,
           child: Column(children: [
-            SongRow(_setCategory, _changeSongs, _changeCategory, _changeFeed),
+            SongRow(_setCategory, _changeSongs, _changeCategory, _changeFeed, _changeRecorder, _setSelectedSong, _allSongs),
             SongAlbum(_changeSongs, _changeRecorder, _allSongs,
                 _setSelectedSong, _selectedCategory),
           ]),
@@ -248,6 +249,7 @@ class _Manager extends State<Manager> {
                 changeRecorder: _changeRecorder,
                 changePlayer: _changePlayer,
                 changeSongs: _changeSongs,
+                username: _username,
               ),
 
               /// ANIMATION. FOR NOW IS DISABLED. TO TOGGLE IN ONLY IF PITCH IS AVAILABLE.
