@@ -4,7 +4,6 @@ class ModelSong {
   String downloadURL;
   String imageURL;
   String length;
-  String image;
   String lyrics;
   String category;
   int score;
@@ -15,7 +14,6 @@ class ModelSong {
     this.downloadURL,
     this.imageURL,
     this.length,
-    this.image,
     this.lyrics,
     this.score,
     this.category,
@@ -25,8 +23,8 @@ class ModelSong {
         'title': title,
         'artist': artist,
         'downloadURL': downloadURL,
+        'imageURL': imageURL,
         'category': category,
-        'image': image,
         'score': score,
         'isFavorite': isFavorite,
       };

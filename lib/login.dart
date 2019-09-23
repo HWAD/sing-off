@@ -12,11 +12,9 @@ class Login extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: MediaQuery.of(context).size.height,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+      child: ListView(
         children: <Widget>[
           Container(
-            // padding: EdgeInsets.only(bottom: 40),
             child: Card(
               elevation: 5,
               child: Container(
@@ -47,20 +45,6 @@ class Login extends StatelessWidget {
               ),
             ),
           ),
-          // Container(
-          //   height: MediaQuery.of(context).size.height *.5,
-          //   decoration: BoxDecoration(
-          //                       border: Border.all(
-          //                         color: Colors.white54,
-          //                         width: 1,
-          //                       ),
-          //                       image: DecorationImage(
-          //                         image:
-          //                             new AssetImage("assets/steppico.jpeg"),
-          //                         fit: BoxFit.fill,
-          //                       ),
-          //                     ),
-          // )
         ],
       ),
     );

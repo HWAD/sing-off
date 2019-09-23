@@ -38,10 +38,8 @@ dependencies:
   camera: ^0.5.4+1
   video_player: ^0.10.2+1
   path_provider: ^1.3.0
-  permission_handler: "^3.2.0"
-  noise_meter: ^0.1.1
-  animator: ^1.0.0+1
-  wave_progress_widget: ^0.0.1
+  permission_handler: ^3.2.0
+  share: ^0.6.2+1
 
 dev_dependencies:
   flutter_test:

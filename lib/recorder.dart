@@ -9,7 +9,7 @@ import 'dart:io';
 import 'dart:async';
 
 import 'dart:collection';
-import 'package:noise_meter/noise_meter.dart';
+// import 'package:noise_meter/noise_meter.dart';
 import 'package:flutter_sound/flutter_sound.dart';
 import 'package:intl/intl.dart';
 
@@ -66,7 +66,6 @@ void logError(String code, String message) =>
 
 class _Recorder extends State<Recorder> with WidgetsBindingObserver {
   CameraController controller;
-  String imagePath;
   String videoPath;
   VideoPlayerController videoController;
   VoidCallback videoPlayerListener;
@@ -261,11 +260,13 @@ class _Recorder extends State<Recorder> with WidgetsBindingObserver {
       mainAxisSize: MainAxisSize.max,
       children: <Widget>[
         InkWell(
-            child: Text("Let's Begin",
-                style: TextStyle(
-                  color: letsBeginColor ? Colors.orange : Colors.grey,
-                  fontSize: 20,
-                )),
+            child: Text(
+              "Let's Begin",
+              style: TextStyle(
+                color: letsBeginColor ? Colors.orange : Colors.grey,
+                fontSize: 20,
+              ),
+            ),
             onTap: () {
               if (controller != null &&
                   controller.value.isInitialized &&
@@ -415,13 +416,14 @@ class _Recorder extends State<Recorder> with WidgetsBindingObserver {
   void _megaUpload(path) async {
     String url = await videoUpload(path);
 
-    ModelSong uploadObject = ModelSong(
+    ModelSong uploadObject = new ModelSong(
       title: selectedSong.title,
       artist: selectedSong.artist,
       downloadURL: url,
+      imageURL:
+          'https://firebasestorage.googleapis.com/v0/b/flutterkaraoke.appspot.com/o/videoImages%2Fdefault.jpg?alt=media&token=adb13393-9a45-4a48-85f0-31481803610f',
+      score: selectedSong.score,
       category: username,
-      image: 'assets/steppico.jpeg',
-      score: 100,
       isFavorite: false,
     );
     print(uploadObject.toJson());
@@ -569,7 +571,6 @@ class _Recorder extends State<Recorder> with WidgetsBindingObserver {
     await videoController?.dispose();
     if (mounted) {
       setState(() {
-        imagePath = null;
         videoController = vcontroller;
       });
     }
