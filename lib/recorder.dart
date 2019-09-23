@@ -192,7 +192,7 @@ class _Recorder extends State<Recorder> with WidgetsBindingObserver {
                                         fontWeight: FontWeight.bold,
                                         fontSize: 20,
                                         foreground: Paint()
-                                          ..style = PaintingStyle.stroke
+                                          ..style = PaintingStyle.fill
                                           ..strokeWidth = 1
                                           ..color = Colors.red[700],
                                       )),

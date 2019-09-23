@@ -8,10 +8,35 @@ class Login extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(child: Center(child: InkWell(onTap: () {
-      setLogin(false);
-      changeFeed(true);
-    },
-    child: Text("Login Click Me"))));
+    return Container(
+      // height: MediaQuery.of(context).size.height *.5,
+      child: Column(
+          children: <Widget> [
+            InkWell(onTap: () {
+            setLogin(false);
+            changeFeed(true);
+          },
+            child: Container(
+              height: 200,
+              child: Text("Login Click Me"),
+            )
+          ),
+          Container(
+            height: MediaQuery.of(context).size.height *.5,
+            decoration: BoxDecoration(
+                                border: Border.all(
+                                  color: Colors.white54,
+                                  width: 1,
+                                ),
+                                image: DecorationImage(
+                                  image:
+                                      new AssetImage("assets/steppico.jpeg"),
+                                  fit: BoxFit.fill,
+                                ),
+                              ),
+          )
+          ]
+      )
+    );
   }
 }

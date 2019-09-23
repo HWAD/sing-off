@@ -3,7 +3,6 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:video_player/video_player.dart';
 import './model_song.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class Feed extends StatefulWidget {
   final List<ModelSong> _allVideos;
@@ -38,8 +37,6 @@ class _Feed extends State<Feed> {
   Function changePlayer;
   Function getAllVideos;
   Function changeSongs;
-  // RefreshController _refreshController =
-  //     RefreshController(initialRefresh: false);
 
   _Feed(this.allVideos, this.changeCategory, this.changeFeed,
       this.setFilePathToPlay, this.changePlayer, this.getAllVideos, this.changeSongs);
@@ -73,54 +70,9 @@ Future<void> refresh() async {
     super.initState();
   }
 
-  // void _onRefresh() async{
-  //   // monitor network fetch
-  //   getAllVideos();
-  //   _refreshController.refreshCompleted();
-  // }
-
-  // void _onLoading() async{
-  //   // monitor network fetch
-  //   await Future.delayed(Duration(milliseconds: 1000));
-  //   // if failed,use loadFailed(),if no data return,use LoadNodata()
-  //   if(mounted)
-  //   setState(() {
-
-  //   });
-  //   _refreshController.loadComplete();
-  // }
   @override
   Widget build(BuildContext context) {
     return Container(
-        // height: MediaQuery.of(context).size.height,
-        // child: SmartRefresher(
-        //   enablePullDown: true,
-        //   enablePullUp: true,
-        //   header: WaterDropHeader(),
-        //   footer: CustomFooter(
-        //     builder: (BuildContext context,LoadStatus mode){
-        //       Widget body ;
-        //       if(mode==LoadStatus.idle){
-        //         body =  Text("pull up load");
-        //       }
-        //       else if(mode==LoadStatus.loading){
-        //         body =  CupertinoActivityIndicator();
-        //       }
-        //       else if(mode == LoadStatus.failed){
-        //         body = Text("Load Failed!Click retry!");
-        //       }
-        //       else{
-        //         body = Text("No more Data");
-        //       }
-        //       return Container(
-        //         height: 55.0,
-        //         child: Center(child:body),
-        //       );
-        //     },
-        //   ),
-        //   controller: _refreshController,
-        //   onRefresh: _onRefresh,
-        //   onLoading: _onLoading,
         child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[

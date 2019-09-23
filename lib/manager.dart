@@ -91,7 +91,7 @@ class _Manager extends State<Manager> {
       Map<String, dynamic> mappedBody = json.decode(response.body);
       List<dynamic> dynamicList = mappedBody.values.toList();
       List<ModelSong> modelVideoList = [];
-      for (int i = dynamicList.length-1; i >= 0; i--) {
+      for (int i = 0; i < dynamicList.length-1; i++) {
         modelVideoList.add(ModelSong(
             title: dynamicList[i]["title"],
             artist: dynamicList[i]["artist"],
