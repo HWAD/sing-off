@@ -8,7 +8,6 @@ import './songs_search.dart';
 import './songs_album.dart';
 import './songs_row.dart';
 import './recorder_control.dart';
-import './animation.dart';
 import './player.dart';
 import './recorder.dart';
 import './feed.dart';
