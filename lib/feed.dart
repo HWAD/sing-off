@@ -106,17 +106,25 @@ class _Feed extends State<Feed> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Container(
-                  child: InkWell(
-                    onTap: () {
+                  child: FloatingActionButton(
+                    backgroundColor: Colors.transparent,
+                    child: Column(
+                      children: [
+                        Icon(
+                          Icons.person,
+                        ),
+                        Text("User")
+                      ],
+                    ),
+                    onPressed: () {
+                      // Scaffold.of(context)
+                      //     .showSnackBar(SnackBar(content: Text('Tap')));
                       if (isFilterByUsername == true) {
                         filter(false);
                       } else {
                         filter(true);
                       }
                     },
-                    child: Icon(
-                      Icons.filter_list,
-                    ),
                   ),
                 ),
                 Center(child: Text('Sing-Off')),
@@ -159,21 +167,19 @@ class _Feed extends State<Feed> {
                             changeFeed(false);
                           },
                           onLongPress: () {
-                            showMenu(
-                              items: <PopupMenuEntry>[
-                                PopupMenuItem(
-                                  child: Text("Share this video",
-                                      style: TextStyle(color: Colors.black)),
-                                  // value: shareMe(element),
-                                ),
-                              ],
-                              context: context,
-                              position:
-
-                                  /// continue here!!!
-                                  RelativeRect.fromLTRB(0.0, 0.0, 0.0, 0.0),
-                              color: Colors.white,
-                            );
+                            // showMenu(
+                            //   items: <PopupMenuEntry>[
+                            //     PopupMenuItem(
+                            //       child: Text("Share this video",
+                            //           style: TextStyle(color: Colors.black)),
+                            /*value: */ shareMe(element) /*,*/;
+                            //     ),
+                            //   ],
+                            //   context: context,
+                            //   position:
+                            // RelativeRect.fromLTRB(0.0, 0.0, 0.0, 0.0),
+                            // color: Colors.white,
+                            // );
                           },
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
