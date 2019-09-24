@@ -202,7 +202,7 @@ class _Feed extends State<Feed> {
                                 ),
                                 Container(
                                   height:
-                                      MediaQuery.of(context).size.height / 2,
+                                      MediaQuery.of(context).size.height / 1.8,
                                   width: MediaQuery.of(context).size.width / 1,
                                   child: Container(
                                     padding:
@@ -211,9 +211,12 @@ class _Feed extends State<Feed> {
                                     child: Row(
                                       children: [
                                         Container(
+                                          // color: Colors.blue,
                                             padding: EdgeInsets.only(
                                                 right: 2, left: 3),
-                                            child: Icon(Icons.thumb_up)),
+                                            child: Icon(
+                                              Icons.thumb_up,
+                                              color: Colors.blue)),
                                         Text(
                                           element.score.toString(),
                                           style: TextStyle(
