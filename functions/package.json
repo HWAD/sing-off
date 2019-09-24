@@ -1,8 +1,9 @@
 {
   "name": "functions",
   "description": "Cloud Functions for Firebase",
+  "main": "./index.ts",
   "scripts": {
-    "lint": "eslint .",
+    "lint": "eslint ./*.ts",
     "serve": "firebase serve --only functions",
     "shell": "firebase functions:shell",
     "start": "npm run shell",
@@ -10,11 +11,14 @@
     "logs": "firebase functions:log"
   },
   "engines": {
-    "node": "8"
+    "node": "10"
   },
   "dependencies": {
+    "@google-cloud/storage": "^3.3.0",
+    "child-process-promise": "^2.2.1",
     "firebase-admin": "^8.0.0",
-    "firebase-functions": "^3.1.0"
+    "firebase-functions": "^3.1.0",
+    "mkdirp-promise": "^5.0.1"
   },
   "devDependencies": {
     "eslint": "^5.12.0",
