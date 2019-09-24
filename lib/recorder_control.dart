@@ -13,7 +13,7 @@ class RecorderControl extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       color: Colors.black,
-      height: MediaQuery.of(context).size.height * (7 / 100),
+      height: MediaQuery.of(context).size.height * (10 / 100),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
@@ -28,6 +28,7 @@ class RecorderControl extends StatelessWidget {
         Container(
                     child: Text(
                       'Sing-Off',
+                      style: TextStyle(fontSize: 18)
                     ),
                   ),
         Container(

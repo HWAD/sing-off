@@ -85,7 +85,6 @@ class _Manager extends State<Manager> {
   }
 
   Future<void> _getAllVideos() async {
-    print("ingetallvideos");
     const url = 'https://flutterkaraoke.firebaseio.com/videos.json';
     http.get(url).then((response) {
       Map<String, dynamic> mappedBody = json.decode(response.body);

@@ -15,9 +15,12 @@ class SongAlbum extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.height / 1.3,
-      margin: EdgeInsets.only(top: 8),
-      color: Colors.grey[800],
+      height: MediaQuery.of(context).size.height / 1.41,
+      margin: EdgeInsets.only(top: 10),
+      
+      // padding: EdgeInsets.only(top: MediaQuery.of(context).size.height*.05
+      // ),
+      color: Colors.grey[900],
       child: ListView(
           children: <Widget>[
             Column(
@@ -33,7 +36,7 @@ class SongAlbum extends StatelessWidget {
                   .map((element) {
                 return Container(
                     color: Colors.black38,
-                    margin: EdgeInsets.only(bottom: 1, top: 1),
+                    margin: EdgeInsets.symmetric(horizontal: 1, vertical: 1),
                     child: InkWell(
                         onTap: () {
                           changeSongs(false);
@@ -44,17 +47,17 @@ class SongAlbum extends StatelessWidget {
                           children: <Widget>[
                             Container(
                               height: 40,
-                              width: 60,
+                              width: 50,
                               child: Container(
                                   alignment: Alignment.bottomRight,
-                                  padding: EdgeInsets.symmetric(
-                                      vertical: 1, horizontal: 1),
+                                  padding: EdgeInsets.only(
+                                      top: 1, left: 1, right: 1),
                                   child: Text(element.length,
                                       style: TextStyle(
                                         fontSize: 10,
                                         fontWeight: FontWeight.bold,
                                         color: Colors.white,
-                                        backgroundColor: Colors.black.withOpacity(0.5),
+                                        backgroundColor: Colors.grey.withOpacity(0.5),
                                       ))),
                               margin: EdgeInsets.symmetric(
                                 vertical: 10,

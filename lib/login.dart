@@ -6,14 +6,20 @@ class Login extends StatelessWidget {
   final Function setUsername;
   String usernameInput;
 
+
   Login(this.setLogin, this.changeFeed, this.setUsername);
+
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        height: MediaQuery.of(context).size.height,
-        child: ListView(
-            children: <Widget>[
+    return Theme(
+        data: ThemeData(
+            brightness: Brightness.light,
+            primarySwatch: Colors.blue,
+            accentColor: Colors.deepPurple),
+        child: Container(
+            height: MediaQuery.of(context).size.height,
+            child: ListView(children: <Widget>[
               Container(
                 child: Card(
                   elevation: 5,
@@ -24,16 +30,16 @@ class Login extends StatelessWidget {
                       children: <Widget>[
                         TextField(
                           decoration: InputDecoration(
-                            labelText: 'Username',
-                            fillColor: Colors.white,
+                            labelText: 'What\'s your name?',
+                            fillColor: Colors.black,
                           ),
                           onChanged: (val) {
                             usernameInput = val;
                           },
                         ),
                         FlatButton(
-                          child: Text('Login'),
-                          textColor: Colors.white,
+                          child: Text('Enter'),
+                          textColor: Colors.blue,
                           onPressed: () {
                             setUsername(usernameInput);
                             setLogin(false);
@@ -59,6 +65,6 @@ class Login extends StatelessWidget {
               //                       ),
               //                     ),
               // )
-            ]));
+            ])));
   }
 }

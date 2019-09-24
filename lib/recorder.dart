@@ -9,7 +9,6 @@ import 'dart:io';
 import 'dart:async';
 
 import 'dart:collection';
-import 'package:noise_meter/noise_meter.dart';
 import 'package:flutter_sound/flutter_sound.dart';
 import 'package:intl/intl.dart';
 
