@@ -57,7 +57,7 @@ class _PlayerState extends State<Player> {
         children: <Widget>[
           Container(
             color: Colors.black,
-            height: MediaQuery.of(context).size.height * (7 / 100),
+            height: MediaQuery.of(context).size.height * (10 / 100),
             child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -72,7 +72,8 @@ class _PlayerState extends State<Player> {
                           Icons.home,
                         )),
                   ),
-                  Center(child: Text('Sing-Off')),
+                  Center(child: Text('Sing-Off',
+                  style: TextStyle(fontSize: 18))),
                   Center(
                     child: InkWell(
                         onTap: () {

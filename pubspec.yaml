@@ -42,6 +42,7 @@ dependencies:
   noise_meter: ^0.1.1
   animator: ^1.0.0+1
   wave_progress_widget: ^0.0.1
+  fading_edge_scrollview: ^1.0.2
 
 dev_dependencies:
   flutter_test:

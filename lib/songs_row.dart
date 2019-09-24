@@ -1,5 +1,7 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterkaraoke/model_song.dart';
+import 'package:fading_edge_scrollview/fading_edge_scrollview.dart';
 
 class SongRow extends StatelessWidget {
   final Function setCategory;
@@ -9,6 +11,8 @@ class SongRow extends StatelessWidget {
   final Function changeRecorder;
   final Function setSelectedSong;
   final List<ModelSong> allSongs;
+  final _controller = ScrollController();
+
   SongRow(
       this.setCategory,
       this.changeSongs,
@@ -41,358 +45,358 @@ class SongRow extends StatelessWidget {
                       )),
                 ),
                 Container(
-                  child: Text(
-                    'Sing-Off',
-                    style: TextStyle(fontSize: 18)
-                  ),
-                ),
-                  Container(
-                    child: InkWell(
-                        onTap: () {
-                          changeSongs(false);
-                          changeRecorder(true);
-                          setSelectedSong(allSongs[0]);
-                        },
-                        child: Icon(
-                          Icons.mood,
-                        )),
-                  ),
-                ],
-              ),
-            ),
-          Container(
-            height: MediaQuery.of(context).size.width / 3,
-            margin: EdgeInsets.only(top: 8),
-            padding: EdgeInsets.only(top: 6, bottom: 6),
-            child: ListView(
-              scrollDirection: Axis.horizontal,
-              children: <Widget>[
-                Container(
-                  width: MediaQuery.of(context).size.width / 3.2,
-                  margin: EdgeInsets.only(
-                      left: MediaQuery.of(context).size.width / 60,
-                      right: MediaQuery.of(context).size.width / 80),
-                  child: Ink.image(
-                    image: AssetImage("assets/all.jpeg"),
-                    fit: BoxFit.fill,
-                    child: InkWell(
-                      onTap: () {
-                        setCategory("All");
-                      },
-                      child: Center(
-                        child: Text(
-                          "All",
-                          style: TextStyle(
-                            fontSize: 18,
-                            shadows: [
-                              Shadow(
-                                  // bottomLeft
-                                  offset: Offset(-1.5, -1.5),
-                                  color: Colors.black),
-                              Shadow(
-                                  // bottomRight
-                                  offset: Offset(1.5, -1.5),
-                                  color: Colors.black),
-                              Shadow(
-                                  // topRight
-                                  offset: Offset(1.5, 1.5),
-                                  color: Colors.black),
-                              Shadow(
-                                  // topLeft
-                                  offset: Offset(-1.5, 1.5),
-                                  color: Colors.black),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
+                  child: Text('Sing-Off', style: TextStyle(fontSize: 18)),
                 ),
                 Container(
-                  width: MediaQuery.of(context).size.width / 3.2,
-                  margin: EdgeInsets.only(
-                      left: MediaQuery.of(context).size.width / 60,
-                      right: MediaQuery.of(context).size.width / 80),
-                  child: Ink.image(
-                    image: AssetImage("assets/christmas.jpeg"),
-                    fit: BoxFit.fill,
-                    child: InkWell(
+                  child: InkWell(
                       onTap: () {
-                        setCategory("Christmas");
+                        changeSongs(false);
+                        changeRecorder(true);
+                        setSelectedSong(allSongs[0]);
                       },
-                      child: Center(
-                        child: Text(
-                          "Christmas",
-                          style: TextStyle(
-                            fontSize: 18,
-                            shadows: [
-                              Shadow(
-                                  // bottomLeft
-                                  offset: Offset(-1.5, -1.5),
-                                  color: Colors.black),
-                              Shadow(
-                                  // bottomRight
-                                  offset: Offset(1.5, -1.5),
-                                  color: Colors.black),
-                              Shadow(
-                                  // topRight
-                                  offset: Offset(1.5, 1.5),
-                                  color: Colors.black),
-                              Shadow(
-                                  // topLeft
-                                  offset: Offset(-1.5, 1.5),
-                                  color: Colors.black),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                Container(
-                  width: MediaQuery.of(context).size.width / 3.2,
-                  margin: EdgeInsets.symmetric(
-                      horizontal: MediaQuery.of(context).size.width / 80),
-                  child: Ink.image(
-                    image: AssetImage("assets/drake.jpeg"),
-                    fit: BoxFit.fill,
-                    child: InkWell(
-                      onTap: () {
-                        setCategory("Hip Hop");
-                      },
-                      child: Center(
-                        child: Text(
-                          "Hip Hop",
-                          style: TextStyle(
-                            fontSize: 18,
-                            shadows: [
-                              Shadow(
-                                  // bottomLeft
-                                  offset: Offset(-1.5, -1.5),
-                                  color: Colors.black),
-                              Shadow(
-                                  // bottomRight
-                                  offset: Offset(1.5, -1.5),
-                                  color: Colors.black),
-                              Shadow(
-                                  // topRight
-                                  offset: Offset(1.5, 1.5),
-                                  color: Colors.black),
-                              Shadow(
-                                  // topLeft
-                                  offset: Offset(-1.5, 1.5),
-                                  color: Colors.black),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                Container(
-                  width: MediaQuery.of(context).size.width / 3.2,
-                  margin: EdgeInsets.symmetric(
-                      horizontal: MediaQuery.of(context).size.width / 80),
-                  child: Ink.image(
-                    image: AssetImage("assets/pop.jpeg"),
-                    fit: BoxFit.fill,
-                    child: InkWell(
-                      onTap: () {
-                        setCategory("Pop");
-                      },
-                      child: Center(
-                        child: Text(
-                          "Pop",
-                          style: TextStyle(
-                            fontSize: 18,
-                            shadows: [
-                              Shadow(
-                                  // bottomLeft
-                                  offset: Offset(-1.5, -1.5),
-                                  color: Colors.black),
-                              Shadow(
-                                  // bottomRight
-                                  offset: Offset(1.5, -1.5),
-                                  color: Colors.black),
-                              Shadow(
-                                  // topRight
-                                  offset: Offset(1.5, 1.5),
-                                  color: Colors.black),
-                              Shadow(
-                                  // topLeft
-                                  offset: Offset(-1.5, 1.5),
-                                  color: Colors.black),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                Container(
-                  width: MediaQuery.of(context).size.width / 3.2,
-                  margin: EdgeInsets.symmetric(
-                      horizontal: MediaQuery.of(context).size.width / 80),
-                  child: Ink.image(
-                    image: AssetImage("assets/bruce.jpg"),
-                    fit: BoxFit.fill,
-                    child: InkWell(
-                      onTap: () {
-                        setCategory("Rock");
-                      },
-                      child: Center(
-                        child: Text(
-                          "Rock",
-                          style: TextStyle(
-                            fontSize: 18,
-                            shadows: [
-                              Shadow(
-                                  // bottomLeft
-                                  offset: Offset(-1.5, -1.5),
-                                  color: Colors.black),
-                              Shadow(
-                                  // bottomRight
-                                  offset: Offset(1.5, -1.5),
-                                  color: Colors.black),
-                              Shadow(
-                                  // topRight
-                                  offset: Offset(1.5, 1.5),
-                                  color: Colors.black),
-                              Shadow(
-                                  // topLeft
-                                  offset: Offset(-1.5, 1.5),
-                                  color: Colors.black),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                Container(
-                  width: MediaQuery.of(context).size.width / 3.2,
-                  margin: EdgeInsets.symmetric(
-                      horizontal: MediaQuery.of(context).size.width / 80),
-                  child: Ink.image(
-                    image: AssetImage("assets/country.jpeg"),
-                    fit: BoxFit.fill,
-                    child: InkWell(
-                      onTap: () {
-                        setCategory("Rock");
-                      },
-                      child: Center(
-                        child: Text(
-                          "Country",
-                          style: TextStyle(
-                            fontSize: 18,
-                            shadows: [
-                              Shadow(
-                                  // bottomLeft
-                                  offset: Offset(-1.5, -1.5),
-                                  color: Colors.black),
-                              Shadow(
-                                  // bottomRight
-                                  offset: Offset(1.5, -1.5),
-                                  color: Colors.black),
-                              Shadow(
-                                  // topRight
-                                  offset: Offset(1.5, 1.5),
-                                  color: Colors.black),
-                              Shadow(
-                                  // topLeft
-                                  offset: Offset(-1.5, 1.5),
-                                  color: Colors.black),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                Container(
-                  width: MediaQuery.of(context).size.width / 3.2,
-                  margin: EdgeInsets.symmetric(
-                      horizontal: MediaQuery.of(context).size.width / 80),
-                  child: Ink.image(
-                    image: AssetImage("assets/soul.jpeg"),
-                    fit: BoxFit.fill,
-                    child: InkWell(
-                      onTap: () {
-                        setCategory("Rock");
-                      },
-                      child: Center(
-                        child: Text(
-                          "Soul",
-                          style: TextStyle(
-                            fontSize: 18,
-                            shadows: [
-                              Shadow(
-                                  // bottomLeft
-                                  offset: Offset(-1.5, -1.5),
-                                  color: Colors.black),
-                              Shadow(
-                                  // bottomRight
-                                  offset: Offset(1.5, -1.5),
-                                  color: Colors.black),
-                              Shadow(
-                                  // topRight
-                                  offset: Offset(1.5, 1.5),
-                                  color: Colors.black),
-                              Shadow(
-                                  // topLeft
-                                  offset: Offset(-1.5, 1.5),
-                                  color: Colors.black),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                Container(
-                  width: MediaQuery.of(context).size.width / 3.2,
-                  margin: EdgeInsets.only(
-                      right: MediaQuery.of(context).size.width / 60,
-                      left: MediaQuery.of(context).size.width / 80),
-                  child: Ink.image(
-                    image: AssetImage("assets/bey.jpeg"),
-                    fit: BoxFit.fill,
-                    child: InkWell(
-                      onTap: () {
-                        setCategory("Rock");
-                      },
-                      child: Center(
-                        child: Text(
-                          "Bey",
-                          style: TextStyle(
-                            fontSize: 18,
-                            shadows: [
-                              Shadow(
-                                  // bottomLeft
-                                  offset: Offset(-1.5, -1.5),
-                                  color: Colors.black),
-                              Shadow(
-                                  // bottomRight
-                                  offset: Offset(1.5, -1.5),
-                                  color: Colors.black),
-                              Shadow(
-                                  // topRight
-                                  offset: Offset(1.5, 1.5),
-                                  color: Colors.black),
-                              Shadow(
-                                  // topLeft
-                                  offset: Offset(-1.5, 1.5),
-                                  color: Colors.black),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
+                      child: Icon(
+                        Icons.mood,
+                      )),
                 ),
               ],
             ),
-          )
+          ),
+          Container(
+              height: MediaQuery.of(context).size.width / 3,
+              margin: EdgeInsets.only(top: 8, left: 8),
+              padding: EdgeInsets.only(top: 6, bottom: 6),
+              child: FadingEdgeScrollView.fromScrollView(
+                gradientFractionOnStart: 0.55,
+                gradientFractionOnEnd: 0.55,
+                child: ListView(
+                  controller: _controller,
+                  scrollDirection: Axis.horizontal,
+                  children: <Widget>[
+                    Container(
+                      width: MediaQuery.of(context).size.width / 3.2,
+                      margin: EdgeInsets.only(
+                          right: MediaQuery.of(context).size.width / 80),
+                      child: Ink.image(
+                        image: AssetImage("assets/all.jpeg"),
+                        fit: BoxFit.fill,
+                        child: InkWell(
+                          onTap: () {
+                            setCategory("All");
+                          },
+                          child: Center(
+                            child: Text(
+                              "All",
+                              style: TextStyle(
+                                fontSize: 18,
+                                shadows: [
+                                  Shadow(
+                                      // bottomLeft
+                                      offset: Offset(-1.5, -1.5),
+                                      color: Colors.black),
+                                  Shadow(
+                                      // bottomRight
+                                      offset: Offset(1.5, -1.5),
+                                      color: Colors.black),
+                                  Shadow(
+                                      // topRight
+                                      offset: Offset(1.5, 1.5),
+                                      color: Colors.black),
+                                  Shadow(
+                                      // topLeft
+                                      offset: Offset(-1.5, 1.5),
+                                      color: Colors.black),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Container(
+                      width: MediaQuery.of(context).size.width / 3.2,
+                      margin: EdgeInsets.only(
+                          left: MediaQuery.of(context).size.width / 60,
+                          right: MediaQuery.of(context).size.width / 80),
+                      child: Ink.image(
+                        image: AssetImage("assets/christmas.jpeg"),
+                        fit: BoxFit.fill,
+                        child: InkWell(
+                          onTap: () {
+                            setCategory("Christmas");
+                          },
+                          child: Center(
+                            child: Text(
+                              "Christmas",
+                              style: TextStyle(
+                                fontSize: 18,
+                                shadows: [
+                                  Shadow(
+                                      // bottomLeft
+                                      offset: Offset(-1.5, -1.5),
+                                      color: Colors.black),
+                                  Shadow(
+                                      // bottomRight
+                                      offset: Offset(1.5, -1.5),
+                                      color: Colors.black),
+                                  Shadow(
+                                      // topRight
+                                      offset: Offset(1.5, 1.5),
+                                      color: Colors.black),
+                                  Shadow(
+                                      // topLeft
+                                      offset: Offset(-1.5, 1.5),
+                                      color: Colors.black),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Container(
+                      width: MediaQuery.of(context).size.width / 3.2,
+                      margin: EdgeInsets.symmetric(
+                          horizontal: MediaQuery.of(context).size.width / 80),
+                      child: Ink.image(
+                        image: AssetImage("assets/drake.jpeg"),
+                        fit: BoxFit.fill,
+                        child: InkWell(
+                          onTap: () {
+                            setCategory("Hip Hop");
+                          },
+                          child: Center(
+                            child: Text(
+                              "Hip Hop",
+                              style: TextStyle(
+                                fontSize: 18,
+                                shadows: [
+                                  Shadow(
+                                      // bottomLeft
+                                      offset: Offset(-1.5, -1.5),
+                                      color: Colors.black),
+                                  Shadow(
+                                      // bottomRight
+                                      offset: Offset(1.5, -1.5),
+                                      color: Colors.black),
+                                  Shadow(
+                                      // topRight
+                                      offset: Offset(1.5, 1.5),
+                                      color: Colors.black),
+                                  Shadow(
+                                      // topLeft
+                                      offset: Offset(-1.5, 1.5),
+                                      color: Colors.black),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Container(
+                      width: MediaQuery.of(context).size.width / 3.2,
+                      margin: EdgeInsets.symmetric(
+                          horizontal: MediaQuery.of(context).size.width / 80),
+                      child: Ink.image(
+                        image: AssetImage("assets/pop.jpeg"),
+                        fit: BoxFit.fill,
+                        child: InkWell(
+                          onTap: () {
+                            setCategory("Pop");
+                          },
+                          child: Center(
+                            child: Text(
+                              "Pop",
+                              style: TextStyle(
+                                fontSize: 18,
+                                shadows: [
+                                  Shadow(
+                                      // bottomLeft
+                                      offset: Offset(-1.5, -1.5),
+                                      color: Colors.black),
+                                  Shadow(
+                                      // bottomRight
+                                      offset: Offset(1.5, -1.5),
+                                      color: Colors.black),
+                                  Shadow(
+                                      // topRight
+                                      offset: Offset(1.5, 1.5),
+                                      color: Colors.black),
+                                  Shadow(
+                                      // topLeft
+                                      offset: Offset(-1.5, 1.5),
+                                      color: Colors.black),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Container(
+                      width: MediaQuery.of(context).size.width / 3.2,
+                      margin: EdgeInsets.symmetric(
+                          horizontal: MediaQuery.of(context).size.width / 80),
+                      child: Ink.image(
+                        image: AssetImage("assets/bruce.jpg"),
+                        fit: BoxFit.fill,
+                        child: InkWell(
+                          onTap: () {
+                            setCategory("Rock");
+                          },
+                          child: Center(
+                            child: Text(
+                              "Rock",
+                              style: TextStyle(
+                                fontSize: 18,
+                                shadows: [
+                                  Shadow(
+                                      // bottomLeft
+                                      offset: Offset(-1.5, -1.5),
+                                      color: Colors.black),
+                                  Shadow(
+                                      // bottomRight
+                                      offset: Offset(1.5, -1.5),
+                                      color: Colors.black),
+                                  Shadow(
+                                      // topRight
+                                      offset: Offset(1.5, 1.5),
+                                      color: Colors.black),
+                                  Shadow(
+                                      // topLeft
+                                      offset: Offset(-1.5, 1.5),
+                                      color: Colors.black),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Container(
+                      width: MediaQuery.of(context).size.width / 3.2,
+                      margin: EdgeInsets.symmetric(
+                          horizontal: MediaQuery.of(context).size.width / 80),
+                      child: Ink.image(
+                        image: AssetImage("assets/country.jpeg"),
+                        fit: BoxFit.fill,
+                        child: InkWell(
+                          onTap: () {
+                            setCategory("Rock");
+                          },
+                          child: Center(
+                            child: Text(
+                              "Country",
+                              style: TextStyle(
+                                fontSize: 18,
+                                shadows: [
+                                  Shadow(
+                                      // bottomLeft
+                                      offset: Offset(-1.5, -1.5),
+                                      color: Colors.black),
+                                  Shadow(
+                                      // bottomRight
+                                      offset: Offset(1.5, -1.5),
+                                      color: Colors.black),
+                                  Shadow(
+                                      // topRight
+                                      offset: Offset(1.5, 1.5),
+                                      color: Colors.black),
+                                  Shadow(
+                                      // topLeft
+                                      offset: Offset(-1.5, 1.5),
+                                      color: Colors.black),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Container(
+                      width: MediaQuery.of(context).size.width / 3.2,
+                      margin: EdgeInsets.symmetric(
+                          horizontal: MediaQuery.of(context).size.width / 80),
+                      child: Ink.image(
+                        image: AssetImage("assets/soul.jpeg"),
+                        fit: BoxFit.fill,
+                        child: InkWell(
+                          onTap: () {
+                            setCategory("Rock");
+                          },
+                          child: Center(
+                            child: Text(
+                              "Soul",
+                              style: TextStyle(
+                                fontSize: 18,
+                                shadows: [
+                                  Shadow(
+                                      // bottomLeft
+                                      offset: Offset(-1.5, -1.5),
+                                      color: Colors.black),
+                                  Shadow(
+                                      // bottomRight
+                                      offset: Offset(1.5, -1.5),
+                                      color: Colors.black),
+                                  Shadow(
+                                      // topRight
+                                      offset: Offset(1.5, 1.5),
+                                      color: Colors.black),
+                                  Shadow(
+                                      // topLeft
+                                      offset: Offset(-1.5, 1.5),
+                                      color: Colors.black),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Container(
+                      width: MediaQuery.of(context).size.width / 3.2,
+                      margin: EdgeInsets.only(
+                          right: MediaQuery.of(context).size.width / 60,
+                          left: MediaQuery.of(context).size.width / 80),
+                      child: Ink.image(
+                        image: AssetImage("assets/bey.jpeg"),
+                        fit: BoxFit.fill,
+                        child: InkWell(
+                          onTap: () {
+                            setCategory("Rock");
+                          },
+                          child: Center(
+                            child: Text(
+                              "Bey",
+                              style: TextStyle(
+                                fontSize: 18,
+                                shadows: [
+                                  Shadow(
+                                      // bottomLeft
+                                      offset: Offset(-1.5, -1.5),
+                                      color: Colors.black),
+                                  Shadow(
+                                      // bottomRight
+                                      offset: Offset(1.5, -1.5),
+                                      color: Colors.black),
+                                  Shadow(
+                                      // topRight
+                                      offset: Offset(1.5, 1.5),
+                                      color: Colors.black),
+                                  Shadow(
+                                      // topLeft
+                                      offset: Offset(-1.5, 1.5),
+                                      color: Colors.black),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ))
         ],
       ),
     );

@@ -418,7 +418,7 @@ class _Recorder extends State<Recorder> with WidgetsBindingObserver {
       artist: selectedSong.artist,
       downloadURL: url,
       imageURL:
-          'https://firebasestorage.googleapis.com/v0/b/flutterkaraoke.appspot.com/o/videoImages%2Fdefault.jpg?alt=media&token=adb13393-9a45-4a48-85f0-31481803610f',
+          'https://firebasestorage.googleapis.com/v0/b/flutterkaraoke.appspot.com/o/videoImages%2Fgogh.jpg?alt=media&token=7db895b3-991f-47fb-a148-e829b258d048',
       score: selectedSong.score,
       category: username,
       isFavorite: false,
