@@ -110,7 +110,8 @@ class _Feed extends State<Feed> {
                         Icon(isFilterByUsername == true
                             ? Icons.person
                             : Icons.music_note),
-                        Text(isFilterByUsername == true ? "User" : "Feed")
+                        Text(isFilterByUsername == true ? "User" : "Feed",
+                        style: TextStyle(fontSize: 12))
                       ],
                     ),
                     onPressed: () {
@@ -141,7 +142,8 @@ class _Feed extends State<Feed> {
                         Icon(
                           Icons.music_video,
                         ),
-                        Text("Songs")
+                        Text("Songs",
+                        style: TextStyle(fontSize: 12))
                       ],
                     ),
                   ),
@@ -210,6 +212,7 @@ class _Feed extends State<Feed> {
                                     alignment: Alignment.bottomRight,
                                     child: Row(
                                       children: [
+                              
                                         Container(
                                           // color: Colors.blue,
                                             padding: EdgeInsets.only(

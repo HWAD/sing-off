@@ -27,7 +27,8 @@ class RecorderControl extends StatelessWidget {
               child: Column(
                 children: [
                   Icon(Icons.music_note),
-                  Text("Feed"),
+                  Text("Feed",
+                  style: TextStyle(fontSize: 12)),
                 ],
               ),
             ),
@@ -51,7 +52,8 @@ class RecorderControl extends StatelessWidget {
                   Icon(
                     Icons.music_video,
                   ),
-                  Text("Songs")
+                  Text("Songs",
+                  style: TextStyle(fontSize: 12))
                 ],
               ),
             ),
