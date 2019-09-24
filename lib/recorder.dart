@@ -17,8 +17,6 @@ class Recorder extends StatefulWidget {
   final FlutterSound flutterSound;
   final ModelSong selectedSong;
   final Function setCurrentLyric;
-  // final List<Duration> highlightDurations;
-  // final Function setHighlightDurations;
   String currentLyric;
   final Function setDecibels;
   final Function changeRecorder;
@@ -33,8 +31,6 @@ class Recorder extends StatefulWidget {
     @required this.flutterSound,
     @required this.selectedSong,
     @required this.setCurrentLyric,
-    // @required this.highlightDurations,
-    // @required this.setHighlightDurations,
     @required this.setDecibels,
     @required this.changeRecorder,
     @required this.changePlayer,
@@ -50,8 +46,6 @@ class Recorder extends StatefulWidget {
         flutterSound,
         selectedSong,
         setCurrentLyric,
-        // highlightDurations,
-        // setHighlightDurations,
         setDecibels,
         changeRecorder,
         changePlayer,
@@ -78,7 +72,6 @@ class _Recorder extends State<Recorder> with WidgetsBindingObserver {
   ModelSong selectedSong;
   Function setCurrentLyric;
   List<Duration> highlightDurations = new List<Duration>();
-  // Function setHighlightDurations;
   Function setDecibels;
   Function changeRecorder;
   Function changePlayer;
@@ -114,7 +107,6 @@ class _Recorder extends State<Recorder> with WidgetsBindingObserver {
       controller.addListener(() {
         if (mounted) setState(() {});
         if (controller.value.hasError) {
-          // showInSnackBar('Camera error ${controller.value.errorDescription}');
         }
       });
 
@@ -227,9 +219,6 @@ class _Recorder extends State<Recorder> with WidgetsBindingObserver {
             padding: const EdgeInsets.all(5.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
-              // children: <Widget>[
-              //   Center(child: Text("For Visual", textAlign: TextAlign.center))
-              // ],
             ),
           ),
         ],
@@ -291,10 +280,6 @@ class _Recorder extends State<Recorder> with WidgetsBindingObserver {
 
   String timestamp() => DateTime.now().millisecondsSinceEpoch.toString();
 
-  // void showInSnackBar(String message) {
-  //   // _scaffoldKey.currentState.showSnackBar(SnackBar(content: Text(message)));
-  // }
-
   void onNewCameraSelected(CameraDescription cameraDescription) async {
     if (controller != null) {
       await controller.dispose();
@@ -309,7 +294,6 @@ class _Recorder extends State<Recorder> with WidgetsBindingObserver {
       () {
         if (mounted) setState(() {});
         if (controller.value.hasError) {
-          // showInSnackBar('Camera error ${controller.value.errorDescription}');
         }
       },
     );
@@ -344,7 +328,6 @@ class _Recorder extends State<Recorder> with WidgetsBindingObserver {
       DateTime highlightStartTime = lyricStartTime;
       String highlightLine = lyricLine;
       mappedLyrics.remove(mappedLyrics.keys.first);
-
       _playerSubscription = flutterSound.onPlayerStateChanged.listen(
         (e) {
           if (e != null) {
@@ -422,7 +405,6 @@ class _Recorder extends State<Recorder> with WidgetsBindingObserver {
 //Storage & Database Upload
   void _megaUpload(path) async {
     String url = await videoUpload(path);
-
     ModelSong uploadObject = new ModelSong(
       title: selectedSong.title,
       artist: selectedSong.artist,
@@ -433,7 +415,6 @@ class _Recorder extends State<Recorder> with WidgetsBindingObserver {
       category: username,
       isFavorite: false,
     );
-    print(uploadObject.toJson());
     Map<String, dynamic> uploadJSON = uploadObject.toJson();
     addVideo(uploadJSON);
   }
@@ -601,7 +582,7 @@ class _Recorder extends State<Recorder> with WidgetsBindingObserver {
   Future<String> uploadAudio(
       [String audioFileName, String audioTitle, String artist]) async {
     if (audioFileName == null) {
-      audioFileName = "RyoheiRecorded2.m4a";
+      audioFileName = "Recorded.m4a";
     }
     File audioFile = File("sdcard/recorded.m4a");
     StorageUploadTask ref = storageReference
@@ -610,21 +591,6 @@ class _Recorder extends State<Recorder> with WidgetsBindingObserver {
     String location = await (await ref.onComplete).ref.getDownloadURL();
     return location;
   }
-
-  // Future<String> _uploadAudio([String audioFileName]) async {
-  //   if (audioFileName == null) {
-  //     audioFileName = "RyoheiRecorded2.m4a";
-  //   }
-
-  //   File audioFile = File("sdcard/recorded.m4a");
-
-  //   StorageUploadTask ref = storageReference
-  //       .child("audioFiles/" + audioFileName)
-  //       .putFile(audioFile);
-  //   String location = await (await ref.onComplete).ref.getDownloadURL();
-  //   print(location.toString());
-  //   return location;
-  // }
 
   Future<List> fetchCameras() async {
     try {
