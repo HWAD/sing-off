@@ -262,7 +262,7 @@ class _Recorder extends State<Recorder> with WidgetsBindingObserver {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       mainAxisSize: MainAxisSize.max,
       children: <Widget>[
-        controller.value.isRecordingVideo == false
+        controller != null && controller.value.isRecordingVideo == false
             ? FloatingActionButton(
                 backgroundColor: Colors.transparent,
                 child: Icon(Icons.play_arrow, size: 40),
@@ -428,7 +428,7 @@ class _Recorder extends State<Recorder> with WidgetsBindingObserver {
       artist: selectedSong.artist,
       downloadURL: url,
       imageURL:
-          'https://firebasestorage.googleapis.com/v0/b/flutterkaraoke.appspot.com/o/videoImages%2Fdefault.jpg?alt=media&token=adb13393-9a45-4a48-85f0-31481803610f',
+          'https://firebasestorage.googleapis.com/v0/b/flutterkaraoke.appspot.com/o/videoImages%2Fgogh.jpg?alt=media&token=7db895b3-991f-47fb-a148-e829b258d048',
       score: selectedSong.score,
       category: username,
       isFavorite: false,

@@ -114,8 +114,6 @@ class _Feed extends State<Feed> {
                       ],
                     ),
                     onPressed: () {
-                      // Scaffold.of(context)
-                      //     .showSnackBar(SnackBar(content: Text('Tap')));
                       if (isFilterByUsername == true) {
                         filter(false);
                       } else {
@@ -175,30 +173,23 @@ class _Feed extends State<Feed> {
                               changeFeed(false);
                             },
                             onLongPress: () {
-                              // showMenu(
-                              //   items: <PopupMenuEntry>[
-                              //     PopupMenuItem(
-                              //       child: Text("Share this video",
-                              //           style: TextStyle(color: Colors.black)),
-                              /*value: */ shareMe(element) /*,*/;
-                              //     ),
-                              //   ],
-                              //   context: context,
-                              //   position:
-                              // RelativeRect.fromLTRB(0.0, 0.0, 0.0, 0.0),
-                              // color: Colors.white,
-                              // );
+                              shareMe(element);
                             },
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
                                 Container(
-                                  height: 30,
+                                  height: 50,
                                   color: Colors.grey[100],
                                   child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
+                                    mainAxisAlignment: MainAxisAlignment.start,
                                     children: <Widget>[
+                                      Container(
+                                        height: 30,
+                                        width: 30,
+                                        child: Icon(Icons.person,
+                                            color: Colors.black54),
+                                      ),
                                       //add a photo as well.
                                       Text(
                                         element.category.toString(),
@@ -214,22 +205,30 @@ class _Feed extends State<Feed> {
                                       MediaQuery.of(context).size.height / 2,
                                   width: MediaQuery.of(context).size.width / 1,
                                   child: Container(
+                                    padding:
+                                        EdgeInsets.only(bottom: 2, right: 2),
                                     alignment: Alignment.bottomRight,
-                                    child: Text(
-                                      element.score.toString(),
-                                      style: TextStyle(
-                                        fontSize: 10,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.white,
-                                        backgroundColor:
-                                            Colors.black.withOpacity(0.5),
-                                      ),
+                                    child: Row(
+                                      children: [
+                                        Container(
+                                            padding: EdgeInsets.only(
+                                                right: 2, left: 3),
+                                            child: Icon(Icons.thumb_up)),
+                                        Text(
+                                          element.score.toString(),
+                                          style: TextStyle(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   ),
                                   decoration: BoxDecoration(
                                     border: Border.all(
-                                        // color: Colors.grey[100],
-                                        ),
+                                      color: Colors.grey[100],
+                                    ),
                                     image: DecorationImage(
                                       image: NetworkImage(element.imageURL),
                                       fit: BoxFit.fill,
@@ -238,39 +237,37 @@ class _Feed extends State<Feed> {
                                 ),
                                 Container(
                                   color: Colors.grey[200],
-                                  height: 25,
-                                  child: Row(
-                                    children: <Widget>[
-                                      Container(
-                                        child: Text(
-                                          element.title,
-                                          style: TextStyle(
-                                              color: Colors.black,
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.bold),
-                                        ),
+                                  height: 45,
+                                  padding: EdgeInsets.only(top: 5),
+                                  child: Column(
+                                    children: [
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceEvenly,
+                                        children: <Widget>[
+                                          Container(
+                                            child: Text(element.title,
+                                                style: TextStyle(
+                                                    color: Colors.black,
+                                                    fontSize: 15,
+                                                    fontWeight:
+                                                        FontWeight.bold)),
+                                          ),
+                                        ],
                                       ),
-                                      Text(
-                                        element.artist,
-                                        style: TextStyle(color: Colors.black),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceEvenly,
+                                        children: <Widget>[
+                                          Container(
+                                            child: Text(element.artist,
+                                                style: TextStyle(
+                                                    color: Colors.grey)),
+                                          ),
+                                        ],
                                       ),
                                     ],
                                   ),
-                                  // Row(
-                                  //   children: <Widget>[
-                                  //     Container(
-                                  //       child: InkWell(
-                                  //           onTap: () {
-                                  //             //here we do a plus one on the count.
-                                  //             //then do some put request next time we
-                                  //             //have a good chance.
-                                  //           },
-                                  //           child: Icon(
-                                  //             Icons.thumb_up,
-                                  //           )),
-                                  //     ),
-                                  //   ],
-                                  // )
                                 ),
                               ],
                             ),
