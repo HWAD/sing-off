@@ -36,7 +36,6 @@ class SongAlbum extends StatelessWidget {
                   .map((element) {
                 return Container(
                     color: Colors.black38,
-                    margin: EdgeInsets.symmetric(horizontal: 1, vertical: 1),
                     child: InkWell(
                         onTap: () {
                           changeSongs(false);
@@ -57,7 +56,7 @@ class SongAlbum extends StatelessWidget {
                                         fontSize: 10,
                                         fontWeight: FontWeight.bold,
                                         color: Colors.white,
-                                        backgroundColor: Colors.grey.withOpacity(0.5),
+                                        backgroundColor: Colors.grey.withOpacity(0.3),
                                       ))),
                               margin: EdgeInsets.symmetric(
                                 vertical: 10,
@@ -84,9 +83,10 @@ class SongAlbum extends StatelessWidget {
                                   Text(element.title,
                                       style: TextStyle(
                                           fontSize: 15,
-                                          fontWeight: FontWeight.bold)),
+                                          )),
                                   Text(element.artist,
-                                      style: TextStyle(color: Colors.grey)),
+                                      style: TextStyle(color: Colors.grey,
+                                      fontSize: 12)),
                                 ],
                               ),
                             ),
