@@ -31,35 +31,48 @@ class SongRow extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Container(
-                  child: InkWell(
-                      onTap: () {
-                        changeFeed(true);
-                        changeSongs(false);
-                      },
-                      child: Icon(
-                        Icons.home,
-                      )),
+                  padding: EdgeInsets.only(top: 15),
+                  child: FloatingActionButton(
+                    backgroundColor: Colors.transparent,
+                    onPressed: () {
+                      changeFeed(true);
+                      changeSongs(false);
+                    },
+                    child: Column(
+                      children: [
+                        Icon(
+                          Icons.music_note,
+                        ),
+                        Text("Feed"),
+                      ],
+                    ),
+                  ),
                 ),
                 Container(
-                  child: Text(
-                    'Sing-Off',
-                    style: TextStyle(fontSize: 18)
+                  child: Text('Sing-Off', style: TextStyle(fontSize: 18)),
+                ),
+                Container(
+                  padding: EdgeInsets.only(top: 15),
+                  child: FloatingActionButton(
+                    backgroundColor: Colors.transparent,
+                    onPressed: () {
+                      changeSongs(false);
+                      changeRecorder(true);
+                      setSelectedSong(allSongs[0]);
+                    },
+                    child: Column(
+                      children: [
+                        Icon(
+                          Icons.mood,
+                        ),
+                        Text("???")
+                      ],
+                    ),
                   ),
                 ),
-                  Container(
-                    child: InkWell(
-                        onTap: () {
-                          changeSongs(false);
-                          changeRecorder(true);
-                          setSelectedSong(allSongs[0]);
-                        },
-                        child: Icon(
-                          Icons.mood,
-                        )),
-                  ),
-                ],
-              ),
+              ],
             ),
+          ),
           Container(
             height: MediaQuery.of(context).size.width / 3,
             margin: EdgeInsets.only(top: 8),

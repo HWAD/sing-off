@@ -262,33 +262,29 @@ class _Recorder extends State<Recorder> with WidgetsBindingObserver {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       mainAxisSize: MainAxisSize.max,
       children: <Widget>[
-        InkWell(
-            child: Text(
-              "Let's Begin",
-              style: TextStyle(
-                color: letsBeginColor ? Colors.orange : Colors.grey,
-                fontSize: 20,
-              ),
-            ),
-            onTap: () {
-              if (controller != null &&
-                  controller.value.isInitialized &&
-                  !controller.value.isRecordingVideo) {
-                letsBeginColor = !letsBeginColor;
-                onVideoRecordButtonPressed();
-              } else {
-                return null;
-              }
-            }),
-        IconButton(
-          icon: const Icon(Icons.stop),
-          color: Colors.red,
-          onPressed: controller != null &&
-                  controller.value.isInitialized &&
-                  controller.value.isRecordingVideo
-              ? onStopButtonPressed
-              : null,
-        )
+        controller.value.isRecordingVideo == false
+            ? FloatingActionButton(
+                backgroundColor: Colors.transparent,
+                child: Icon(Icons.play_arrow, size: 40),
+                onPressed: () {
+                  if (controller != null &&
+                      controller.value.isInitialized &&
+                      !controller.value.isRecordingVideo) {
+                    letsBeginColor = !letsBeginColor;
+                    onVideoRecordButtonPressed();
+                  } else {
+                    return null;
+                  }
+                })
+            : FloatingActionButton(
+                backgroundColor: Colors.transparent,
+                child: Icon(Icons.stop, color: Colors.red, size: 40),
+                onPressed: controller != null &&
+                        controller.value.isInitialized &&
+                        controller.value.isRecordingVideo
+                    ? onStopButtonPressed
+                    : null,
+              )
       ],
     );
   }

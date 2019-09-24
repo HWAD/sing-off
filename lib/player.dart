@@ -56,6 +56,7 @@ class _PlayerState extends State<Player> {
         mainAxisSize: MainAxisSize.max,
         children: <Widget>[
           Container(
+            padding: EdgeInsets.only(top: 15),
             color: Colors.black,
             height: MediaQuery.of(context).size.height * (7 / 100),
             child: Row(
@@ -63,13 +64,19 @@ class _PlayerState extends State<Player> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 Center(
-                  child: InkWell(
-                    onTap: () {
+                  child: FloatingActionButton(
+                    backgroundColor: Colors.transparent,
+                    onPressed: () {
                       changePlayer(false);
                       changeFeed(true);
                     },
-                    child: Icon(
-                      Icons.home,
+                    child: Column(
+                      children: [
+                        Icon(
+                          Icons.music_note,
+                        ),
+                        Text("Feed")
+                      ],
                     ),
                   ),
                 ),
@@ -77,12 +84,18 @@ class _PlayerState extends State<Player> {
                   child: Text('Sing-Off'),
                 ),
                 Center(
-                  child: InkWell(
-                    onTap: () {
+                  child: FloatingActionButton(
+                    backgroundColor: Colors.transparent,
+                    onPressed: () {
                       changePlayer(false);
                       changeSongs(true);
                     },
-                    child: Icon(Icons.music_video),
+                    child: Column(
+                      children: [
+                        Icon(Icons.music_video),
+                        Text("Songs"),
+                      ],
+                    ),
                   ),
                 ),
               ],

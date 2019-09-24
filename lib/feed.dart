@@ -102,14 +102,15 @@ class _Feed extends State<Feed> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Container(
+                  padding: EdgeInsets.only(top: 15),
                   child: FloatingActionButton(
                     backgroundColor: Colors.transparent,
                     child: Column(
                       children: [
-                        Icon(
-                          Icons.person,
-                        ),
-                        Text("User")
+                        Icon(isFilterByUsername == true
+                            ? Icons.person
+                            : Icons.music_note),
+                        Text(isFilterByUsername == true ? "User" : "Feed")
                       ],
                     ),
                     onPressed: () {
@@ -130,13 +131,20 @@ class _Feed extends State<Feed> {
                   ),
                 ),
                 Container(
-                  child: InkWell(
-                    onTap: () {
+                  padding: EdgeInsets.only(top: 15),
+                  child: FloatingActionButton(
+                    backgroundColor: Colors.transparent,
+                    onPressed: () {
                       changeFeed(false);
                       changeSongs(true);
                     },
-                    child: Icon(
-                      Icons.music_video,
+                    child: Column(
+                      children: [
+                        Icon(
+                          Icons.music_video,
+                        ),
+                        Text("Songs")
+                      ],
                     ),
                   ),
                 ),
