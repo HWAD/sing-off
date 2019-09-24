@@ -206,7 +206,7 @@ class _Feed extends State<Feed> {
                                             color: Colors.black54),
                                       ),
                                       Container(
-                                        width: 100,
+                                        width: MediaQuery.of(context).size.width*(28/100),
                                       child: Text(
                                         element.category.toString(),
                                         style: TextStyle(
