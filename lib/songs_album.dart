@@ -37,14 +37,6 @@ class SongAlbum extends StatelessWidget {
                 return Container(
                     color: Colors.black38,
                     margin: EdgeInsets.symmetric(horizontal: 1, vertical: 1),
-                    //  decoration: const BoxDecoration(
-                    //   // border: Border(
-                    //   //   top: BorderSide(width: 0.25, color: Color(0xFFFFFFFFFF)),
-                    //   //   left: BorderSide(width: 0.5, color: Color(0xFFFFFFFFFF)),
-                    //   //   right: BorderSide(width: 0.5, color: Color(0xFFFFFFFFFF)),
-                    //   //   bottom: BorderSide(width: 0.25, color: Color(0xFFFFFFFFFF)),
-                    //   // ),
-                    // ),
                     child: InkWell(
                         onTap: () {
                           changeSongs(false);
