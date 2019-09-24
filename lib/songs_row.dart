@@ -47,7 +47,8 @@ class SongRow extends StatelessWidget {
                         Icon(
                           Icons.music_note,
                         ),
-                        Text("Feed"),
+                        Text("Feed",
+                        style: TextStyle(fontSize: 12)),
                       ],
                     ),
                   ),
@@ -69,7 +70,8 @@ class SongRow extends StatelessWidget {
                         Icon(
                           Icons.mood,
                         ),
-                        Text("???")
+                        Text("Random",
+                        style: TextStyle(fontSize: 12))
                       ],
                     ),
                   ),
@@ -90,8 +92,6 @@ class SongRow extends StatelessWidget {
                   children: <Widget>[
                     Container(
                       width: MediaQuery.of(context).size.width / 3.2,
-                      margin: EdgeInsets.only(
-                          right: MediaQuery.of(context).size.width / 80),
                       child: Ink.image(
                         image: AssetImage("assets/all.jpeg"),
                         fit: BoxFit.fill,
@@ -132,7 +132,7 @@ class SongRow extends StatelessWidget {
                       width: MediaQuery.of(context).size.width / 3.2,
                       margin: EdgeInsets.only(
                           left: MediaQuery.of(context).size.width / 60,
-                          right: MediaQuery.of(context).size.width / 80),
+                          right: MediaQuery.of(context).size.width / 120),
                       child: Ink.image(
                         image: AssetImage("assets/christmas.jpeg"),
                         fit: BoxFit.fill,
@@ -172,7 +172,7 @@ class SongRow extends StatelessWidget {
                     Container(
                       width: MediaQuery.of(context).size.width / 3.2,
                       margin: EdgeInsets.symmetric(
-                          horizontal: MediaQuery.of(context).size.width / 80),
+                          horizontal: MediaQuery.of(context).size.width / 120),
                       child: Ink.image(
                         image: AssetImage("assets/drake.jpeg"),
                         fit: BoxFit.fill,
@@ -212,7 +212,7 @@ class SongRow extends StatelessWidget {
                     Container(
                       width: MediaQuery.of(context).size.width / 3.2,
                       margin: EdgeInsets.symmetric(
-                          horizontal: MediaQuery.of(context).size.width / 80),
+                          horizontal: MediaQuery.of(context).size.width / 120),
                       child: Ink.image(
                         image: AssetImage("assets/pop.jpeg"),
                         fit: BoxFit.fill,
@@ -252,7 +252,7 @@ class SongRow extends StatelessWidget {
                     Container(
                       width: MediaQuery.of(context).size.width / 3.2,
                       margin: EdgeInsets.symmetric(
-                          horizontal: MediaQuery.of(context).size.width / 80),
+                          horizontal: MediaQuery.of(context).size.width / 120),
                       child: Ink.image(
                         image: AssetImage("assets/bruce.jpg"),
                         fit: BoxFit.fill,
@@ -263,127 +263,6 @@ class SongRow extends StatelessWidget {
                           child: Center(
                             child: Text(
                               "Rock",
-                              style: TextStyle(
-                                fontSize: 18,
-                                shadows: [
-                                  Shadow(
-                                      // bottomLeft
-                                      offset: Offset(-1.5, -1.5),
-                                      color: Colors.black),
-                                  Shadow(
-                                      // bottomRight
-                                      offset: Offset(1.5, -1.5),
-                                      color: Colors.black),
-                                  Shadow(
-                                      // topRight
-                                      offset: Offset(1.5, 1.5),
-                                      color: Colors.black),
-                                  Shadow(
-                                      // topLeft
-                                      offset: Offset(-1.5, 1.5),
-                                      color: Colors.black),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                    Container(
-                      width: MediaQuery.of(context).size.width / 3.2,
-                      margin: EdgeInsets.symmetric(
-                          horizontal: MediaQuery.of(context).size.width / 80),
-                      child: Ink.image(
-                        image: AssetImage("assets/country.jpeg"),
-                        fit: BoxFit.fill,
-                        child: InkWell(
-                          onTap: () {
-                            setCategory("Rock");
-                          },
-                          child: Center(
-                            child: Text(
-                              "Country",
-                              style: TextStyle(
-                                fontSize: 18,
-                                shadows: [
-                                  Shadow(
-                                      // bottomLeft
-                                      offset: Offset(-1.5, -1.5),
-                                      color: Colors.black),
-                                  Shadow(
-                                      // bottomRight
-                                      offset: Offset(1.5, -1.5),
-                                      color: Colors.black),
-                                  Shadow(
-                                      // topRight
-                                      offset: Offset(1.5, 1.5),
-                                      color: Colors.black),
-                                  Shadow(
-                                      // topLeft
-                                      offset: Offset(-1.5, 1.5),
-                                      color: Colors.black),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                    Container(
-                      width: MediaQuery.of(context).size.width / 3.2,
-                      margin: EdgeInsets.symmetric(
-                          horizontal: MediaQuery.of(context).size.width / 80),
-                      child: Ink.image(
-                        image: AssetImage("assets/soul.jpeg"),
-                        fit: BoxFit.fill,
-                        child: InkWell(
-                          onTap: () {
-                            setCategory("Rock");
-                          },
-                          child: Center(
-                            child: Text(
-                              "Soul",
-                              style: TextStyle(
-                                fontSize: 18,
-                                shadows: [
-                                  Shadow(
-                                      // bottomLeft
-                                      offset: Offset(-1.5, -1.5),
-                                      color: Colors.black),
-                                  Shadow(
-                                      // bottomRight
-                                      offset: Offset(1.5, -1.5),
-                                      color: Colors.black),
-                                  Shadow(
-                                      // topRight
-                                      offset: Offset(1.5, 1.5),
-                                      color: Colors.black),
-                                  Shadow(
-                                      // topLeft
-                                      offset: Offset(-1.5, 1.5),
-                                      color: Colors.black),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                    Container(
-                      width: MediaQuery.of(context).size.width / 3.2,
-                      margin: EdgeInsets.only(
-                          right: MediaQuery.of(context).size.width / 60,
-                          left: MediaQuery.of(context).size.width / 80),
-                      child: Ink.image(
-                        image: AssetImage("assets/bey.jpeg"),
-                        fit: BoxFit.fill,
-                        child: InkWell(
-                          onTap: () {
-                            setCategory("Rock");
-                          },
-                          child: Center(
-                            child: Text(
-                              "Bey",
                               style: TextStyle(
                                 fontSize: 18,
                                 shadows: [
