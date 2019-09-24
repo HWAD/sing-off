@@ -164,22 +164,24 @@ class _Recorder extends State<Recorder> with WidgetsBindingObserver {
               child: Padding(
                 padding: const EdgeInsets.all(1.0),
                 child: Container(
-                  child: Stack(children: [
-                    _cameraPreviewWidget(),
-                    Container(
-                      color: Colors.grey[600].withOpacity(0.7),
-                      child: Container(
-                        height: MediaQuery.of(context).size.height * (10 / 100),
-                        width: double.infinity,
-                        padding: EdgeInsets.only(
-                            top:
-                                MediaQuery.of(context).size.height * (3 / 100)),
-                        child: RichText(
-                          textAlign: TextAlign.center,
-                          text: TextSpan(
-                            style: DefaultTextStyle.of(context).style,
-                            children: <TextSpan>[
-                              TextSpan(
+                  child: Stack(
+                    children: [
+                      _cameraPreviewWidget(),
+                      Container(
+                        color: Colors.grey[600].withOpacity(0.7),
+                        child: Container(
+                          height:
+                              MediaQuery.of(context).size.height * (10 / 100),
+                          width: double.infinity,
+                          padding: EdgeInsets.only(
+                            top: MediaQuery.of(context).size.height * (3 / 100),
+                          ),
+                          child: RichText(
+                            textAlign: TextAlign.center,
+                            text: TextSpan(
+                              style: DefaultTextStyle.of(context).style,
+                              children: <TextSpan>[
+                                TextSpan(
                                   text: highlightDurations.length >= 1
                                       ? domesticLyric.substring(
                                           0, highlightDurations.length - 1)
@@ -191,20 +193,22 @@ class _Recorder extends State<Recorder> with WidgetsBindingObserver {
                                       ..style = PaintingStyle.fill
                                       ..strokeWidth = 1
                                       ..color = Colors.red[700],
-                                  )),
-                              TextSpan(
-                                text: highlightDurations.length >= 1
-                                    ? domesticLyric.substring(
-                                        highlightDurations.length - 1)
-                                    : domesticLyric,
-                                style: TextStyle(fontSize: 20),
-                              ),
-                            ],
+                                  ),
+                                ),
+                                TextSpan(
+                                  text: highlightDurations.length >= 1
+                                      ? domesticLyric.substring(
+                                          highlightDurations.length - 1)
+                                      : domesticLyric,
+                                  style: TextStyle(fontSize: 20),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  ]),
+                    ],
+                  ),
                 ),
               ),
               decoration: BoxDecoration(
@@ -258,31 +262,29 @@ class _Recorder extends State<Recorder> with WidgetsBindingObserver {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       mainAxisSize: MainAxisSize.max,
       children: <Widget>[
-        InkWell(
-            child: Text("Let's Begin",
-                style: TextStyle(
-                  color: letsBeginColor ? Colors.orange : Colors.grey,
-                  fontSize: 20,
-                )),
-            onTap: () {
-              if (controller != null &&
-                  controller.value.isInitialized &&
-                  !controller.value.isRecordingVideo) {
-                letsBeginColor = !letsBeginColor;
-                onVideoRecordButtonPressed();
-              } else {
-                return null;
-              }
-            }),
-        IconButton(
-          icon: const Icon(Icons.stop),
-          color: Colors.red,
-          onPressed: controller != null &&
-                  controller.value.isInitialized &&
-                  controller.value.isRecordingVideo
-              ? onStopButtonPressed
-              : null,
-        )
+        controller != null && controller.value.isRecordingVideo == false
+            ? FloatingActionButton(
+                backgroundColor: Colors.transparent,
+                child: Icon(Icons.play_arrow, size: 40),
+                onPressed: () {
+                  if (controller != null &&
+                      controller.value.isInitialized &&
+                      !controller.value.isRecordingVideo) {
+                    letsBeginColor = !letsBeginColor;
+                    onVideoRecordButtonPressed();
+                  } else {
+                    return null;
+                  }
+                })
+            : FloatingActionButton(
+                backgroundColor: Colors.transparent,
+                child: Icon(Icons.stop, color: Colors.red, size: 40),
+                onPressed: controller != null &&
+                        controller.value.isInitialized &&
+                        controller.value.isRecordingVideo
+                    ? onStopButtonPressed
+                    : null,
+              )
       ],
     );
   }
@@ -303,12 +305,14 @@ class _Recorder extends State<Recorder> with WidgetsBindingObserver {
       enableAudio: enableAudio,
     );
     // If the controller is updated then update the UI.
-    controller.addListener(() {
-      if (mounted) setState(() {});
-      if (controller.value.hasError) {
-        // showInSnackBar('Camera error ${controller.value.errorDescription}');
-      }
-    });
+    controller.addListener(
+      () {
+        if (mounted) setState(() {});
+        if (controller.value.hasError) {
+          // showInSnackBar('Camera error ${controller.value.errorDescription}');
+        }
+      },
+    );
 
     try {
       await controller.initialize();
@@ -322,14 +326,16 @@ class _Recorder extends State<Recorder> with WidgetsBindingObserver {
   }
 
   Future<void> startAudio() async {
-    LinkedHashMap<String, String> mappedLyrics = selectedSong.lyrics
-        .split('[')
-        .fold(new LinkedHashMap<String, String>(), (accumuLines, currentLine) {
-      if (currentLine != "") {
-        accumuLines[currentLine.split(']')[0]] = currentLine.split(']')[1];
-      }
-      return accumuLines;
-    });
+    LinkedHashMap<String, String> mappedLyrics =
+        selectedSong.lyrics.split('[').fold(
+      new LinkedHashMap<String, String>(),
+      (accumuLines, currentLine) {
+        if (currentLine != "") {
+          accumuLines[currentLine.split(']')[0]] = currentLine.split(']')[1];
+        }
+        return accumuLines;
+      },
+    );
     try {
       await flutterSound.startPlayer(selectedSong.downloadURL);
       DateTime lyricStartTime = DateFormat('mm:ss.SS', 'en_US')
@@ -339,44 +345,46 @@ class _Recorder extends State<Recorder> with WidgetsBindingObserver {
       String highlightLine = lyricLine;
       mappedLyrics.remove(mappedLyrics.keys.first);
 
-      _playerSubscription = flutterSound.onPlayerStateChanged.listen((e) {
-        if (e != null) {
-          DateTime currentTime = new DateTime.fromMillisecondsSinceEpoch(
-              e.currentPosition.toInt(),
-              isUtc: true);
-          if (mappedLyrics.length != 0) {
-            DateTime lyricStopTime = DateFormat('mm:ss.SS', 'en_US')
-                .parseUTC(mappedLyrics.keys.first.padRight(9, "0"));
-            if (lyricStartTime.isBefore(currentTime) &&
-                currentTime.isBefore(lyricStopTime)) {
-              setDomesticLyric(lyricLine);
-              setCurrentLyric(lyricLine);
-              highlightStartTime = lyricStartTime;
-              highlightLine = lyricLine;
-              lyricStartTime = lyricStopTime;
-              lyricLine = mappedLyrics[mappedLyrics.keys.first];
-              setHighlightDurations(new List<Duration>());
-              if (highlightDurations.length >= 1) {
-                highlightDurations.removeRange(0, highlightDurations.length);
+      _playerSubscription = flutterSound.onPlayerStateChanged.listen(
+        (e) {
+          if (e != null) {
+            DateTime currentTime = new DateTime.fromMillisecondsSinceEpoch(
+                e.currentPosition.toInt(),
+                isUtc: true);
+            if (mappedLyrics.length != 0) {
+              DateTime lyricStopTime = DateFormat('mm:ss.SS', 'en_US')
+                  .parseUTC(mappedLyrics.keys.first.padRight(9, "0"));
+              if (lyricStartTime.isBefore(currentTime) &&
+                  currentTime.isBefore(lyricStopTime)) {
+                setDomesticLyric(lyricLine);
+                setCurrentLyric(lyricLine);
+                highlightStartTime = lyricStartTime;
+                highlightLine = lyricLine;
+                lyricStartTime = lyricStopTime;
+                lyricLine = mappedLyrics[mappedLyrics.keys.first];
+                setHighlightDurations(new List<Duration>());
+                if (highlightDurations.length >= 1) {
+                  highlightDurations.removeRange(0, highlightDurations.length);
+                }
+                mappedLyrics.remove(mappedLyrics.keys.first);
               }
-              mappedLyrics.remove(mappedLyrics.keys.first);
+            }
+            if (highlightStartTime
+                    .add(highlightDurations.fold(
+                        lyricStartTime.difference(highlightStartTime) ~/
+                            highlightLine.length,
+                        (accumuDuration, currentDuration) =>
+                            currentDuration + accumuDuration))
+                    .isBefore(currentTime) &&
+                currentTime.isBefore(lyricStartTime)) {
+              highlightDurations.add(
+                  lyricStartTime.difference(highlightStartTime) ~/
+                      highlightLine.length);
+              setHighlightDurations(highlightDurations);
             }
           }
-          if (highlightStartTime
-                  .add(highlightDurations.fold(
-                      lyricStartTime.difference(highlightStartTime) ~/
-                          highlightLine.length,
-                      (accumuDuration, currentDuration) =>
-                          currentDuration + accumuDuration))
-                  .isBefore(currentTime) &&
-              currentTime.isBefore(lyricStartTime)) {
-            highlightDurations.add(
-                lyricStartTime.difference(highlightStartTime) ~/
-                    highlightLine.length);
-            setHighlightDurations(highlightDurations);
-          }
-        }
-      });
+        },
+      );
     } catch (err) {
       print('Start Error! $err');
     }
@@ -404,9 +412,11 @@ class _Recorder extends State<Recorder> with WidgetsBindingObserver {
 //Database = add song
   void addVideo(Map<String, dynamic> upload) {
     const url = 'https://flutterkaraoke.firebaseio.com/videos.json';
-    http.post(url, body: json.encode(upload)).then((response) {
-      print(json.decode(response.body));
-    });
+    http.post(url, body: json.encode(upload)).then(
+      (response) {
+        print(json.decode(response.body));
+      },
+    );
   }
 
 //Storage & Database Upload
@@ -443,29 +453,37 @@ class _Recorder extends State<Recorder> with WidgetsBindingObserver {
   }
 
   void onVideoRecordButtonPressed() {
-    startVideoRecording().then((String filePath) {
-      if (mounted) setState(() {});
-      filePathExtractor = filePath;
-    });
+    startVideoRecording().then(
+      (String filePath) {
+        if (mounted) setState(() {});
+        filePathExtractor = filePath;
+      },
+    );
   }
 
   void onStopButtonPressed() {
     stopAudio();
-    stopVideoRecording().then((_) {
-      if (mounted) setState(() {});
-    });
+    stopVideoRecording().then(
+      (_) {
+        if (mounted) setState(() {});
+      },
+    );
   }
 
   void onPauseButtonPressed() {
-    pauseVideoRecording().then((_) {
-      if (mounted) setState(() {});
-    });
+    pauseVideoRecording().then(
+      (_) {
+        if (mounted) setState(() {});
+      },
+    );
   }
 
   void onResumeButtonPressed() {
-    resumeVideoRecording().then((_) {
-      if (mounted) setState(() {});
-    });
+    resumeVideoRecording().then(
+      (_) {
+        if (mounted) setState(() {});
+      },
+    );
   }
 
   Future<String> startVideoRecording() async {
@@ -567,9 +585,11 @@ class _Recorder extends State<Recorder> with WidgetsBindingObserver {
     await vcontroller.initialize();
     await videoController?.dispose();
     if (mounted) {
-      setState(() {
-        videoController = vcontroller;
-      });
+      setState(
+        () {
+          videoController = vcontroller;
+        },
+      );
     }
     await vcontroller.play();
   }

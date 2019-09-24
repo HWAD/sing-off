@@ -56,50 +56,77 @@ class _PlayerState extends State<Player> {
         mainAxisSize: MainAxisSize.max,
         children: <Widget>[
           Container(
+            padding: EdgeInsets.only(top: 15),
             color: Colors.black,
             height: MediaQuery.of(context).size.height * (10 / 100),
             child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  Center(
-                    child: InkWell(
-                        onTap: () {
-                          changePlayer(false);
-                          changeFeed(true);
-                        },
-                        child: Icon(
-                          Icons.home,
-                        )),
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Center(
+                  child: FloatingActionButton(
+                    backgroundColor: Colors.transparent,
+                    onPressed: () {
+                      changePlayer(false);
+                      changeFeed(true);
+                    },
+                    child: Column(
+                      children: [
+                        Icon(
+                          Icons.music_note,
+                        ),
+                        Text("Feed")
+                      ],
+                    ),
                   ),
-                  Center(child: Text('Sing-Off',
-                  style: TextStyle(fontSize: 18))),
-                  Center(
-                    child: InkWell(
-                        onTap: () {
-                          changePlayer(false);
-                          changeSongs(true);
-                        },
-                        child: Icon(Icons.music_video)),
+                ),
+                Center(
+                  child: Text(
+                    'Sing-Off',
+                    style: TextStyle(fontSize: 18),
                   ),
-                ]),
+                ),
+                Center(
+                  child: FloatingActionButton(
+                    backgroundColor: Colors.transparent,
+                    onPressed: () {
+                      changePlayer(false);
+                      changeSongs(true);
+                    },
+                    child: Column(
+                      children: [
+                        Icon(Icons.music_video),
+                        Text("Songs"),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
           FutureBuilder(
             future: _initializeVideoPlayerFuture,
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.done) {
-                return Column(children: <Widget>[
-                  Container(
-                    height: MediaQuery.of(context).size.height * (80 / 100),
-                    child: VideoPlayer(_controller),
-                  )
-                ]);
-              } else {
-                return Column(children: <Widget>[
-                  Container(
+                return Column(
+                  children: <Widget>[
+                    Container(
                       height: MediaQuery.of(context).size.height * (80 / 100),
-                      child: Center(child: CircularProgressIndicator()))
-                ]);
+                      child: VideoPlayer(_controller),
+                    )
+                  ],
+                );
+              } else {
+                return Column(
+                  children: <Widget>[
+                    Container(
+                      height: MediaQuery.of(context).size.height * (80 / 100),
+                      child: Center(
+                        child: CircularProgressIndicator(),
+                      ),
+                    )
+                  ],
+                );
               }
             },
           ),
@@ -107,31 +134,32 @@ class _PlayerState extends State<Player> {
             color: Colors.grey[400].withOpacity(0.9),
             height: MediaQuery.of(context).size.height * (7 / 100),
             child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  Center(
-                    child: InkWell(
-                      onTap: () {
-                        setState(() {
-                          // If the video is playing, pause it.
-                          if (_controller.value.isPlaying) {
-                            _controller.pause();
-                          } else {
-                            // If the video is paused, play it.
-                            _controller.play();
-                          }
-                        });
-                      },
-                      // Display the correct icon depending on the state of the player.
-                      child: Icon(
-                        _controller.value.isPlaying
-                            ? Icons.pause
-                            : Icons.play_arrow,
-                      ),
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Center(
+                  child: InkWell(
+                    onTap: () {
+                      setState(() {
+                        // If the video is playing, pause it.
+                        if (_controller.value.isPlaying) {
+                          _controller.pause();
+                        } else {
+                          // If the video is paused, play it.
+                          _controller.play();
+                        }
+                      });
+                    },
+                    // Display the correct icon depending on the state of the player.
+                    child: Icon(
+                      _controller.value.isPlaying
+                          ? Icons.pause
+                          : Icons.play_arrow,
                     ),
                   ),
-                ]),
+                ),
+              ],
+            ),
           ),
         ],
       ),

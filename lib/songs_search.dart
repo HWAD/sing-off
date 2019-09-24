@@ -22,30 +22,39 @@ class SongSearch extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Container(
-                  child: InkWell(
-                    onTap: () {
+                  child: FloatingActionButton(
+                    backgroundColor: Colors.transparent,
+                    onPressed: () {
                       changeFeed(true);
                       changeCategory(false);
                     },
-                    child: Icon(
-                      Icons.home,
+                    child: Column(
+                      children: [
+                        Icon(
+                          Icons.music_note,
+                        ),
+                        Text("Feed")
+                      ],
                     ),
                   ),
                 ),
                 Container(
-                  child: Text(
-                    'Sing-Off',
-                    style: TextStyle(fontSize: 18)
-                  ),
+                  child: Text('Sing-Off', style: TextStyle(fontSize: 18)),
                 ),
                 Container(
-                  child: InkWell(
-                    onTap: () {
+                  child: FloatingActionButton(
+                    backgroundColor: Colors.transparent,
+                    onPressed: () {
                       changeCategory(false);
                       setCategory("Christmas");
                     },
-                    child: Icon(
-                      Icons.music_video,
+                    child: Column(
+                      children: [
+                        Icon(
+                          Icons.music_video,
+                        ),
+                        Text("Songs")
+                      ],
                     ),
                   ),
                 ),
