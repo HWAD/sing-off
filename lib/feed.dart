@@ -54,9 +54,11 @@ class _Feed extends State<Feed> {
     await http.get(url).then((response) {
       Map<String, dynamic> mappedBody = json.decode(response.body);
       List<dynamic> dynamicList = mappedBody.values.toList();
+      List<dynamic> dynamicKeys = mappedBody.keys.toList();
       List<ModelSong> modelVideoList = [];
       for (int i = dynamicList.length - 1; i >= 0; i--) {
         modelVideoList.add(ModelSong(
+            id: dynamicKeys[i],
             title: dynamicList[i]["title"],
             artist: dynamicList[i]["artist"],
             downloadURL: dynamicList[i]["downloadURL"],
@@ -88,6 +90,16 @@ class _Feed extends State<Feed> {
     Share.share("check out my new video! ${element.downloadURL}");
   }
 
+  void like(String id, int cur) {
+    String url = 'https://flutterkaraoke.firebaseio.com/videos/' + id +'.json';
+    int count = cur + 1;
+    Map<String, dynamic> upload = {
+      'score': count,
+    };
+    http.patch(url, body: json.encode(upload)).then((response) {
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -111,7 +123,7 @@ class _Feed extends State<Feed> {
                             ? Icons.person
                             : Icons.music_note),
                         Text(isFilterByUsername == true ? "User" : "Feed",
-                        style: TextStyle(fontSize: 12))
+                            style: TextStyle(fontSize: 12))
                       ],
                     ),
                     onPressed: () {
@@ -142,8 +154,7 @@ class _Feed extends State<Feed> {
                         Icon(
                           Icons.music_video,
                         ),
-                        Text("Songs",
-                        style: TextStyle(fontSize: 12))
+                        Text("Songs", style: TextStyle(fontSize: 12))
                       ],
                     ),
                   ),
@@ -166,13 +177,15 @@ class _Feed extends State<Feed> {
                         }
                       }).map((element) {
                         return Container(
-                          // margin: EdgeInsets.only(bottom: 40),
                           color: Colors.black38,
                           child: InkWell(
                             onTap: () {
                               setFilePathToPlay(element.downloadURL);
                               changePlayer(true);
                               changeFeed(false);
+                            },
+                            onDoubleTap: () {
+                              like(element.id, element.score);
                             },
                             onLongPress: () {
                               shareMe(element);
@@ -192,13 +205,34 @@ class _Feed extends State<Feed> {
                                         child: Icon(Icons.person,
                                             color: Colors.black54),
                                       ),
-                                      //add a photo as well.
-                                      Text(
+                                      Container(
+                                        width: MediaQuery.of(context).size.width*(28/100),
+                                      child: Text(
                                         element.category.toString(),
                                         style: TextStyle(
                                           color: Colors.black,
                                         ),
-                                      ),
+                                      ),),
+                                      Container(
+                                        margin: EdgeInsets.only(left: 
+                                        MediaQuery.of(context).size.width * (50 / 100),
+                                        ),
+                                            padding: EdgeInsets.only(
+                                                right: 2, left: 3),
+                                            child: Icon(Icons.thumb_up,
+                                                color: Colors.black54,
+                                                size: 15)),
+                                        Text(
+                                          element.score.toString(),
+                                          style: TextStyle(
+                                            fontSize: 13,
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.black54,
+                                      //     ),
+                                      //   ),
+                                      // ],
+                                    ),
+                                  ),
                                     ],
                                   ),
                                 ),
@@ -207,29 +241,29 @@ class _Feed extends State<Feed> {
                                       MediaQuery.of(context).size.height / 1.8,
                                   width: MediaQuery.of(context).size.width / 1,
                                   child: Container(
+                                
                                     padding:
                                         EdgeInsets.only(bottom: 2, right: 2),
                                     alignment: Alignment.bottomRight,
-                                    child: Row(
-                                      children: [
-                              
-                                        Container(
-                                          // color: Colors.blue,
-                                            padding: EdgeInsets.only(
-                                                right: 2, left: 3),
-                                            child: Icon(
-                                              Icons.thumb_up,
-                                              color: Colors.blue)),
-                                        Text(
-                                          element.score.toString(),
-                                          style: TextStyle(
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.white,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
+                                    // child: Row(
+                                    //   children: [
+                                    //     Container(
+                                        
+                                    //         padding: EdgeInsets.only(
+                                    //             right: 2, left: 3),
+                                    //         child: Icon(Icons.thumb_up,
+                                    //             color: Colors.white,
+                                    //             size: 15)),
+                                    //     Text(
+                                    //       element.score.toString(),
+                                    //       style: TextStyle(
+                                    //         fontSize: 13,
+                                    //         fontWeight: FontWeight.bold,
+                                    //         color: Colors.white,
+                                    //       ),
+                                    //     ),
+                                    //   ],
+                                    // ),
                                   ),
                                   decoration: BoxDecoration(
                                     border: Border.all(

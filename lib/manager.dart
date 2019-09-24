@@ -37,24 +37,20 @@ class _Manager extends State<Manager> {
       score: 0,
       isFavorite: false);
   String _currentLyric = "Lyrics Come Here!!";
-  // List<Duration> _highlightDurations = new List<Duration>();
   bool _isCategory = false;
   bool _isSongs = false;
   bool _isRecorder = false;
   bool _isPlayer = false;
   bool _isFeed = false;
   bool _isLogin = false;
-  String _selectedCategory = "Hip Hop";
+  String _selectedCategory = "All";
   List<int> _decibels = [];
   String _username = "";
-
   String filePathToPlay;
 
   @override
   void initState() {
     super.initState();
-    // _isCategory = true;
-    // _isFeed = true;
     _isLogin = true;
     _getAllVideos();
     _getAllSongs();
@@ -65,9 +61,11 @@ class _Manager extends State<Manager> {
     http.get(url).then((response) {
       Map<String, dynamic> mappedBody = json.decode(response.body);
       List<dynamic> dynamicList = mappedBody.values.toList();
+      List<dynamic> dynamicKeys = mappedBody.keys.toList();
       List<ModelSong> modelSongList = [];
       for (int i = 0; i < dynamicList.length; i++) {
         modelSongList.add(ModelSong(
+            id: dynamicKeys[i],
             title: dynamicList[i]["title"],
             artist: dynamicList[i]["artist"],
             downloadURL: dynamicList[i]["downloadURL"],
@@ -89,9 +87,11 @@ class _Manager extends State<Manager> {
     http.get(url).then((response) {
       Map<String, dynamic> mappedBody = json.decode(response.body);
       List<dynamic> dynamicList = mappedBody.values.toList();
+      List<dynamic> dynamicKeys = mappedBody.keys.toList();
       List<ModelSong> modelVideoList = [];
       for (int i = dynamicList.length - 1; i >= 0; i--) {
         modelVideoList.add(ModelSong(
+            id: dynamicKeys[i],
             title: dynamicList[i]["title"],
             artist: dynamicList[i]["artist"],
             downloadURL: dynamicList[i]["downloadURL"],
@@ -137,12 +137,6 @@ class _Manager extends State<Manager> {
     });
   }
 
-  // void _changeUserPage(bool isUserPage) {
-  //   setState(() {
-  //     _isUserPage = isUserPage;
-  //   });
-  // }
-
   void _setSelectedSong(ModelSong song) {
     setState(() {
       _selectedSong = song;
@@ -153,7 +147,6 @@ class _Manager extends State<Manager> {
     setState(() {
       _selectedCategory = category;
       _changeSongs(true);
-      // _changeUserPage(false);
     });
   }
 
@@ -162,12 +155,6 @@ class _Manager extends State<Manager> {
       _currentLyric = line;
     });
   }
-
-  // void _setHighlightDurations(List<Duration> durations) {
-  //   setState(() {
-  //     _highlightDurations = durations;
-  //   });
-  // }
 
   void _setFilePathToPlay(String text) {
     setState(() {
@@ -243,16 +230,12 @@ class _Manager extends State<Manager> {
                 flutterSound: _flutterSound,
                 selectedSong: _selectedSong,
                 setCurrentLyric: _setCurrentLyric,
-                // highlightDurations: _highlightDurations,
                 setDecibels: _setDecibels,
                 changeRecorder: _changeRecorder,
                 changePlayer: _changePlayer,
                 changeSongs: _changeSongs,
                 username: _username,
               ),
-
-              /// ANIMATION. FOR NOW IS DISABLED. TO TOGGLE IN ONLY IF PITCH IS AVAILABLE.
-              // WaveAnimation(_decibels),
             ],
           ),
         ),
