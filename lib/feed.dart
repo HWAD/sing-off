@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:share/share.dart';
 import 'dart:convert';
 import './model_song.dart';
+import 'package:share/share.dart';
 
 class Feed extends StatefulWidget {
   final List<ModelSong> _allVideos;
@@ -13,7 +13,6 @@ class Feed extends StatefulWidget {
   final Function getAllVideos;
   final Function changeSongs;
   final String username;
-
   Feed(
       this._allVideos,
       this.changeCategory,
@@ -23,7 +22,6 @@ class Feed extends StatefulWidget {
       this.getAllVideos,
       this.changeSongs,
       this.username);
-
   @override
   _Feed createState() {
     return _Feed(_allVideos, changeCategory, changeFeed, setFilePathToPlay,
@@ -42,7 +40,6 @@ class _Feed extends State<Feed> {
   String username;
   bool isFilterByUsername = false;
   List<ModelSong> filteredVideos = [];
-
   _Feed(
       this.allVideos,
       this.changeCategory,
@@ -52,7 +49,6 @@ class _Feed extends State<Feed> {
       this.getAllVideos,
       this.changeSongs,
       this.username);
-
   Future<void> refresh() async {
     const url = 'https://flutterkaraoke.firebaseio.com/videos.json';
     await http.get(url).then((response) {
@@ -101,7 +97,7 @@ class _Feed extends State<Feed> {
         children: <Widget>[
           Container(
             color: Colors.black,
-            height: MediaQuery.of(context).size.height * (7 / 100),
+            height: MediaQuery.of(context).size.height * (10 / 100),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
@@ -127,7 +123,12 @@ class _Feed extends State<Feed> {
                     },
                   ),
                 ),
-                Center(child: Text('Sing-Off')),
+                Center(
+                  child: Text(
+                    'Sing-Off',
+                    style: TextStyle(fontSize: 18),
+                  ),
+                ),
                 Container(
                   child: InkWell(
                     onTap: () {
@@ -142,104 +143,136 @@ class _Feed extends State<Feed> {
               ],
             ),
           ),
-          Container(
-            height: MediaQuery.of(context).size.height / 1.1,
-            margin: EdgeInsets.only(top: 8),
-            color: Colors.grey[800],
-            child: ListView(
-              children: <Widget>[
-                Container(),
-                Container(
-                  child: Column(
-                    children: allVideos.where((video) {
-                      if (isFilterByUsername == true) {
-                        return video.category == username;
-                      } else {
-                        return true;
-                      }
-                    }).map((element) {
-                      return Container(
-                        color: Colors.black38,
-                        child: InkWell(
-                          onTap: () {
-                            setFilePathToPlay(element.downloadURL);
-                            changePlayer(true);
-                            changeFeed(false);
-                          },
-                          onLongPress: () {
-                            // showMenu(
-                            //   items: <PopupMenuEntry>[
-                            //     PopupMenuItem(
-                            //       child: Text("Share this video",
-                            //           style: TextStyle(color: Colors.black)),
-                            /*value: */ shareMe(element) /*,*/;
-                            //     ),
-                            //   ],
-                            //   context: context,
-                            //   position:
-                            // RelativeRect.fromLTRB(0.0, 0.0, 0.0, 0.0),
-                            // color: Colors.white,
-                            // );
-                          },
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Container(
-                                  padding: EdgeInsets.only(top: 10),
+          Expanded(
+            child: Container(
+              color: Colors.grey[800],
+              child: ListView(
+                children: <Widget>[
+                  Container(
+                    child: Column(
+                      children: allVideos.where((video) {
+                        if (isFilterByUsername == true) {
+                          return video.category == username;
+                        } else {
+                          return true;
+                        }
+                      }).map((element) {
+                        return Container(
+                          // margin: EdgeInsets.only(bottom: 40),
+                          color: Colors.black38,
+                          child: InkWell(
+                            onTap: () {
+                              setFilePathToPlay(element.downloadURL);
+                              changePlayer(true);
+                              changeFeed(false);
+                            },
+                            onLongPress: () {
+                              // showMenu(
+                              //   items: <PopupMenuEntry>[
+                              //     PopupMenuItem(
+                              //       child: Text("Share this video",
+                              //           style: TextStyle(color: Colors.black)),
+                              /*value: */ shareMe(element) /*,*/;
+                              //     ),
+                              //   ],
+                              //   context: context,
+                              //   position:
+                              // RelativeRect.fromLTRB(0.0, 0.0, 0.0, 0.0),
+                              // color: Colors.white,
+                              // );
+                            },
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                Container(
                                   height: 30,
-                                  child: Text(element.category)),
-                              Container(
-                                height: MediaQuery.of(context).size.height / 2,
-                                width: MediaQuery.of(context).size.width / 1,
-                                child: Container(
-                                  alignment: Alignment.bottomRight,
-                                  child: Text(
-                                    element.score.toString(),
-                                    style: TextStyle(
-                                      fontSize: 10,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.white,
-                                      backgroundColor:
-                                          Colors.black.withOpacity(0.5),
-                                    ),
+                                  color: Colors.grey[100],
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: <Widget>[
+                                      //add a photo as well.
+                                      Text(
+                                        element.category.toString(),
+                                        style: TextStyle(
+                                          color: Colors.black,
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ),
-                                margin: EdgeInsets.symmetric(),
-                                decoration: BoxDecoration(
-                                  border: Border.all(
-                                    color: Colors.grey[800],
-                                  ),
-                                  image: DecorationImage(
-                                    image: NetworkImage(element.imageURL),
-                                    fit: BoxFit.fill,
-                                  ),
-                                ),
-                              ),
-                              Container(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: <Widget>[
-                                    Text(
-                                      element.title,
+                                Container(
+                                  height:
+                                      MediaQuery.of(context).size.height / 2,
+                                  width: MediaQuery.of(context).size.width / 1,
+                                  child: Container(
+                                    alignment: Alignment.bottomRight,
+                                    child: Text(
+                                      element.score.toString(),
                                       style: TextStyle(
-                                          fontSize: 15,
-                                          fontWeight: FontWeight.bold),
+                                        fontSize: 10,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white,
+                                        backgroundColor:
+                                            Colors.black.withOpacity(0.5),
+                                      ),
                                     ),
-                                    Text(
-                                      element.artist,
-                                      style: TextStyle(color: Colors.grey),
+                                  ),
+                                  decoration: BoxDecoration(
+                                    border: Border.all(
+                                        // color: Colors.grey[100],
+                                        ),
+                                    image: DecorationImage(
+                                      image: NetworkImage(element.imageURL),
+                                      fit: BoxFit.fill,
                                     ),
-                                  ],
+                                  ),
                                 ),
-                              ),
-                            ],
+                                Container(
+                                  color: Colors.grey[200],
+                                  height: 25,
+                                  child: Row(
+                                    children: <Widget>[
+                                      Container(
+                                        child: Text(
+                                          element.title,
+                                          style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                      ),
+                                      Text(
+                                        element.artist,
+                                        style: TextStyle(color: Colors.black),
+                                      ),
+                                    ],
+                                  ),
+                                  // Row(
+                                  //   children: <Widget>[
+                                  //     Container(
+                                  //       child: InkWell(
+                                  //           onTap: () {
+                                  //             //here we do a plus one on the count.
+                                  //             //then do some put request next time we
+                                  //             //have a good chance.
+                                  //           },
+                                  //           child: Icon(
+                                  //             Icons.thumb_up,
+                                  //           )),
+                                  //     ),
+                                  //   ],
+                                  // )
+                                ),
+                              ],
+                            ),
                           ),
-                        ),
-                      );
-                    }).toList(),
+                        );
+                      }).toList(),
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           )
         ],

@@ -35,6 +35,7 @@ class SongSearch extends StatelessWidget {
                 Container(
                   child: Text(
                     'Sing-Off',
+                    style: TextStyle(fontSize: 18)
                   ),
                 ),
                 Container(

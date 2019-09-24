@@ -10,42 +10,49 @@ class Login extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: MediaQuery.of(context).size.height,
-      child: ListView(
-        children: <Widget>[
-          Container(
-            child: Card(
-              elevation: 5,
-              child: Container(
-                padding: EdgeInsets.all(10),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: <Widget>[
-                    TextField(
-                      decoration: InputDecoration(
-                        labelText: 'Username',
-                        fillColor: Colors.white,
+    return Theme(
+      data: ThemeData(
+        brightness: Brightness.light,
+        primarySwatch: Colors.blue,
+        accentColor: Colors.deepPurple,
+      ),
+      child: Container(
+        height: MediaQuery.of(context).size.height,
+        child: ListView(
+          children: <Widget>[
+            Container(
+              child: Card(
+                elevation: 5,
+                child: Container(
+                  padding: EdgeInsets.all(10),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: <Widget>[
+                      TextField(
+                        decoration: InputDecoration(
+                          labelText: 'What\'s your name?',
+                          fillColor: Colors.black,
+                        ),
+                        onChanged: (val) {
+                          usernameInput = val;
+                        },
                       ),
-                      onChanged: (val) {
-                        usernameInput = val;
-                      },
-                    ),
-                    FlatButton(
-                      child: Text('Login'),
-                      textColor: Colors.white,
-                      onPressed: () {
-                        setUsername(usernameInput);
-                        setLogin(false);
-                        changeFeed(true);
-                      },
-                    ),
-                  ],
+                      FlatButton(
+                        child: Text('Enter'),
+                        textColor: Colors.blue,
+                        onPressed: () {
+                          setUsername(usernameInput);
+                          setLogin(false);
+                          changeFeed(true);
+                        },
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
