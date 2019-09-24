@@ -56,7 +56,6 @@ class _Feed extends State<Feed> {
     const url = 'https://flutterkaraoke.firebaseio.com/videos.json';
     await http.get(url).then((response) {
       Map<String, dynamic> mappedBody = json.decode(response.body);
-      print(mappedBody);
       List<dynamic> dynamicList = mappedBody.values.toList();
       List<ModelSong> modelVideoList = [];
       for (int i = dynamicList.length - 1; i >= 0; i--) {
