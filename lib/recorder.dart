@@ -427,12 +427,13 @@ class _Recorder extends State<Recorder> with WidgetsBindingObserver {
 //Storage & Database Upload
   void _megaUpload(path) async {
     String url = await videoUpload(path);
+    String thumbnail0Path = path.split('/')[1].split('.')[0] + '-0.jpg';
     ModelSong uploadObject = new ModelSong(
       title: selectedSong.title,
       artist: selectedSong.artist,
       downloadURL: url,
       imageURL:
-          'https://firebasestorage.googleapis.com/v0/b/flutterkaraoke.appspot.com/o/videoImages%2Fgogh.jpg?alt=media&token=7db895b3-991f-47fb-a148-e829b258d048',
+          'https://firebasestorage.googleapis.com/v0/b/flutterkaraoke.appspot.com/o/videoImages%2F$thumbnail0Path?alt=media',
       score: selectedSong.score,
       category: username,
       isFavorite: false,

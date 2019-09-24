@@ -46,10 +46,7 @@ class _Manager extends State<Manager> {
   String _selectedCategory = "All";
   List<int> _decibels = [];
   String _username = "";
-<<<<<<< HEAD
   String _timerForSong = "";
-=======
->>>>>>> 2ba093dabdd3590ff35ff9f159a4b7307eb0db8e
   String filePathToPlay;
 
   @override
