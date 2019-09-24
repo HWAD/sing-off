@@ -3,6 +3,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import './model_song.dart';
 import 'package:share/share.dart';
+import 'package:flutter_image/network.dart';
 
 class Feed extends StatefulWidget {
   final List<ModelSong> _allVideos;
@@ -270,7 +271,8 @@ class _Feed extends State<Feed> {
                                       color: Colors.grey[100],
                                     ),
                                     image: DecorationImage(
-                                      image: NetworkImage(element.imageURL),
+                                      image: NetworkImageWithRetry(
+                                          element.imageURL),
                                       fit: BoxFit.fill,
                                     ),
                                   ),

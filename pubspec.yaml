@@ -41,6 +41,8 @@ dependencies:
   permission_handler: ^3.2.0
   share: ^0.6.2+1
   fading_edge_scrollview: ^1.0.2
+  async: ^2.3.0
+  flutter_image: ^2.0.0
 
 dev_dependencies:
   flutter_test:

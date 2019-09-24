@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 import 'package:http/http.dart' as http;
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:async/async.dart';
+
 import 'dart:convert';
 import 'dart:io';
 import 'dart:async';
@@ -23,6 +25,7 @@ class Recorder extends StatefulWidget {
   final Function changePlayer;
   final Function changeSongs;
   final String username;
+  final String timerForSong;
 
   Recorder({
     Key key,
@@ -36,21 +39,24 @@ class Recorder extends StatefulWidget {
     @required this.changePlayer,
     @required this.changeSongs,
     @required this.username,
+    @required this.timerForSong,
   }) : super(key: key);
 
   @override
   _Recorder createState() {
     return _Recorder(
-        setFilePathToPlay,
-        currentLyric,
-        flutterSound,
-        selectedSong,
-        setCurrentLyric,
-        setDecibels,
-        changeRecorder,
-        changePlayer,
-        changeSongs,
-        username);
+      setFilePathToPlay,
+      currentLyric,
+      flutterSound,
+      selectedSong,
+      setCurrentLyric,
+      setDecibels,
+      changeRecorder,
+      changePlayer,
+      changeSongs,
+      username,
+      timerForSong,
+    );
   }
 }
 
@@ -78,6 +84,8 @@ class _Recorder extends State<Recorder> with WidgetsBindingObserver {
   Function changeSongs;
   String domesticLyric = '';
   String username;
+  String timerForSong;
+  bool isCountDown;
 
   _Recorder(
     this.setFilePathToPlay,
@@ -85,13 +93,12 @@ class _Recorder extends State<Recorder> with WidgetsBindingObserver {
     this.flutterSound,
     this.selectedSong,
     this.setCurrentLyric,
-    // this.highlightDurations,
-    // this.setHighlightDurations,
     this.setDecibels,
     this.changeRecorder,
     this.changePlayer,
     this.changeSongs,
     this.username,
+    this.timerForSong,
   );
 
   @override
@@ -139,6 +146,27 @@ class _Recorder extends State<Recorder> with WidgetsBindingObserver {
     setState(() {
       highlightDurations = durations;
     });
+  }
+
+  void timer() {
+    int timerToDisplay = 4;
+    Timer.periodic(
+      Duration(seconds: 1),
+      (Timer t) {
+        setState(() {
+          if (timerToDisplay < 1) {
+            t.cancel();
+            onVideoRecordButtonPressed();
+          } else {
+            timerToDisplay = timerToDisplay - 1;
+          }
+          domesticLyric = timerToDisplay.toString();
+          if (timerToDisplay == 0) {
+            domesticLyric = "";
+          }
+        });
+      },
+    );
   }
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
@@ -259,7 +287,7 @@ class _Recorder extends State<Recorder> with WidgetsBindingObserver {
                       controller.value.isInitialized &&
                       !controller.value.isRecordingVideo) {
                     letsBeginColor = !letsBeginColor;
-                    onVideoRecordButtonPressed();
+                    timer();
                   } else {
                     return null;
                   }
@@ -399,12 +427,13 @@ class _Recorder extends State<Recorder> with WidgetsBindingObserver {
 //Storage & Database Upload
   void _megaUpload(path) async {
     String url = await videoUpload(path);
+    String thumbnail0Path = path.split('/')[1].split('.')[0] + '-0.jpg';
     ModelSong uploadObject = new ModelSong(
       title: selectedSong.title,
       artist: selectedSong.artist,
       downloadURL: url,
       imageURL:
-          'https://firebasestorage.googleapis.com/v0/b/flutterkaraoke.appspot.com/o/videoImages%2Fgogh.jpg?alt=media&token=7db895b3-991f-47fb-a148-e829b258d048',
+          'https://firebasestorage.googleapis.com/v0/b/flutterkaraoke.appspot.com/o/videoImages%2F$thumbnail0Path?alt=media',
       score: selectedSong.score,
       category: username,
       isFavorite: false,
