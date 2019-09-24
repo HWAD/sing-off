@@ -26,7 +26,7 @@ class SongRow extends StatelessWidget {
         children: <Widget>[
           Container(
             color: Colors.black,
-            height: MediaQuery.of(context).size.height * (7 / 100),
+            height: MediaQuery.of(context).size.height * (10 / 100),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
@@ -43,6 +43,7 @@ class SongRow extends StatelessWidget {
                 Container(
                   child: Text(
                     'Sing-Off',
+                    style: TextStyle(fontSize: 18)
                   ),
                 ),
                   Container(
@@ -60,14 +61,14 @@ class SongRow extends StatelessWidget {
               ),
             ),
           Container(
-            height: MediaQuery.of(context).size.width / 3.75, //110,
+            height: MediaQuery.of(context).size.width / 3,
             margin: EdgeInsets.only(top: 8),
             padding: EdgeInsets.only(top: 6, bottom: 6),
             child: ListView(
               scrollDirection: Axis.horizontal,
               children: <Widget>[
                 Container(
-                  width: MediaQuery.of(context).size.width / 4,
+                  width: MediaQuery.of(context).size.width / 3.2,
                   margin: EdgeInsets.only(
                       left: MediaQuery.of(context).size.width / 60,
                       right: MediaQuery.of(context).size.width / 80),
@@ -108,7 +109,7 @@ class SongRow extends StatelessWidget {
                   ),
                 ),
                 Container(
-                  width: MediaQuery.of(context).size.width / 4,
+                  width: MediaQuery.of(context).size.width / 3.2,
                   margin: EdgeInsets.only(
                       left: MediaQuery.of(context).size.width / 60,
                       right: MediaQuery.of(context).size.width / 80),
@@ -149,7 +150,7 @@ class SongRow extends StatelessWidget {
                   ),
                 ),
                 Container(
-                  width: MediaQuery.of(context).size.width / 4,
+                  width: MediaQuery.of(context).size.width / 3.2,
                   margin: EdgeInsets.symmetric(
                       horizontal: MediaQuery.of(context).size.width / 80),
                   child: Ink.image(
@@ -189,7 +190,7 @@ class SongRow extends StatelessWidget {
                   ),
                 ),
                 Container(
-                  width: MediaQuery.of(context).size.width / 4,
+                  width: MediaQuery.of(context).size.width / 3.2,
                   margin: EdgeInsets.symmetric(
                       horizontal: MediaQuery.of(context).size.width / 80),
                   child: Ink.image(
@@ -229,7 +230,7 @@ class SongRow extends StatelessWidget {
                   ),
                 ),
                 Container(
-                  width: MediaQuery.of(context).size.width / 4,
+                  width: MediaQuery.of(context).size.width / 3.2,
                   margin: EdgeInsets.symmetric(
                       horizontal: MediaQuery.of(context).size.width / 80),
                   child: Ink.image(
@@ -269,7 +270,7 @@ class SongRow extends StatelessWidget {
                   ),
                 ),
                 Container(
-                  width: MediaQuery.of(context).size.width / 4,
+                  width: MediaQuery.of(context).size.width / 3.2,
                   margin: EdgeInsets.symmetric(
                       horizontal: MediaQuery.of(context).size.width / 80),
                   child: Ink.image(
@@ -309,7 +310,7 @@ class SongRow extends StatelessWidget {
                   ),
                 ),
                 Container(
-                  width: MediaQuery.of(context).size.width / 4,
+                  width: MediaQuery.of(context).size.width / 3.2,
                   margin: EdgeInsets.symmetric(
                       horizontal: MediaQuery.of(context).size.width / 80),
                   child: Ink.image(
@@ -349,7 +350,7 @@ class SongRow extends StatelessWidget {
                   ),
                 ),
                 Container(
-                  width: MediaQuery.of(context).size.width / 4,
+                  width: MediaQuery.of(context).size.width / 3.2,
                   margin: EdgeInsets.only(
                       right: MediaQuery.of(context).size.width / 60,
                       left: MediaQuery.of(context).size.width / 80),

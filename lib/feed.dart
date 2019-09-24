@@ -56,6 +56,7 @@ class _Feed extends State<Feed> {
     const url = 'https://flutterkaraoke.firebaseio.com/videos.json';
     await http.get(url).then((response) {
       Map<String, dynamic> mappedBody = json.decode(response.body);
+      print(mappedBody);
       List<dynamic> dynamicList = mappedBody.values.toList();
       List<ModelSong> modelVideoList = [];
       for (int i = dynamicList.length - 1; i >= 0; i--) {
@@ -96,7 +97,7 @@ class _Feed extends State<Feed> {
                 Widget>[
           Container(
               color: Colors.black,
-              height: MediaQuery.of(context).size.height * (7 / 100),
+              height: MediaQuery.of(context).size.height * (10 / 100),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -110,10 +111,13 @@ class _Feed extends State<Feed> {
                           }
                         },
                         child: Icon(
-                          Icons.filter_list,
+                          Icons.person,
                         )),
                   ),
-                  Center(child: Text('Sing-Off')),
+                  Center(
+                    child: Text('Sing-Off',
+                    style: TextStyle(fontSize: 18)
+                  )),
                   Container(
                     child: InkWell(
                         onTap: () {
@@ -126,11 +130,10 @@ class _Feed extends State<Feed> {
                   ),
                 ],
               )),
-          Container(
-            height: MediaQuery.of(context).size.height / 1.1,
-            margin: EdgeInsets.only(top: 8),
+          Expanded(
+            child: Container(
             color: Colors.grey[800],
-            child: ListView(children: <Widget>[
+              child: ListView(children: <Widget>[
               Container(),
               Container(
                 child: Column(
@@ -142,6 +145,7 @@ class _Feed extends State<Feed> {
                     }
                   }).map((element) {
                     return Container(
+                      margin: EdgeInsets.only(bottom: 40),
                         color: Colors.black38,
                         child: InkWell(
                             onTap: () {
@@ -153,9 +157,16 @@ class _Feed extends State<Feed> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
                                 Container(
-                                    padding: EdgeInsets.only(top: 10),
-                                    height: 30,
-                                    child: Text(element.category)),
+                                  padding: EdgeInsets.only(top: 10),
+                                  height: 30,
+                                  color: Colors.grey[200],
+                                  child: Row(
+                                    children: <Widget>[
+                                      //add a photo as well.
+                                      Text(element.category.toString()),
+                                    ],
+                                  ),
+                                ),
                                 Container(
                                   height:
                                       MediaQuery.of(context).size.height / 2,
@@ -170,8 +181,7 @@ class _Feed extends State<Feed> {
                                             backgroundColor:
                                                 Colors.black.withOpacity(0.5),
                                           ))),
-                                  margin: EdgeInsets.symmetric(
-                                      ),
+                                  
                                   decoration: BoxDecoration(
                                     border: Border.all(
                                       color: Colors.grey[800],
@@ -187,12 +197,33 @@ class _Feed extends State<Feed> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: <Widget>[
-                                      Text(element.title,
-                                          style: TextStyle(
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.bold)),
-                                      Text(element.artist,
-                                          style: TextStyle(color: Colors.grey)),
+                                      Row(
+                                        children: <Widget>[
+                                          Text(element.title,
+                                              style: TextStyle(
+                                                  fontSize: 15,
+                                                  fontWeight: FontWeight.bold)),
+                                          Text(element.artist,
+                                              style: TextStyle(
+                                                  color: Colors.grey)),
+                                        ],
+                                      ),
+                                      // Row(
+                                      //   children: <Widget>[
+                                      //     Container(
+                                      //       child: InkWell(
+                                      //           onTap: () {
+                                      //             //here we do a plus one on the count.
+
+                                      //             //then do some put request next time we
+                                      //             //have a good chance.
+                                      //           },
+                                      //           child: Icon(
+                                      //             Icons.thumb_up,
+                                      //           )),
+                                      //     ),
+                                      //   ],
+                                      // )
                                     ],
                                   ),
                                 ),
@@ -201,7 +232,7 @@ class _Feed extends State<Feed> {
                   }).toList(),
                 ),
               ),
-            ]),
+            ]),),
           )
         ]));
   }
