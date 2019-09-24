@@ -44,10 +44,10 @@ class _Manager extends State<Manager> {
   bool _isPlayer = false;
   bool _isFeed = false;
   bool _isLogin = false;
-  String _selectedCategory = "Hip Hop";
+  String _selectedCategory = "All";
   List<int> _decibels = [];
   String _username = "";
-
+  String _timerForSong = "";
   String filePathToPlay;
 
   @override
@@ -249,6 +249,7 @@ class _Manager extends State<Manager> {
                 changePlayer: _changePlayer,
                 changeSongs: _changeSongs,
                 username: _username,
+                timerForSong: _timerForSong,
               ),
 
               /// ANIMATION. FOR NOW IS DISABLED. TO TOGGLE IN ONLY IF PITCH IS AVAILABLE.

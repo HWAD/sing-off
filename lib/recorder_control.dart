@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 class RecorderControl extends StatelessWidget {
@@ -18,6 +20,7 @@ class RecorderControl extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
           Container(
+            padding: EdgeInsets.only(top: 15),
             child: FloatingActionButton(
               backgroundColor: Colors.transparent,
               onPressed: () {
@@ -36,9 +39,7 @@ class RecorderControl extends StatelessWidget {
             child: Text('Sing-Off', style: TextStyle(fontSize: 18)),
           ),
           Container(
-            // height: MediaQuery.of(context).size.height * (7 / 100),
-            // padding: EdgeInsets.only(
-            //     left: MediaQuery.of(context).size.width * (6 / 100)),
+            padding: EdgeInsets.only(top: 15),
             child: FloatingActionButton(
               backgroundColor: Colors.transparent,
               onPressed: () {
