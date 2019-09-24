@@ -69,7 +69,8 @@ class SongRow extends StatelessWidget {
                         Icon(
                           Icons.mood,
                         ),
-                        Text("???")
+                        Text("Random",
+                        style: TextStyle(fontSize: 13))
                       ],
                     ),
                   ),
