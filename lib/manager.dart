@@ -43,7 +43,7 @@ class _Manager extends State<Manager> {
   bool _isPlayer = false;
   bool _isFeed = false;
   bool _isLogin = false;
-  String _selectedCategory = "Hip Hop";
+  String _selectedCategory = "All";
   List<int> _decibels = [];
   String _username = "";
   String filePathToPlay;
@@ -60,7 +60,6 @@ class _Manager extends State<Manager> {
     const url = 'https://flutterkaraoke.firebaseio.com/songs.json';
     http.get(url).then((response) {
       Map<String, dynamic> mappedBody = json.decode(response.body);
-      print(mappedBody);
       List<dynamic> dynamicList = mappedBody.values.toList();
       List<dynamic> dynamicKeys = mappedBody.keys.toList();
       List<ModelSong> modelSongList = [];
