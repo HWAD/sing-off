@@ -112,19 +112,15 @@ class SongRow extends StatelessWidget {
                                 fontSize: 18,
                                 shadows: [
                                   Shadow(
-                                      // bottomLeft
                                       offset: Offset(-1.5, -1.5),
                                       color: Colors.black),
                                   Shadow(
-                                      // bottomRight
                                       offset: Offset(1.5, -1.5),
                                       color: Colors.black),
                                   Shadow(
-                                      // topRight
                                       offset: Offset(1.5, 1.5),
                                       color: Colors.black),
                                   Shadow(
-                                      // topLeft
                                       offset: Offset(-1.5, 1.5),
                                       color: Colors.black),
                                 ],
@@ -153,19 +149,15 @@ class SongRow extends StatelessWidget {
                                 fontSize: 18,
                                 shadows: [
                                   Shadow(
-                                      // bottomLeft
                                       offset: Offset(-1.5, -1.5),
                                       color: Colors.black),
                                   Shadow(
-                                      // bottomRight
                                       offset: Offset(1.5, -1.5),
                                       color: Colors.black),
                                   Shadow(
-                                      // topRight
                                       offset: Offset(1.5, 1.5),
                                       color: Colors.black),
                                   Shadow(
-                                      // topLeft
                                       offset: Offset(-1.5, 1.5),
                                       color: Colors.black),
                                 ],
@@ -193,19 +185,15 @@ class SongRow extends StatelessWidget {
                                 fontSize: 18,
                                 shadows: [
                                   Shadow(
-                                      // bottomLeft
                                       offset: Offset(-1.5, -1.5),
                                       color: Colors.black),
                                   Shadow(
-                                      // bottomRight
                                       offset: Offset(1.5, -1.5),
                                       color: Colors.black),
                                   Shadow(
-                                      // topRight
                                       offset: Offset(1.5, 1.5),
                                       color: Colors.black),
                                   Shadow(
-                                      // topLeft
                                       offset: Offset(-1.5, 1.5),
                                       color: Colors.black),
                                 ],
@@ -233,19 +221,15 @@ class SongRow extends StatelessWidget {
                                 fontSize: 18,
                                 shadows: [
                                   Shadow(
-                                      // bottomLeft
                                       offset: Offset(-1.5, -1.5),
                                       color: Colors.black),
                                   Shadow(
-                                      // bottomRight
                                       offset: Offset(1.5, -1.5),
                                       color: Colors.black),
                                   Shadow(
-                                      // topRight
                                       offset: Offset(1.5, 1.5),
                                       color: Colors.black),
                                   Shadow(
-                                      // topLeft
                                       offset: Offset(-1.5, 1.5),
                                       color: Colors.black),
                                 ],
@@ -257,8 +241,9 @@ class SongRow extends StatelessWidget {
                     ),
                     Container(
                       width: MediaQuery.of(context).size.width / 3.2,
-                      margin: EdgeInsets.symmetric(
-                          horizontal: MediaQuery.of(context).size.width / 120),
+                      margin: EdgeInsets.only(
+                          left: MediaQuery.of(context).size.width / 120,
+                          right: MediaQuery.of(context).size.width / 40),
                       child: Ink.image(
                         image: AssetImage("assets/bruce.jpg"),
                         fit: BoxFit.fill,
@@ -273,19 +258,15 @@ class SongRow extends StatelessWidget {
                                 fontSize: 18,
                                 shadows: [
                                   Shadow(
-                                      // bottomLeft
                                       offset: Offset(-1.5, -1.5),
                                       color: Colors.black),
                                   Shadow(
-                                      // bottomRight
                                       offset: Offset(1.5, -1.5),
                                       color: Colors.black),
                                   Shadow(
-                                      // topRight
                                       offset: Offset(1.5, 1.5),
                                       color: Colors.black),
                                   Shadow(
-                                      // topLeft
                                       offset: Offset(-1.5, 1.5),
                                       color: Colors.black),
                                 ],

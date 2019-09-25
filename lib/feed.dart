@@ -54,7 +54,7 @@ class _Feed extends State<Feed> {
       this.username);
   Future<void> refresh() async {
     const url = 'https://flutterkaraoke.firebaseio.com/videos.json';
-    await http.get(url).then((response) {
+    await http.get(url).then((response) async {
       Map<String, dynamic> mappedBody = json.decode(response.body);
       List<dynamic> dynamicList = mappedBody.values.toList();
       List<dynamic> dynamicKeys = mappedBody.keys.toList();
@@ -263,7 +263,7 @@ class _Feed extends State<Feed> {
                                     image: DecorationImage(
                                       image: NetworkImageWithRetry(
                                           element.imageURL),
-                                      fit: BoxFit.contain,
+                                      fit: BoxFit.cover,
                                     ),
                                   ),
                                 ),

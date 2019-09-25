@@ -64,7 +64,6 @@ class _Recorder extends State<Recorder> with WidgetsBindingObserver {
   VideoPlayerController videoController;
   VoidCallback videoPlayerListener;
   bool enableAudio = true;
-  bool letsBeginColor = true;
   String filePathExtractor;
   List<CameraDescription> cameras;
   Function setFilePathToPlay;
@@ -80,6 +79,7 @@ class _Recorder extends State<Recorder> with WidgetsBindingObserver {
   String username;
   String timerForSong;
   bool isCountDown;
+  String imgFilePathExtractor;
 
   _Recorder(
     this.setFilePathToPlay,
@@ -177,7 +177,7 @@ class _Recorder extends State<Recorder> with WidgetsBindingObserver {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.height * (88 / 100),
+      height: MediaQuery.of(context).size.height * (90 / 100),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
@@ -269,7 +269,6 @@ class _Recorder extends State<Recorder> with WidgetsBindingObserver {
       );
     } else {
       return Container(
-        // aspectRatio: controller.value.aspectRatio,
         child: CameraPreview(controller),
       );
     }
@@ -284,12 +283,12 @@ class _Recorder extends State<Recorder> with WidgetsBindingObserver {
         controller != null && controller.value.isRecordingVideo == false
             ? FloatingActionButton(
                 backgroundColor: Colors.transparent,
-                child: Icon(Icons.play_arrow, size: 40),
+                child: Icon(Icons.play_arrow, size: 40, color: Colors.blue),
                 onPressed: () {
                   if (controller != null &&
                       controller.value.isInitialized &&
                       !controller.value.isRecordingVideo) {
-                    letsBeginColor = !letsBeginColor;
+                    onTakePictureButtonPressed();
                     timer();
                   } else {
                     return null;
@@ -431,13 +430,12 @@ class _Recorder extends State<Recorder> with WidgetsBindingObserver {
 //Storage & Database Upload
   void _megaUpload(path) async {
     String url = await videoUpload(path);
-    String thumbnail0Path = path.split('/')[1].split('.')[0] + '-0.jpg';
+    String imageLink = await imageUpload(imgFilePathExtractor);
     ModelSong uploadObject = new ModelSong(
       title: selectedSong.title,
       artist: selectedSong.artist,
       downloadURL: url,
-      imageURL:
-          'https://firebasestorage.googleapis.com/v0/b/flutterkaraoke.appspot.com/o/videoImages%2F$thumbnail0Path?alt=media',
+      imageURL: imageLink,
       score: selectedSong.score,
       category: username,
       isFavorite: false,
@@ -458,6 +456,46 @@ class _Recorder extends State<Recorder> with WidgetsBindingObserver {
         .putFile(videoFile);
     String location = await (await ref.onComplete).ref.getDownloadURL();
     return location;
+  }
+
+  Future<String> imageUpload(String path) async {
+    File imageFile = File(path);
+    setFilePathToPlay(path);
+    List storagePath = path.split('/');
+    StorageUploadTask ref = storageReference
+        .child("videoImages/" + storagePath[storagePath.length - 1])
+        .putFile(imageFile);
+    String location = await (await ref.onComplete).ref.getDownloadURL();
+    return location;
+  }
+
+  Future<String> takePicture() async {
+    if (!controller.value.isInitialized) {
+      return null;
+    }
+
+    final String filePath = 'sdcard/${timestamp()}.jpg';
+
+    if (controller.value.isTakingPicture) {
+      // A capture is already pending, do nothing.
+      return null;
+    }
+
+    try {
+      await controller.takePicture(filePath);
+    } on CameraException catch (e) {
+      _showCameraException(e);
+      return null;
+    }
+    return filePath;
+  }
+
+  void onTakePictureButtonPressed() {
+    takePicture().then((String filePath) {
+      if (mounted) {
+        imgFilePathExtractor = filePath;
+      }
+    });
   }
 
   void onVideoRecordButtonPressed() {
