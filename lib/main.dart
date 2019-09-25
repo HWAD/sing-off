@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import './manager.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:flutter/services.dart';
+
+import './manager.dart';
 
 Future<bool> _requestPermission(PermissionGroup permission) async {
   var result = await PermissionHandler().requestPermissions([permission]);

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'dart:convert';
-import './model_song.dart';
 import 'package:share/share.dart';
 import 'package:flutter_image/network.dart';
+
+import 'dart:convert';
+
+import './model_song.dart';
 
 class Feed extends StatefulWidget {
   final List<ModelSong> _allVideos;
@@ -92,13 +94,12 @@ class _Feed extends State<Feed> {
   }
 
   void like(String id, int cur) {
-    String url = 'https://flutterkaraoke.firebaseio.com/videos/' + id +'.json';
+    String url = 'https://flutterkaraoke.firebaseio.com/videos/' + id + '.json';
     int count = cur + 1;
     Map<String, dynamic> upload = {
       'score': count,
     };
-    http.patch(url, body: json.encode(upload)).then((response) {
-    });
+    http.patch(url, body: json.encode(upload)).then((response) {});
   }
 
   @override
@@ -123,8 +124,10 @@ class _Feed extends State<Feed> {
                         Icon(isFilterByUsername == true
                             ? Icons.person
                             : Icons.music_note),
-                        Text(isFilterByUsername == true ? "User" : "Feed",
-                            style: TextStyle(fontSize: 12))
+                        Text(
+                          isFilterByUsername == true ? "User" : "Feed",
+                          style: TextStyle(fontSize: 12),
+                        )
                       ],
                     ),
                     onPressed: () {
@@ -155,7 +158,10 @@ class _Feed extends State<Feed> {
                         Icon(
                           Icons.music_video,
                         ),
-                        Text("Songs", style: TextStyle(fontSize: 12))
+                        Text(
+                          "Songs",
+                          style: TextStyle(fontSize: 12),
+                        )
                       ],
                     ),
                   ),
@@ -207,33 +213,36 @@ class _Feed extends State<Feed> {
                                             color: Colors.black54),
                                       ),
                                       Container(
-                                        width: MediaQuery.of(context).size.width*(28/100),
-                                      child: Text(
-                                        element.category.toString(),
-                                        style: TextStyle(
-                                          color: Colors.black,
-                                        ),
-                                      ),),
-                                      Container(
-                                        margin: EdgeInsets.only(left: 
-                                        MediaQuery.of(context).size.width * (50 / 100),
-                                        ),
-                                            padding: EdgeInsets.only(
-                                                right: 2, left: 3),
-                                            child: Icon(Icons.thumb_up,
-                                                color: Colors.black54,
-                                                size: 15)),
-                                        Text(
-                                          element.score.toString(),
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                (28 / 100),
+                                        child: Text(
+                                          element.category.toString(),
                                           style: TextStyle(
-                                            fontSize: 13,
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.black54,
-                                      //     ),
-                                      //   ),
-                                      // ],
-                                    ),
-                                  ),
+                                            color: Colors.black,
+                                          ),
+                                        ),
+                                      ),
+                                      Container(
+                                        margin: EdgeInsets.only(
+                                          left: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              (50 / 100),
+                                        ),
+                                        padding:
+                                            EdgeInsets.only(right: 2, left: 3),
+                                        child: Icon(Icons.thumb_up,
+                                            color: Colors.black54, size: 15),
+                                      ),
+                                      Text(
+                                        element.score.toString(),
+                                        style: TextStyle(
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.black54,
+                                        ),
+                                      ),
                                     ],
                                   ),
                                 ),
@@ -242,38 +251,19 @@ class _Feed extends State<Feed> {
                                       MediaQuery.of(context).size.height / 1.8,
                                   width: MediaQuery.of(context).size.width / 1,
                                   child: Container(
-                                
                                     padding:
                                         EdgeInsets.only(bottom: 2, right: 2),
                                     alignment: Alignment.bottomRight,
-                                    // child: Row(
-                                    //   children: [
-                                    //     Container(
-                                        
-                                    //         padding: EdgeInsets.only(
-                                    //             right: 2, left: 3),
-                                    //         child: Icon(Icons.thumb_up,
-                                    //             color: Colors.white,
-                                    //             size: 15)),
-                                    //     Text(
-                                    //       element.score.toString(),
-                                    //       style: TextStyle(
-                                    //         fontSize: 13,
-                                    //         fontWeight: FontWeight.bold,
-                                    //         color: Colors.white,
-                                    //       ),
-                                    //     ),
-                                    //   ],
-                                    // ),
                                   ),
                                   decoration: BoxDecoration(
+                                    color: Colors.grey[400],
                                     border: Border.all(
                                       color: Colors.grey[100],
                                     ),
                                     image: DecorationImage(
                                       image: NetworkImageWithRetry(
                                           element.imageURL),
-                                      fit: BoxFit.fill,
+                                      fit: BoxFit.contain,
                                     ),
                                   ),
                                 ),
@@ -288,12 +278,13 @@ class _Feed extends State<Feed> {
                                             MainAxisAlignment.spaceEvenly,
                                         children: <Widget>[
                                           Container(
-                                            child: Text(element.title,
-                                                style: TextStyle(
-                                                    color: Colors.black,
-                                                    fontSize: 15,
-                                                    fontWeight:
-                                                        FontWeight.bold)),
+                                            child: Text(
+                                              element.title,
+                                              style: TextStyle(
+                                                  color: Colors.black,
+                                                  fontSize: 15,
+                                                  fontWeight: FontWeight.bold),
+                                            ),
                                           ),
                                         ],
                                       ),
@@ -302,9 +293,11 @@ class _Feed extends State<Feed> {
                                             MainAxisAlignment.spaceEvenly,
                                         children: <Widget>[
                                           Container(
-                                            child: Text(element.artist,
-                                                style: TextStyle(
-                                                    color: Colors.grey)),
+                                            child: Text(
+                                              element.artist,
+                                              style:
+                                                  TextStyle(color: Colors.grey),
+                                            ),
                                           ),
                                         ],
                                       ),

@@ -41,7 +41,6 @@ dependencies:
   permission_handler: ^3.2.0
   share: ^0.6.2+1
   fading_edge_scrollview: ^1.0.2
-  async: ^2.3.0
   flutter_image: ^2.0.0
 
 dev_dependencies:
@@ -59,16 +58,12 @@ flutter:
   uses-material-design: true
   # To add assets to your application, add an assets section, like this:
   assets:
-    - assets/steppico.jpeg
     - assets/start.jpeg
     - assets/stop.jpeg
     - assets/christmas.jpeg
     - assets/pop.jpeg
     - assets/drake.jpeg
     - assets/bruce.jpg
-    - assets/country.jpeg
-    - assets/soul.jpeg
-    - assets/bey.jpeg
     - assets/all.jpeg
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
