@@ -52,7 +52,7 @@ class _Feed extends State<Feed> {
       this.username);
   Future<void> refresh() async {
     const url = 'https://flutterkaraoke.firebaseio.com/videos.json';
-    await http.get(url).then((response) {
+    await http.get(url).then((response) async {
       Map<String, dynamic> mappedBody = json.decode(response.body);
       List<dynamic> dynamicList = mappedBody.values.toList();
       List<dynamic> dynamicKeys = mappedBody.keys.toList();
@@ -92,13 +92,12 @@ class _Feed extends State<Feed> {
   }
 
   void like(String id, int cur) {
-    String url = 'https://flutterkaraoke.firebaseio.com/videos/' + id +'.json';
+    String url = 'https://flutterkaraoke.firebaseio.com/videos/' + id + '.json';
     int count = cur + 1;
     Map<String, dynamic> upload = {
       'score': count,
     };
-    http.patch(url, body: json.encode(upload)).then((response) {
-    });
+    http.patch(url, body: json.encode(upload)).then((response) {});
   }
 
   @override
@@ -207,33 +206,38 @@ class _Feed extends State<Feed> {
                                             color: Colors.black54),
                                       ),
                                       Container(
-                                        width: MediaQuery.of(context).size.width*(28/100),
-                                      child: Text(
-                                        element.category.toString(),
-                                        style: TextStyle(
-                                          color: Colors.black,
-                                        ),
-                                      ),),
-                                      Container(
-                                        margin: EdgeInsets.only(left: 
-                                        MediaQuery.of(context).size.width * (50 / 100),
-                                        ),
-                                            padding: EdgeInsets.only(
-                                                right: 2, left: 3),
-                                            child: Icon(Icons.thumb_up,
-                                                color: Colors.black54,
-                                                size: 15)),
-                                        Text(
-                                          element.score.toString(),
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                (28 / 100),
+                                        child: Text(
+                                          element.category.toString(),
                                           style: TextStyle(
-                                            fontSize: 13,
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.black54,
-                                      //     ),
-                                      //   ),
-                                      // ],
-                                    ),
-                                  ),
+                                            color: Colors.black,
+                                          ),
+                                        ),
+                                      ),
+                                      Container(
+                                          margin: EdgeInsets.only(
+                                            left: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                (50 / 100),
+                                          ),
+                                          padding: EdgeInsets.only(
+                                              right: 2, left: 3),
+                                          child: Icon(Icons.thumb_up,
+                                              color: Colors.black54, size: 15)),
+                                      Text(
+                                        element.score.toString(),
+                                        style: TextStyle(
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.black54,
+                                          //     ),
+                                          //   ),
+                                          // ],
+                                        ),
+                                      ),
                                     ],
                                   ),
                                 ),
@@ -242,14 +246,13 @@ class _Feed extends State<Feed> {
                                       MediaQuery.of(context).size.height / 1.8,
                                   width: MediaQuery.of(context).size.width / 1,
                                   child: Container(
-                                
                                     padding:
                                         EdgeInsets.only(bottom: 2, right: 2),
                                     alignment: Alignment.bottomRight,
                                     // child: Row(
                                     //   children: [
                                     //     Container(
-                                        
+
                                     //         padding: EdgeInsets.only(
                                     //             right: 2, left: 3),
                                     //         child: Icon(Icons.thumb_up,
