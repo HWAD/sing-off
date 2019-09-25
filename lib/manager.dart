@@ -45,6 +45,7 @@ class _Manager extends State<Manager> {
   bool _isPlayer = false;
   bool _isFeed = false;
   bool _isLogin = false;
+  bool _isTimer = false;
   String _selectedCategory = "All";
   List<int> _decibels = [];
   String _username = "";
@@ -278,6 +279,7 @@ class _Manager extends State<Manager> {
                 changeSongs: _changeSongs,
                 username: _username,
                 timerForSong: _timerForSong,
+                isTimer: _isTimer,
               ),
             ],
           ),
