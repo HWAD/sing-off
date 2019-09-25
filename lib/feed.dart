@@ -52,30 +52,6 @@ class _Feed extends State<Feed> {
       this.getAllVideos,
       this.changeSongs,
       this.username);
-  Future<void> refresh() async {
-    const url = 'https://flutterkaraoke.firebaseio.com/videos.json';
-    await http.get(url).then((response) async {
-      Map<String, dynamic> mappedBody = json.decode(response.body);
-      List<dynamic> dynamicList = mappedBody.values.toList();
-      List<dynamic> dynamicKeys = mappedBody.keys.toList();
-      List<ModelSong> modelVideoList = [];
-      for (int i = dynamicList.length - 1; i >= 0; i--) {
-        modelVideoList.add(ModelSong(
-            id: dynamicKeys[i],
-            title: dynamicList[i]["title"],
-            artist: dynamicList[i]["artist"],
-            downloadURL: dynamicList[i]["downloadURL"],
-            length: dynamicList[i]["length"],
-            category: dynamicList[i]["category"],
-            imageURL: dynamicList[i]["imageURL"],
-            score: dynamicList[i]["score"],
-            isFavorite: dynamicList[i]["isFavorite"]));
-      }
-      setState(() {
-        allVideos = modelVideoList;
-      });
-    });
-  }
 
   void filter(bool setFilter) {
     setState(() {
@@ -86,7 +62,7 @@ class _Feed extends State<Feed> {
   @override
   void initState() {
     super.initState();
-    refresh();
+    getAllVideos();
   }
 
   dynamic shareMe(dynamic element) {
