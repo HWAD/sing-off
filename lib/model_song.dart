@@ -20,8 +20,8 @@ class ModelSong {
     this.score,
     this.category,
     this.isFavorite,
-    
   });
+
   Map<String, dynamic> toJson() => {
         'title': title,
         'artist': artist,

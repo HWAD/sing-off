@@ -47,14 +47,16 @@ class SongRow extends StatelessWidget {
                         Icon(
                           Icons.music_note,
                         ),
-                        Text("Feed",
-                        style: TextStyle(fontSize: 12)),
+                        Text("Feed", style: TextStyle(fontSize: 12)),
                       ],
                     ),
                   ),
                 ),
                 Container(
-                  child: Text('Sing-Off', style: TextStyle(fontSize: 18)),
+                  child: Text(
+                    'Sing-Off',
+                    style: TextStyle(fontSize: 18),
+                  ),
                 ),
                 Container(
                   padding: EdgeInsets.only(top: 15),
@@ -63,15 +65,19 @@ class SongRow extends StatelessWidget {
                     onPressed: () {
                       changeSongs(false);
                       changeRecorder(true);
-                      setSelectedSong(allSongs[0]);
+                      setSelectedSong(
+                        allSongs[0],
+                      );
                     },
                     child: Column(
                       children: [
                         Icon(
                           Icons.mood,
                         ),
-                        Text("Random",
-                        style: TextStyle(fontSize: 12))
+                        Text(
+                          "Random",
+                          style: TextStyle(fontSize: 12),
+                        )
                       ],
                     ),
                   ),

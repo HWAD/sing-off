@@ -1,6 +1,7 @@
-import 'dart:async';
 import 'package:video_player/video_player.dart';
 import 'package:flutter/material.dart';
+
+import 'dart:async';
 
 class Player extends StatefulWidget {
   final String filePathToPlay;
@@ -75,8 +76,7 @@ class _PlayerState extends State<Player> {
                         Icon(
                           Icons.music_note,
                         ),
-                        Text("Feed",
-                        style: TextStyle(fontSize: 12))
+                        Text("Feed", style: TextStyle(fontSize: 12))
                       ],
                     ),
                   ),
@@ -97,8 +97,7 @@ class _PlayerState extends State<Player> {
                     child: Column(
                       children: [
                         Icon(Icons.music_video),
-                        Text("Songs",
-                        style: TextStyle(fontSize: 12)),
+                        Text("Songs", style: TextStyle(fontSize: 12)),
                       ],
                     ),
                   ),

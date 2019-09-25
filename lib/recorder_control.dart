@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 
 class RecorderControl extends StatelessWidget {
@@ -30,14 +28,19 @@ class RecorderControl extends StatelessWidget {
               child: Column(
                 children: [
                   Icon(Icons.music_note),
-                  Text("Feed",
-                  style: TextStyle(fontSize: 12)),
+                  Text(
+                    "Feed",
+                    style: TextStyle(fontSize: 12),
+                  ),
                 ],
               ),
             ),
           ),
           Container(
-            child: Text('Sing-Off', style: TextStyle(fontSize: 18)),
+            child: Text(
+              'Sing-Off',
+              style: TextStyle(fontSize: 18),
+            ),
           ),
           Container(
             padding: EdgeInsets.only(top: 15),
@@ -53,8 +56,10 @@ class RecorderControl extends StatelessWidget {
                   Icon(
                     Icons.music_video,
                   ),
-                  Text("Songs",
-                  style: TextStyle(fontSize: 12))
+                  Text(
+                    "Songs",
+                    style: TextStyle(fontSize: 12),
+                  )
                 ],
               ),
             ),
