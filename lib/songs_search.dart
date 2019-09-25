@@ -17,7 +17,8 @@ class SongSearch extends StatelessWidget {
             color: Colors.black,
             height: MediaQuery.of(context).size.height * (7 / 100),
             padding: EdgeInsets.only(
-                left: MediaQuery.of(context).size.width * (6 / 100)),
+              left: MediaQuery.of(context).size.width * (6 / 100),
+            ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
@@ -33,14 +34,19 @@ class SongSearch extends StatelessWidget {
                         Icon(
                           Icons.music_note,
                         ),
-                        Text("Feed",
-                        style: TextStyle(fontSize: 12))
+                        Text(
+                          "Feed",
+                          style: TextStyle(fontSize: 12),
+                        )
                       ],
                     ),
                   ),
                 ),
                 Container(
-                  child: Text('Sing-Off', style: TextStyle(fontSize: 18)),
+                  child: Text(
+                    'Sing-Off',
+                    style: TextStyle(fontSize: 18),
+                  ),
                 ),
                 Container(
                   child: FloatingActionButton(
@@ -54,8 +60,10 @@ class SongSearch extends StatelessWidget {
                         Icon(
                           Icons.music_video,
                         ),
-                        Text("Songs",
-                        style: TextStyle(fontSize: 12))
+                        Text(
+                          "Songs",
+                          style: TextStyle(fontSize: 12),
+                        )
                       ],
                     ),
                   ),

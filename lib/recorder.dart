@@ -4,15 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 import 'package:http/http.dart' as http;
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:async/async.dart';
+import 'package:flutter_sound/flutter_sound.dart';
+import 'package:intl/intl.dart';
 
 import 'dart:convert';
 import 'dart:io';
 import 'dart:async';
-
 import 'dart:collection';
-import 'package:flutter_sound/flutter_sound.dart';
-import 'package:intl/intl.dart';
 
 class Recorder extends StatefulWidget {
   final Function setFilePathToPlay;
@@ -20,7 +18,6 @@ class Recorder extends StatefulWidget {
   final ModelSong selectedSong;
   final Function setCurrentLyric;
   String currentLyric;
-  final Function setDecibels;
   final Function changeRecorder;
   final Function changePlayer;
   final Function changeSongs;
@@ -34,7 +31,6 @@ class Recorder extends StatefulWidget {
     @required this.flutterSound,
     @required this.selectedSong,
     @required this.setCurrentLyric,
-    @required this.setDecibels,
     @required this.changeRecorder,
     @required this.changePlayer,
     @required this.changeSongs,
@@ -50,7 +46,6 @@ class Recorder extends StatefulWidget {
       flutterSound,
       selectedSong,
       setCurrentLyric,
-      setDecibels,
       changeRecorder,
       changePlayer,
       changeSongs,
@@ -78,7 +73,6 @@ class _Recorder extends State<Recorder> with WidgetsBindingObserver {
   ModelSong selectedSong;
   Function setCurrentLyric;
   List<Duration> highlightDurations = new List<Duration>();
-  Function setDecibels;
   Function changeRecorder;
   Function changePlayer;
   Function changeSongs;
@@ -94,7 +88,6 @@ class _Recorder extends State<Recorder> with WidgetsBindingObserver {
     this.flutterSound,
     this.selectedSong,
     this.setCurrentLyric,
-    this.setDecibels,
     this.changeRecorder,
     this.changePlayer,
     this.changeSongs,
@@ -106,27 +99,31 @@ class _Recorder extends State<Recorder> with WidgetsBindingObserver {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
-    fetchCameras().then((cameras) {
-      controller = CameraController(
-        cameras[1],
-        ResolutionPreset.medium,
-        enableAudio: enableAudio,
-      );
-      controller.addListener(() {
-        if (mounted) setState(() {});
-        if (controller.value.hasError) {}
-      });
+    fetchCameras().then(
+      (cameras) {
+        controller = CameraController(
+          cameras[1],
+          ResolutionPreset.medium,
+          enableAudio: enableAudio,
+        );
+        controller.addListener(
+          () {
+            if (mounted) setState(() {});
+            if (controller.value.hasError) {}
+          },
+        );
 
-      try {
-        controller.initialize();
-      } on CameraException catch (e) {
-        _showCameraException(e);
-      }
+        try {
+          controller.initialize();
+        } on CameraException catch (e) {
+          _showCameraException(e);
+        }
 
-      if (mounted) {
-        setState(() {});
-      }
-    });
+        if (mounted) {
+          setState(() {});
+        }
+      },
+    );
   }
 
   @override
@@ -138,15 +135,19 @@ class _Recorder extends State<Recorder> with WidgetsBindingObserver {
   }
 
   void setDomesticLyric(String line) {
-    setState(() {
-      domesticLyric = line;
-    });
+    setState(
+      () {
+        domesticLyric = line;
+      },
+    );
   }
 
   void setHighlightDurations(List<Duration> durations) {
-    setState(() {
-      highlightDurations = durations;
-    });
+    setState(
+      () {
+        highlightDurations = durations;
+      },
+    );
   }
 
   void timer() {
@@ -154,18 +155,20 @@ class _Recorder extends State<Recorder> with WidgetsBindingObserver {
     Timer.periodic(
       Duration(seconds: 1),
       (Timer t) {
-        setState(() {
-          if (timerToDisplay < 1) {
-            t.cancel();
-            onVideoRecordButtonPressed();
-          } else {
-            timerToDisplay = timerToDisplay - 1;
-          }
-          domesticLyric = timerToDisplay.toString();
-          if (timerToDisplay == 0) {
-            domesticLyric = "";
-          }
-        });
+        setState(
+          () {
+            if (timerToDisplay < 1) {
+              t.cancel();
+              onVideoRecordButtonPressed();
+            } else {
+              timerToDisplay = timerToDisplay - 1;
+            }
+            domesticLyric = timerToDisplay.toString();
+            if (timerToDisplay == 0) {
+              domesticLyric = "";
+            }
+          },
+        );
       },
     );
   }
@@ -293,7 +296,8 @@ class _Recorder extends State<Recorder> with WidgetsBindingObserver {
                   } else {
                     return null;
                   }
-                })
+                },
+              )
             : FloatingActionButton(
                 backgroundColor: Colors.transparent,
                 child: Icon(Icons.stop, color: Colors.red, size: 40),
