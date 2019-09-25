@@ -257,8 +257,9 @@ class SongRow extends StatelessWidget {
                     ),
                     Container(
                       width: MediaQuery.of(context).size.width / 3.2,
-                      margin: EdgeInsets.symmetric(
-                          horizontal: MediaQuery.of(context).size.width / 120),
+                      margin: EdgeInsets.only(
+                          left: MediaQuery.of(context).size.width / 120,
+                          right: MediaQuery.of(context).size.width / 40),
                       child: Ink.image(
                         image: AssetImage("assets/bruce.jpg"),
                         fit: BoxFit.fill,
