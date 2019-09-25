@@ -112,7 +112,7 @@ class _PlayerState extends State<Player> {
                 return Column(
                   children: <Widget>[
                     Container(
-                      height: MediaQuery.of(context).size.height * (80 / 100),
+                      height: MediaQuery.of(context).size.height * (83 / 100),
                       child: VideoPlayer(_controller),
                     )
                   ],
@@ -121,7 +121,7 @@ class _PlayerState extends State<Player> {
                 return Column(
                   children: <Widget>[
                     Container(
-                      height: MediaQuery.of(context).size.height * (80 / 100),
+                      height: MediaQuery.of(context).size.height * (83 / 100),
                       child: Center(
                         child: CircularProgressIndicator(),
                       ),

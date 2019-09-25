@@ -263,7 +263,7 @@ class _Feed extends State<Feed> {
                                     image: DecorationImage(
                                       image: NetworkImageWithRetry(
                                           element.imageURL),
-                                      fit: BoxFit.contain,
+                                      fit: BoxFit.cover,
                                     ),
                                   ),
                                 ),

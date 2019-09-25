@@ -64,7 +64,6 @@ class _Recorder extends State<Recorder> with WidgetsBindingObserver {
   VideoPlayerController videoController;
   VoidCallback videoPlayerListener;
   bool enableAudio = true;
-  bool letsBeginColor = true;
   String filePathExtractor;
   List<CameraDescription> cameras;
   Function setFilePathToPlay;
@@ -178,7 +177,7 @@ class _Recorder extends State<Recorder> with WidgetsBindingObserver {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: MediaQuery.of(context).size.height * (88 / 100),
+      height: MediaQuery.of(context).size.height * (90 / 100),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
@@ -285,12 +284,11 @@ class _Recorder extends State<Recorder> with WidgetsBindingObserver {
         controller != null && controller.value.isRecordingVideo == false
             ? FloatingActionButton(
                 backgroundColor: Colors.transparent,
-                child: Icon(Icons.play_arrow, size: 40),
+                child: Icon(Icons.play_arrow, size: 40, color: Colors.blue),
                 onPressed: () {
                   if (controller != null &&
                       controller.value.isInitialized &&
                       !controller.value.isRecordingVideo) {
-                    letsBeginColor = !letsBeginColor;
                     onTakePictureButtonPressed();
                     timer();
                   } else {
