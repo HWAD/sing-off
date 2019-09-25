@@ -23,6 +23,7 @@ class Recorder extends StatefulWidget {
   final Function changeSongs;
   final String username;
   final String timerForSong;
+  final bool isTimer;
 
   Recorder({
     Key key,
@@ -36,6 +37,7 @@ class Recorder extends StatefulWidget {
     @required this.changeSongs,
     @required this.username,
     @required this.timerForSong,
+    @required this.isTimer,
   }) : super(key: key);
 
   @override
@@ -51,6 +53,7 @@ class Recorder extends StatefulWidget {
       changeSongs,
       username,
       timerForSong,
+      isTimer,
     );
   }
 }
@@ -79,6 +82,7 @@ class _Recorder extends State<Recorder> with WidgetsBindingObserver {
   String username;
   String timerForSong;
   bool isCountDown;
+  bool isTimer;
   String imgFilePathExtractor;
 
   _Recorder(
@@ -92,6 +96,7 @@ class _Recorder extends State<Recorder> with WidgetsBindingObserver {
     this.changeSongs,
     this.username,
     this.timerForSong,
+    this.isTimer,
   );
 
   @override
@@ -150,6 +155,9 @@ class _Recorder extends State<Recorder> with WidgetsBindingObserver {
   }
 
   void timer() {
+    setState(() {
+      isTimer = true;
+    });
     int timerToDisplay = 4;
     Timer.periodic(
       Duration(seconds: 1),
@@ -164,6 +172,7 @@ class _Recorder extends State<Recorder> with WidgetsBindingObserver {
             }
             domesticLyric = timerToDisplay.toString();
             if (timerToDisplay == 0) {
+              isTimer = false;
               domesticLyric = "";
             }
           },
@@ -289,7 +298,9 @@ class _Recorder extends State<Recorder> with WidgetsBindingObserver {
                       controller.value.isInitialized &&
                       !controller.value.isRecordingVideo) {
                     onTakePictureButtonPressed();
-                    timer();
+                    if (isTimer == false) {
+                      timer();
+                    }
                   } else {
                     return null;
                   }
