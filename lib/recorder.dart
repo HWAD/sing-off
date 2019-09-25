@@ -269,7 +269,6 @@ class _Recorder extends State<Recorder> with WidgetsBindingObserver {
       );
     } else {
       return Container(
-        // aspectRatio: controller.value.aspectRatio,
         child: CameraPreview(controller),
       );
     }
@@ -432,7 +431,6 @@ class _Recorder extends State<Recorder> with WidgetsBindingObserver {
   void _megaUpload(path) async {
     String url = await videoUpload(path);
     String imageLink = await imageUpload(imgFilePathExtractor);
-    // String thumbnail0Path = path.split('/')[1].split('.')[0] + '-0.jpg';
     ModelSong uploadObject = new ModelSong(
       title: selectedSong.title,
       artist: selectedSong.artist,
