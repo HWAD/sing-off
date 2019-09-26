@@ -4,6 +4,7 @@ class Login extends StatelessWidget {
   final Function setLogin;
   final Function changeFeed;
   final Function setUsername;
+
   String usernameInput;
 
   Login(this.setLogin, this.changeFeed, this.setUsername);
@@ -29,6 +30,7 @@ class Login extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: <Widget>[
                       TextField(
+                        style: TextStyle(fontSize: 20),
                         decoration: InputDecoration(
                           labelText: 'What\'s your name?',
                           fillColor: Colors.black,
@@ -41,9 +43,24 @@ class Login extends StatelessWidget {
                         child: Text('Enter'),
                         textColor: Colors.blue,
                         onPressed: () {
-                          setUsername(usernameInput);
-                          setLogin(false);
-                          changeFeed(true);
+                          if (usernameInput == null ||
+                              usernameInput.length < 2) {
+                            showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    content: Text(
+                                      "Insert a valid name",
+                                      textAlign: TextAlign.center,
+                                    ),
+                                    actions: null,
+                                  );
+                                });
+                          } else {
+                            setUsername(usernameInput);
+                            setLogin(false);
+                            changeFeed(true);
+                          }
                         },
                       ),
                     ],
